@@ -62,7 +62,7 @@ export interface Badge {
   iconName: string;
 }
 
-export type ScreenType = 'loading' | 'hero' | 'intro' | 'studentSelection' | 'simulation' | 'randomEvent' | 'finalResult';
+export type ScreenType = 'loading' | 'agreement' | 'hero' | 'intro' | 'studentSelection' | 'simulation' | 'randomEvent' | 'finalResult';
 
 export interface SimulationState {
   screen: ScreenType;

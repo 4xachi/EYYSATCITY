@@ -27,6 +27,7 @@ import { saveBestScore, loadBestScore } from './utils/storage';
 import AnimatedBackground from './components/AnimatedBackground';
 import SoundToggle from './components/SoundToggle';
 import LoadingScreen from './components/LoadingScreen';
+import AgreementScreen from './components/AgreementScreen';
 import HeroSection from './components/HeroSection';
 import IntroScreen from './components/IntroScreen';
 import StudentTypeSelection from './components/StudentTypeSelection';
@@ -249,7 +250,23 @@ export default function App() {
               exit={{ opacity: 0 }}
               className="absolute inset-0 z-50 bg-[#010108]"
             >
-              <LoadingScreen onComplete={() => setScreen('hero')} />
+              <LoadingScreen onComplete={() => setScreen('agreement')} />
+            </motion.div>
+          )}
+
+          {screen === 'agreement' && (
+            <motion.div
+              key="agreement-screen"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-xl flex flex-col pt-16"
+            >
+              <AgreementScreen 
+                onAgree={() => setScreen('hero')} 
+                soundEnabled={soundEnabled}
+              />
             </motion.div>
           )}
 
