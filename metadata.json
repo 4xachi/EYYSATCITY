@@ -1,0 +1,6 @@
+{
+  "name": "EYYSAT CITY: Student Life Simulator",
+  "description": "An interactive student life simulator where you experience one school week inside a futuristic school city. Make daily decisions affecting your Energy, Stress, Grades, Money, Focus, and Social metrics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
