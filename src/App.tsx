@@ -261,7 +261,7 @@ export default function App() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 1.05 }}
               transition={{ duration: 0.3 }}
-              className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-xl flex flex-col pt-16"
+              className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-xl overflow-y-auto flex flex-col items-center justify-start sm:justify-center p-4 sm:p-6 md:p-10"
             >
               <AgreementScreen 
                 onAgree={() => setScreen('hero')} 
