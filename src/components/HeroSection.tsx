@@ -140,7 +140,7 @@ export default function HeroSection({ onEnter, bestScore, bestResult, soundEnabl
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <h4 className="text-xs font-bold text-brand-ink leading-tight">Alex Rivera</h4>
+                  <h4 className="text-xs font-bold text-brand-ink leading-tight">SIR PAL</h4>
                   <p className="text-[9px] text-brand-navy/65 font-mono">EYYSAT ACADEMY</p>
                   <p className="text-[8px] text-brand-green bg-brand-green/10 px-1 py-0.5 rounded font-bold w-fit">ACTIVE</p>
                 </div>
