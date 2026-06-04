@@ -5,8 +5,8 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
-import { Choice, Stats, StatKey } from '../types/simulation';
-import { CheckCircle, ChevronRight, Sparkles } from 'lucide-react';
+import { Choice, StatKey } from '../types/simulation';
+import { CheckCircle2, ChevronRight, PenTool } from 'lucide-react';
 
 interface ChoiceCardProps {
   key?: any;
@@ -20,7 +20,7 @@ const keyLabelMap: { [key in StatKey]: string } = {
   energy: 'Energy',
   stress: 'Stress',
   grades: 'Grades',
-  money: 'Money',
+  money: 'Budget',
   focus: 'Focus',
   social: 'Social',
 };
@@ -32,63 +32,63 @@ export default function ChoiceCard({ choice, onSelect, disabled, isSelected }: C
   return (
     <motion.button
       id={`choice-btn-${choice.id}`}
-      whileHover={disabled ? {} : { scale: 1.02, y: -2 }}
+      whileHover={disabled ? {} : { scale: 1.01, y: -1 }}
       whileTap={disabled ? {} : { scale: 0.99 }}
       onClick={() => !disabled && onSelect(choice)}
       disabled={disabled}
-      className={`relative w-full rounded-xl border-2 p-5 text-left transition-[border-color,background-color,color,box-shadow] duration-300 flex items-start gap-4 shadow-sm ${
+      className={`relative w-full rounded-2xl border p-4.5 text-left transition-all duration-300 flex items-start gap-4 shadow-sm ${
         isSelected 
-          ? 'bg-gradient-to-r from-indigo-950/40 to-cyan-950/20 border-indigo-500 shadow-[0_0_20px_rgba(99,102,241,0.3)] text-white' 
+          ? 'bg-brand-paper border-brand-blue shadow-[0_8px_16px_rgba(79,123,255,0.06)] ring-1 ring-brand-blue text-brand-ink' 
           : disabled 
-            ? 'bg-zinc-950/40 border-zinc-900 opacity-60 text-zinc-500 cursor-not-allowed' 
-            : 'bg-[#0a0a14] border-zinc-800/90 text-zinc-400 hover:border-cyan-500/80 hover:bg-[#111124] hover:shadow-[0_0_20px_rgba(6,182,212,0.15)] hover:text-white cursor-pointer active:border-cyan-400'
+            ? 'bg-brand-cream/40 border-brand-navy/5 opacity-50 text-brand-navy/40 cursor-not-allowed' 
+            : 'bg-brand-paper border-brand-navy/10 text-brand-navy/80 hover:border-brand-blue/60 hover:bg-white hover:shadow-md cursor-pointer'
       }`}
     >
       {/* Decorative vertical interactive bar */}
       <div 
-        className={`absolute left-0 top-0 bottom-0 w-1.5 rounded-l-lg transition-transform duration-300 ${
+        className={`absolute left-0 top-0 bottom-0 w-1.5 rounded-l-2xl transition-all duration-300 ${
           isSelected 
-            ? 'bg-indigo-500' 
+            ? 'bg-brand-blue' 
             : disabled 
-              ? 'bg-zinc-800' 
-              : 'bg-zinc-700/80 group-hover:bg-cyan-400'
+              ? 'bg-brand-navy/10' 
+              : 'bg-brand-navy/15 hover:bg-brand-blue/45'
         }`}
       />
 
-      {/* Choice Icon / Number Indicator on the left */}
-      <div className={`flex flex-col items-center justify-center p-2 rounded-lg border transition-colors shrink-0 ${
+      {/* Choice Icon on the left */}
+      <div className={`flex flex-col items-center justify-center p-2 rounded-xl border transition-colors shrink-0 ${
         isSelected 
-          ? 'bg-indigo-950 border-indigo-500/40 text-indigo-400' 
+          ? 'bg-brand-blue/10 border-brand-blue/20 text-brand-blue' 
           : disabled 
-            ? 'bg-zinc-900 border-zinc-800 text-zinc-600' 
-            : 'bg-[#15152a] border-zinc-800 text-cyan-400 group-hover:border-cyan-500/50'
+            ? 'bg-brand-cream border-brand-navy/10 text-brand-navy/20' 
+            : 'bg-brand-cream border-brand-navy/5 text-brand-navy/50'
       }`}>
-        <Sparkles className={`w-4 h-4 ${isSelected ? 'animate-pulse' : ''}`} />
-        <span className="text-[8px] font-mono font-extrabold uppercase mt-1 tracking-wider">CHOOSE</span>
+        <PenTool className={`w-4 h-4 ${isSelected ? 'animate-pulse' : ''}`} />
+        <span className="text-[8px] font-mono font-bold uppercase mt-1 tracking-wider">PLAN</span>
       </div>
 
-      <div className="flex-1 space-y-3 pr-2">
+      <div className="flex-1 space-y-2.5 pr-2 pl-1">
         {/* Main interactive choice content */}
-        <p className={`text-sm sm:text-base font-semibold leading-relaxed font-sans ${isSelected ? 'text-white' : 'text-zinc-200'}`}>
+        <p className={`text-sm sm:text-base font-bold leading-normal font-sans ${isSelected ? 'text-brand-ink' : 'text-brand-navy/90'}`}>
           {choice.text}
         </p>
 
         {/* Floating small mini consequences hints (Visible only when selected) */}
         {isSelected && (
-          <div className="flex flex-wrap gap-1.5 mt-2">
+          <div className="flex flex-wrap gap-1.5 mt-1.5">
             {effectsArray.map(([stat, val]) => {
               if (val === 0) return null;
               const isPositive = val > 0;
-              // Stress is positive effect if negative (since less stress is better for survival!)
+              // Stress reduction is a benefit, so stress -10 is good (green), stress +10 is bad (coral)
               const isValueBenefit = stat === 'stress' ? !isPositive : isPositive;
 
               return (
                 <span
                   key={stat}
-                  className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded uppercase tracking-wide border ${
+                  className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-lg uppercase tracking-wide border ${
                     isValueBenefit
-                      ? 'bg-emerald-950/20 border-emerald-500/20 text-emerald-400'
-                      : 'bg-red-950/20 border-red-500/20 text-red-400'
+                      ? 'bg-brand-green/10 border-brand-green/20 text-brand-green'
+                      : 'bg-brand-coral/10 border-brand-coral/20 text-brand-coral'
                   }`}
                 >
                   {keyLabelMap[stat]} {isPositive ? '+' : ''}
@@ -103,11 +103,11 @@ export default function ChoiceCard({ choice, onSelect, disabled, isSelected }: C
       {/* Selection indicators on the far right */}
       <div className="shrink-0 pt-0.5">
         {isSelected ? (
-          <div className="text-indigo-400">
-            <CheckCircle className="w-5 h-5 drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]" />
+          <div className="text-brand-blue">
+            <CheckCircle2 className="w-5 h-5 fill-white" />
           </div>
         ) : (
-          <div className={`transition-all duration-300 ${disabled ? 'text-zinc-800' : 'text-zinc-500 hover:text-cyan-400 hover:translate-x-1'}`}>
+          <div className={`transition-all duration-300 ${disabled ? 'text-brand-navy/20' : 'text-brand-navy/30 hover:text-brand-blue hover:translate-x-0.5'}`}>
             <ChevronRight className="w-5 h-5" />
           </div>
         )}

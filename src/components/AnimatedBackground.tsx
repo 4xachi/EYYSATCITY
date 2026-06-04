@@ -4,97 +4,83 @@
  */
 
 import React, { useEffect, useState, memo } from 'react';
+import { Book, Edit3, Paperclip, Clock, Coffee, Sparkles } from 'lucide-react';
 
 const AnimatedBackground = memo(function AnimatedBackground() {
-  const [particles, setParticles] = useState<{ id: number; x: number; y: number; size: number; duration: number; delay: number }[]>([]);
+  const [elements, setElements] = useState<{ id: number; type: string; x: number; y: number; size: number; delay: number; duration: number; rotate: number }[]>([]);
 
   useEffect(() => {
-    // Generate static particle locations to avoid server mismatch, or client-only generation
-    const generated = Array.from({ length: 25 }).map((_, i) => ({
+    // Generate organic ambient scholarly items
+    const types = ['book', 'pencil', 'paperclip', 'clock', 'coffee', 'sparkle'];
+    const generated = Array.from({ length: 15 }).map((_, i) => ({
       id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 3 + 1,
-      duration: Math.random() * 10 + 10,
+      type: types[i % types.length],
+      x: Math.random() * 90 + 5,
+      y: Math.random() * 90 + 5,
+      size: Math.random() * 10 + 16,
+      rotate: Math.random() * 360,
+      duration: Math.random() * 20 + 25,
       delay: Math.random() * -20,
     }));
-    setParticles(generated);
+    setElements(generated);
   }, []);
 
   return (
-    <div className="fixed inset-0 -z-50 overflow-hidden bg-[#02020f] select-none pointer-events-none">
-      {/* Dynamic Deep Mesh Gradients */}
-      <div className="absolute inset-0 bg-radial-at-t from-[#1b1035] via-[#02020e] to-[#01010a] opacity-90" />
+    <div className="fixed inset-0 -z-50 overflow-hidden bg-[#F8F6F1] select-none pointer-events-none transition-colors duration-1000">
+      {/* Delicate Notebook Grid Texture */}
+      <div className="absolute inset-0 notebook-grid opacity-75" />
+
+      {/* Layered Desk Sunlight & Soft Warm Gradients */}
+      <div className="absolute inset-0 bg-radial-at-tl from-[#FDFBF7] via-[#F8F6F1] to-[#EFECE3] opacity-80" />
       
-      {/* Animated Floating Cybernetic Orbs */}
-      <div className="absolute -top-[10%] -left-[10%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-br from-[#00f2fe]/20 to-[#4facfe]/10 blur-[130px] animate-pulse duration-[8000ms]" />
-      <div className="absolute -bottom-[20%] -right-[10%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-tr from-[#7f00ff]/15 to-[#ff007f]/5 blur-[150px] animate-pulse duration-[12000ms]" />
-      <div className="absolute top-[40%] left-[30%] w-[35vw] h-[35vw] rounded-full bg-[#180e29] blur-[100px] animate-pulse duration-[6000ms]" />
+      {/* Academic Aura / Soft Spotlight */}
+      <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-br from-[#9B7EDE]/10 via-[#4F7BFF]/5 to-transparent blur-[120px]" />
+      <div className="absolute bottom-[-15%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-tr from-[#4FA66A]/10 via-[#F5B84B]/5 to-transparent blur-[100px]" />
+      
+      {/* Decorative Planner Border Line on the left side of screen */}
+      <div className="absolute top-0 bottom-0 left-[4%] sm:left-[6%] w-[2px] bg-gradient-to-b from-brand-coral/20 via-brand-coral/40 to-brand-coral/10 hidden md:block" />
+      <div className="absolute top-0 bottom-0 left-[4.5%] sm:left-[6.5%] w-[1px] bg-brand-coral/10 hidden md:block" />
 
-      {/* Futuristic Grid Floor perspective lines at the bottom */}
-      <div className="absolute bottom-0 inset-x-0 h-[35vh] opacity-[0.08]" 
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 242, 254, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 242, 254, 0.3) 1px, transparent 1px)`,
-          backgroundSize: '40px 40px',
-          transform: 'perspective(500px) rotateX(60deg) translateY(50px)',
-          transformOrigin: 'bottom center',
-        }} 
-      />
+      {/* Subtle organic desk-shadows or paper folds */}
+      <div className="absolute top-[20%] right-[-5%] w-[35vw] h-[25vw] bg-black/[0.015] rounded-full filter blur-[80px]" />
 
-      {/* Subtle Grid overlay across the whole screen */}
-      <div className="absolute inset-0 opacity-[0.015]"
-        style={{
-          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)`,
-          backgroundSize: '30px 30px',
-        }}
-      />
-
-      {/* CSS-based City Vector Outline / Skyline Glow in Background at bottom */}
-      <div className="absolute bottom-0 inset-x-0 h-[180px] flex items-end justify-between px-4 opacity-10">
-        <div className="w-[12%] h-[120px] bg-gradient-to-t from-cyan-600 to-transparent rounded-t-lg" />
-        <div className="w-[6%] h-[160px] bg-gradient-to-t from-violet-600 to-transparent rounded-t" />
-        <div className="w-[15%] h-[80px] bg-gradient-to-t from-cyan-600 to-transparent rounded-t-md" />
-        <div className="w-[8%] h-[140px] bg-gradient-to-t from-violet-600 to-transparent rounded-t-lg" />
-        <div className="w-[10%] h-[100px] bg-gradient-to-t from-cyan-500 to-transparent rounded-t" />
-        <div className="w-[14%] h-[150px] bg-gradient-to-t from-violet-700 to-transparent rounded-t-md animate-pulse duration-5000" />
-        <div className="w-[8%] h-[90px] bg-gradient-to-t from-cyan-600 to-transparent rounded-t" />
-        <div className="w-[12%] h-[130px] bg-gradient-to-t from-violet-800 to-transparent rounded-t-lg" />
-      </div>
-
-      {/* Glowing horizontal laser line across bottom */}
-      <div className="absolute bottom-[35vh] inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#00f2fe]/40 to-transparent blur-[1px]" />
-
-      {/* Floating particles (ambient starfield / coding dust) */}
-      {particles.map((p) => (
-        <span
-          key={p.id}
-          className="absolute bg-cyan-400 rounded-full opacity-30 shadow-[0_0_8px_#00f2fe] will-change-transform"
-          style={{
-            top: `${p.y}%`,
-            left: `${p.x}%`,
-            width: `${p.size}px`,
-            height: `${p.size}px`,
-            animation: `floatUp ${p.duration}s linear infinite`,
-            animationDelay: `${p.delay}s`,
-          }}
-        />
-      ))}
+      {/* Floating Elements (Study items drifting on student's desk) */}
+      {elements.map((el) => {
+        return (
+          <div
+            key={el.id}
+            className="absolute text-[#1E2A44]/15 will-change-transform flex items-center justify-center"
+            style={{
+              top: `${el.y}%`,
+              left: `${el.x}%`,
+              animation: `floatMovement ${el.duration}s ease-in-out infinite alternate`,
+              animationDelay: `${el.delay}s`,
+              transform: `rotate(${el.rotate}deg)`,
+            }}
+          >
+            {el.type === 'book' && <Book size={el.size} />}
+            {el.type === 'pencil' && <Edit3 size={el.size} />}
+            {el.type === 'paperclip' && <Paperclip size={el.size} />}
+            {el.type === 'clock' && <Clock size={el.size} />}
+            {el.type === 'coffee' && <Coffee size={el.size} />}
+            {el.type === 'sparkle' && <Sparkles size={el.size} />}
+          </div>
+        );
+      })}
 
       <style>{`
-        @keyframes floatUp {
+        @keyframes floatMovement {
           0% {
-            transform: translateY(110vh) scale(1);
-            opacity: 0;
+            transform: translate(0, 0) rotate(0deg);
+            opacity: 0.12;
           }
-          10% {
-            opacity: 0.4;
-          }
-          90% {
-            opacity: 0.4;
+          50% {
+            transform: translate(15px, -25px) rotate(15deg);
+            opacity: 0.22;
           }
           100% {
-            transform: translateY(-10vh) scale(0.5);
-            opacity: 0;
+            transform: translate(-10px, 15px) rotate(-10deg);
+            opacity: 0.12;
           }
         }
       `}</style>

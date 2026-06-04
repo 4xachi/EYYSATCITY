@@ -29,43 +29,43 @@ const iconMap: { [key: string]: any } = {
   social: Users,
 };
 
-// Define customized colors for each stat
-const colors: { [key in StatKey]: { bg: string; fill: string; shadow: string; text: string } } = {
+// Define customized colors for each stat - Academic Palette
+const colors: { [key in StatKey]: { bg: string; fill: string; text: string; lightBg: string } } = {
   energy: {
-    bg: 'bg-amber-950/20 border-amber-900/30',
-    fill: 'bg-gradient-to-r from-amber-500 to-yellow-400',
-    shadow: 'shadow-[0_0_12px_rgba(245,158,11,0.3)]',
-    text: 'text-amber-400'
+    bg: 'border-brand-navy/10',
+    fill: 'bg-brand-amber',
+    text: 'text-brand-amber',
+    lightBg: 'bg-brand-amber/10'
   },
   stress: {
-    bg: 'bg-rose-950/20 border-rose-900/30',
-    fill: 'bg-gradient-to-r from-rose-500 to-red-400',
-    shadow: 'shadow-[0_0_12px_rgba(244,63,94,0.3)]',
-    text: 'text-rose-400'
+    bg: 'border-brand-navy/10',
+    fill: 'bg-brand-coral',
+    text: 'text-brand-coral',
+    lightBg: 'bg-brand-coral/11'
   },
   grades: {
-    bg: 'bg-cyan-950/20 border-cyan-900/30',
-    fill: 'bg-gradient-to-r from-cyan-500 to-sky-400',
-    shadow: 'shadow-[0_0_12px_rgba(6,182,212,0.3)]',
-    text: 'text-cyan-400'
+    bg: 'border-brand-navy/10',
+    fill: 'bg-brand-blue',
+    text: 'text-brand-blue',
+    lightBg: 'bg-brand-blue/10'
   },
   money: {
-    bg: 'bg-emerald-950/20 border-emerald-900/30',
-    fill: 'bg-gradient-to-r from-emerald-500 to-green-400',
-    shadow: 'shadow-[0_0_12px_rgba(16,185,129,0.3)]',
-    text: 'text-emerald-400'
+    bg: 'border-brand-navy/10',
+    fill: 'bg-brand-green',
+    text: 'text-brand-green',
+    lightBg: 'bg-brand-green/10'
   },
   focus: {
-    bg: 'bg-indigo-950/20 border-indigo-900/30',
-    fill: 'bg-gradient-to-r from-indigo-500 to-violet-400',
-    shadow: 'shadow-[0_0_12px_rgba(99,102,241,0.3)]',
-    text: 'text-indigo-400'
+    bg: 'border-brand-navy/10',
+    fill: 'bg-brand-lavender',
+    text: 'text-brand-lavender',
+    lightBg: 'bg-brand-lavender/10'
   },
   social: {
-    bg: 'bg-fuchsia-950/20 border-fuchsia-900/30',
-    fill: 'bg-gradient-to-r from-fuchsia-500 to-pink-400',
-    shadow: 'shadow-[0_0_12px_rgba(217,70,239,0.3)]',
-    text: 'text-fuchsia-400'
+    bg: 'border-brand-navy/10',
+    fill: 'bg-teal-500',
+    text: 'text-teal-600',
+    lightBg: 'bg-teal-500/10'
   },
 };
 
@@ -86,10 +86,10 @@ export default function StatBar({ statKey, value, latestChange }: StatBarProps) 
   const isEnergyWarning = statKey === 'energy' && value <= 30;
 
   return (
-    <div className={`relative p-4 rounded-xl border ${style.bg} backdrop-blur-md transition-all duration-300 shadow-sm ${
-      isStressWarning ? 'border-red-500/50 bg-red-950/10 shadow-[0_0_15px_rgba(239,68,68,0.1)]' : ''
+    <div className={`relative p-4 rounded-2xl border ${style.bg} bg-brand-paper transition-all duration-300 shadow-[0_4px_10px_rgba(30,42,68,0.02)] ${
+      isStressWarning ? 'border-brand-coral/50 bg-brand-coral/5 shadow-[0_4px_12px_rgba(242,109,91,0.05)]' : ''
     } ${
-      isEnergyWarning ? 'border-amber-500/50 bg-amber-950/10 shadow-[0_0_15px_rgba(245,158,11,0.1)]' : ''
+      isEnergyWarning ? 'border-brand-amber/50 bg-brand-amber/5 shadow-[0_4px_12px_rgba(245,184,75,0.05)]' : ''
     }`}>
       
       {/* Absolute positioned floating stat modification chips */}
@@ -99,16 +99,16 @@ export default function StatBar({ statKey, value, latestChange }: StatBarProps) 
             initial={{ opacity: 0, y: -2 }}
             animate={{ opacity: 1, y: -15 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            className={`absolute top-0 right-4 flex items-center gap-0.5 px-2 py-0.5 rounded text-[10px] font-bold font-mono tracking-wide ${
+            className={`absolute top-0 right-4 flex items-center gap-0.5 px-2 py-0.5 rounded-lg text-[10px] font-bold font-mono tracking-wide ${
               latestChange > 0 
-                ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.2)]'
-                : 'bg-rose-500/20 border border-rose-500/30 text-rose-400 shadow-[0_0_8px_rgba(244,63,94,0.2)]'
+                ? 'bg-brand-green/10 border border-brand-green/30 text-brand-green shadow-sm'
+                : 'bg-brand-coral/10 border border-brand-coral/30 text-brand-coral shadow-sm'
             }`}
           >
             {latestChange > 0 ? (
-              <ArrowUp className="w-2.5 h-2.5 text-emerald-400 shrink-0" />
+              <ArrowUp className="w-2.5 h-2.5 text-brand-green shrink-0" />
             ) : (
-              <ArrowDown className="w-2.5 h-2.5 text-rose-400 shrink-0" />
+              <ArrowDown className="w-2.5 h-2.5 text-brand-coral shrink-0" />
             )}
             <span>
               {latestChange > 0 ? '+' : ''}
@@ -121,21 +121,21 @@ export default function StatBar({ statKey, value, latestChange }: StatBarProps) 
       {/* Title & Micro indicators */}
       <div className="flex justify-between items-start mb-2">
         <div className="flex items-center gap-2">
-          <span className={`p-1.5 rounded-lg bg-zinc-950/40 border border-zinc-800/80 ${style.text}`}>
+          <span className={`p-1.5 rounded-lg border border-brand-navy/5 ${style.lightBg} ${style.text}`}>
             <IconComponent className="w-4 h-4 shrink-0" />
           </span>
           <div>
-            <span className="text-[10px] font-mono tracking-widest text-zinc-500 uppercase block">STATISTIC</span>
-            <span className="text-xs font-semibold text-white capitalize">{statKey}</span>
+            <span className="text-[9px] font-mono tracking-wider text-brand-navy/50 font-bold uppercase block">STATISTIC</span>
+            <span className="text-xs font-bold text-brand-ink capitalize">{statKey}</span>
           </div>
         </div>
 
         {/* Status text label (e.g. Critical, Energized) */}
         <div className="text-right">
-          <span className="text-[10px] font-mono tracking-wide text-zinc-500 uppercase block">CONDITION</span>
+          <span className="text-[9px] font-mono tracking-wide text-brand-navy/50 font-bold uppercase block">CONDITION</span>
           <span className={`text-[10px] font-mono font-bold uppercase tracking-wider ${
-            isStressWarning ? 'text-red-400 animate-pulse' : 
-            isEnergyWarning ? 'text-amber-400 animate-pulse' : style.text
+            isStressWarning ? 'text-brand-coral animate-pulse' : 
+            isEnergyWarning ? 'text-brand-amber animate-pulse' : style.text
           }`}>
             {statusLabel}
           </span>
@@ -143,31 +143,31 @@ export default function StatBar({ statKey, value, latestChange }: StatBarProps) 
       </div>
 
       {/* Numeric value readout */}
-      <div className="flex justify-between items-baseline mb-1">
-        <span className="text-2xl font-mono font-extrabold text-white tracking-tight">
+      <div className="flex justify-between items-baseline mb-2">
+        <span className="text-2xl font-mono font-extrabold text-brand-ink tracking-tight">
           {value}
-          <span className="text-[10px] font-mono text-zinc-500 ml-0.5">/100</span>
+          <span className="text-[10px] font-mono text-brand-navy/40 ml-0.5 font-bold">/100</span>
         </span>
       </div>
 
       {/* Animated micro progress bar */}
-      <div className="h-2 w-full bg-zinc-950/60 rounded-full border border-zinc-900/60 overflow-hidden relative">
+      <div className="h-2 w-full bg-brand-cream/40 rounded-full border border-brand-navy/5 overflow-hidden relative">
         <motion.div
           animate={{ width: `${value}%` }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
-          className={`h-full rounded-full ${style.fill} ${style.shadow}`}
+          className={`h-full rounded-full ${style.fill}`}
         />
       </div>
 
       {/* Embedded Alert indicators */}
       {isStressWarning && (
-        <div className="mt-2 flex items-center gap-1 text-[10px] text-red-400 font-mono uppercase bg-red-950/40 border border-red-500/20 px-2 py-0.5 rounded">
+        <div className="mt-2.5 flex items-center gap-1 text-[9px] text-brand-coral font-mono font-bold uppercase bg-brand-coral/10 border border-brand-coral/20 px-2 py-0.5 rounded-lg">
           <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
           <span>Stress level critical</span>
         </div>
       )}
       {isEnergyWarning && (
-        <div className="mt-2 flex items-center gap-1 text-[10px] text-amber-400 font-mono uppercase bg-amber-950/40 border border-amber-500/20 px-2 py-0.5 rounded">
+        <div className="mt-2.5 flex items-center gap-1 text-[9px] text-brand-amber font-mono font-bold uppercase bg-brand-amber/10 border border-brand-amber/20 px-2 py-0.5 rounded-lg">
           <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
           <span>Energy running low</span>
         </div>

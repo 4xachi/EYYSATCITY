@@ -27,23 +27,23 @@ export default function SoundToggle({ soundEnabled, onToggle }: SoundToggleProps
   return (
     <motion.button
       id="sound-toggle-btn"
-      whileHover={{ scale: 1.1 }}
+      whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={handleClick}
-      className={`relative p-2.5 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 flex items-center gap-2 ${
+      className={`relative p-2.5 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-brand-blue/30 flex items-center gap-2 select-none cursor-pointer ${
         soundEnabled 
-          ? 'bg-cyan-950/40 border-cyan-500/40 text-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.15)]' 
-          : 'bg-zinc-950/40 border-zinc-800 text-zinc-500'
+          ? 'bg-brand-blue/10 border-brand-blue/30 text-brand-blue shadow-sm' 
+          : 'bg-brand-cream border-brand-navy/10 text-brand-navy/40'
       }`}
       title={soundEnabled ? 'Mute Sounds' : 'Unmute Sounds'}
       aria-label={soundEnabled ? 'Mute Synth Sounds' : 'Unmute Synth Sounds'}
     >
       {soundEnabled ? (
-        <Volume2 className="w-5 h-5 animate-pulse" />
+        <Volume2 className="w-5 h-5" />
       ) : (
         <VolumeX className="w-5 h-5" />
       )}
-      <span className="text-xs font-mono uppercase tracking-wider hidden sm:inline">
+      <span className="text-xs font-mono font-bold uppercase tracking-wider hidden sm:inline">
         {soundEnabled ? 'Synth ON' : 'Synth OFF'}
       </span>
     </motion.button>

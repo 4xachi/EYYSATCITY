@@ -5,8 +5,8 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeftRight, ArrowRight, ClipboardCheck, Terminal } from 'lucide-react';
-import { Choice, Stats, StatKey } from '../types/simulation';
+import { ArrowRight, ClipboardCheck } from 'lucide-react';
+import { Choice, StatKey } from '../types/simulation';
 import { playClickSound } from '../utils/audio';
 
 interface ConsequencePanelProps {
@@ -20,7 +20,7 @@ const statNameLabels: { [keyName in StatKey]: string } = {
   energy: 'Energy',
   stress: 'Stress',
   grades: 'Grades',
-  money: 'Money',
+  money: 'Budget',
   focus: 'Focus',
   social: 'Social',
 };
@@ -38,40 +38,42 @@ export default function ConsequencePanel({ choice, isFriday, onNext, soundEnable
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      className="rounded-xl border border-indigo-500/30 bg-[#09081a]/80 p-5 backdrop-blur-xl space-y-4"
+      className="rounded-2xl border border-brand-navy/15 bg-brand-paper p-5.5 shadow-[0_8px_16px_rgba(30,42,68,0.04)] space-y-4 relative"
     >
-      <div className="flex items-center gap-2 border-b border-zinc-800 pb-2.5">
-        <Terminal className="w-4 h-4 text-indigo-400" />
-        <span className="text-xs font-mono tracking-widest text-[#a5b4fc] uppercase">DECISION CONSEQUENCE</span>
+      <div className="absolute top-0 inset-x-0 h-[2.5px] bg-brand-coral rounded-t-2xl" />
+
+      <div className="flex items-center gap-2 border-b border-brand-navy/10 pb-3">
+        <ClipboardCheck className="w-4 h-4 text-brand-coral" />
+        <span className="text-xs font-mono tracking-wider text-brand-navy/60 font-bold uppercase">DIARY REFLECTION LOG</span>
       </div>
 
       {/* Main explanation text */}
-      <div className="space-y-3">
-        <p className="text-zinc-300 text-sm leading-relaxed font-sans font-medium">
+      <div className="space-y-3 pl-1">
+        <p className="text-brand-ink text-sm sm:text-base leading-relaxed font-sans font-medium">
           {choice.feedback}
         </p>
       </div>
 
-      {/* Stat change indicators with beautiful glows */}
-      <div className="space-y-2">
-        <h4 className="text-[10px] font-mono uppercase text-zinc-500 tracking-wider">TELEMTRY MODIFICATIONS</h4>
+      {/* Stat change indicators with beautiful pastel backgrounds */}
+      <div className="space-y-2.5 pl-1">
+        <h4 className="text-[9px] font-mono uppercase text-brand-navy/55 tracking-wider font-bold">RESOURCE ADJUSTMENTS</h4>
         <div className="flex flex-wrap gap-2">
           {effectsList.map(([key, value]) => {
             if (value === 0) return null;
             const isPositive = value > 0;
-            // Stress going down is good, going up is bad. Or just standard check direction
+            // Stress going down is good (benefit), grades/money going up is good
             const isGood = key === 'stress' ? !isPositive : isPositive;
 
             return (
               <div
                 key={key}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-mono font-bold tracking-wide ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-mono font-bold tracking-wide ${
                   isGood
-                    ? 'bg-emerald-950/20 border-emerald-500/25 text-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.15)] animate-pulse'
-                    : 'bg-red-950/20 border-red-500/25 text-red-400 shadow-[0_0_12px_rgba(244,63,94,0.15)]'
+                    ? 'bg-brand-green/10 border-brand-green/25 text-brand-green'
+                    : 'bg-brand-coral/10 border-brand-coral/25 text-brand-coral'
                 }`}
               >
-                <span>{statNameLabels[key]}</span>
+                <span className="opacity-95">{statNameLabels[key]}</span>
                 <span>
                   {value > 0 ? '+' : ''}
                   {value}
@@ -83,20 +85,20 @@ export default function ConsequencePanel({ choice, isFriday, onNext, soundEnable
       </div>
 
       {/* Action button */}
-      <div className="pt-2 flex justify-end">
+      <div className="pt-3 pr-1 flex justify-end">
         <motion.button
           id={`consequence-next-btn`}
-          whileHover={{ scale: 1.03, boxShadow: isFriday ? '0 0 25px rgba(236,72,153,0.3)' : '0 0 20px rgba(6,182,212,0.3)' }}
+          whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={handleProceed}
-          className={`w-full sm:w-auto px-6 py-3 rounded-lg font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-[background-color,color,box-shadow,border-color] duration-300 shadow-md ${
+          className={`w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all duration-300 shadow-md ${
             isFriday
-              ? 'bg-gradient-to-r from-pink-500 to-violet-600 text-white border border-pink-400/30 shadow-pink-500/10'
-              : 'bg-cyan-500 text-black border border-cyan-400/30'
+              ? 'bg-brand-coral hover:bg-brand-coral/95 text-white shadow-brand-coral/15'
+              : 'bg-brand-blue hover:bg-brand-blue/95 text-white shadow-brand-blue/15'
           }`}
         >
-          <span>{isFriday ? 'View Final Result' : 'Next Day'}</span>
-          <ArrowRight className="w-4 h-4 shrink-0" />
+          <span>{isFriday ? 'View Term Report' : 'Plan Next Day'}</span>
+          <ArrowRight className="w-4 h-4 shrink-0 text-white" />
         </motion.button>
       </div>
     </motion.div>

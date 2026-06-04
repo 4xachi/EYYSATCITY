@@ -1,6 +1,11 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { AlertTriangle, CheckSquare, Square, ChevronRight } from 'lucide-react';
+import { GraduationCap, CheckSquare, Square, ChevronRight } from 'lucide-react';
 import { playClickSound } from '../utils/audio';
 
 interface AgreementScreenProps {
@@ -24,98 +29,99 @@ export default function AgreementScreen({ onAgree, soundEnabled }: AgreementScre
   };
 
   return (
-    <div className="w-full max-w-2xl my-auto">
+    <div className="w-full max-w-2xl my-auto select-none">
       <motion.div 
-        className="w-full bg-zinc-950/80 backdrop-blur-md rounded-2xl border border-cyan-500/30 overflow-hidden shadow-[0_0_40px_rgba(6,182,212,0.1)] relative"
+        className="w-full bg-brand-paper rounded-3xl border border-brand-navy/15 overflow-hidden shadow-[0_16px_48px_rgba(30,42,68,0.08)] relative"
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
       >
-        <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-cyan-500 via-indigo-500 to-violet-500" />
+        <div className="absolute top-0 inset-x-0 h-[4px] bg-gradient-to-r from-brand-blue via-brand-amber to-brand-coral" />
         
-        <div className="p-5 sm:p-8 md:p-10">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-cyan-950/50 flex items-center justify-center border border-cyan-500/30 shrink-0">
-              <AlertTriangle className="w-5 h-5 text-cyan-400" />
+        <div className="p-6 sm:p-8 md:p-10">
+          <div className="flex items-center gap-3 mb-6 border-b border-brand-navy/10 pb-4">
+            <div className="w-10 h-10 rounded-xl bg-brand-blue/10 flex items-center justify-center border border-brand-blue/15 shrink-0">
+              <GraduationCap className="w-5 h-5 text-brand-blue" />
             </div>
             <div>
-              <h1 className="text-lg sm:text-xl md:text-2xl font-extrabold text-white tracking-widest uppercase">System Initialization</h1>
-              <p className="text-[10px] sm:text-xs text-indigo-400 font-mono tracking-wider">EYYSAT CITY Protocol v1.0</p>
+              <h1 className="text-xl sm:text-2xl font-serif font-extrabold text-brand-ink tracking-tight">Academic Honor Code</h1>
+              <p className="text-[10px] sm:text-xs text-brand-navy/50 font-mono tracking-widest uppercase font-bold">EYYSAT ACADEMY // ENROLLMENT DECREE</p>
             </div>
           </div>
 
-          <div className="space-y-4 sm:space-y-6 text-zinc-300 font-sans text-sm md:text-base leading-relaxed">
+          <div className="space-y-4 sm:space-y-5 text-brand-navy/80 font-sans text-sm md:text-base leading-relaxed">
             <p>
-              Welcome to <span className="text-cyan-400 font-bold">EYYSAT CITY</span>, a futuristic student life simulator.
+              Welcome to <span className="text-brand-blue font-bold">Eyysat City</span>, an interactive high-school and college-life survival simulator.
             </p>
             <p>
-              This interactive experience is designed to simulate the rigorous decision-making, stress management, and resource allocation required to survive a modern academic week in a hyper-competitive city.
+              To claim an academic victory, you must establish a balanced lifestyle between sleep hours, exam preparation, budgeting your allowance, and group study dynamics. High grades alone are useless if you crash on energy or suffer high levels of stress.
             </p>
             
-            <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 sm:p-5">
-              <h3 className="text-white font-bold mb-3 uppercase tracking-wide text-xs">Developed By:</h3>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Faculty Registry Board representing development roster */}
+            <div className="bg-brand-cream border border-brand-navy/10 rounded-2xl p-5 shadow-sm">
+              <h3 className="text-brand-ink font-bold mb-3 uppercase tracking-wider text-[10px] font-mono">Simulators Designed & Built By:</h3>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <li className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-                  <span className="font-mono text-cyan-200 text-xs sm:text-sm">Cabading, Rhon Kyel</span>
+                  <span className="w-2 h-2 rounded-full bg-brand-blue" />
+                  <span className="text-xs sm:text-sm font-semibold text-brand-ink">Cabading, Rhon Kyel</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-                  <span className="font-mono text-cyan-200 text-xs sm:text-sm">Estrada, John Mark</span>
+                  <span className="w-2 h-2 rounded-full bg-brand-amber" />
+                  <span className="text-xs sm:text-sm font-semibold text-brand-ink">Estrada, John Mark</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-                  <span className="font-mono text-cyan-200 text-xs sm:text-sm">Frago, John Eric</span>
+                  <span className="w-2 h-2 rounded-full bg-brand-coral" />
+                  <span className="text-xs sm:text-sm font-semibold text-brand-ink">Frago, John Eric</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-                  <span className="font-mono text-cyan-200 text-xs sm:text-sm">Linas, John Rhey</span>
+                  <span className="w-2 h-2 rounded-full bg-brand-blue/80" />
+                  <span className="text-xs sm:text-sm font-semibold text-brand-ink">Linas, John Rhey</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-                  <span className="font-mono text-cyan-200 text-xs sm:text-sm">Parenas, Elbhert John</span>
+                  <span className="w-2 h-2 rounded-full bg-brand-lavender" />
+                  <span className="text-xs sm:text-sm font-semibold text-brand-ink">Parenas, Elbhert John</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-                  <span className="font-mono text-cyan-200 text-xs sm:text-sm">kung sino ka man</span>
+                  <span className="w-2 h-2 rounded-full bg-brand-green" />
+                  <span className="text-xs sm:text-sm font-semibold text-brand-ink">kung sino ka man</span>
                 </li>
               </ul>
             </div>
             
-            <p className="text-xs text-zinc-500 italic leading-normal">
-              Warning: Choices made within the simulation have direct consequences on your virtual metrics (Energy, Focus, Grades, Money, Stress, Social). Proceed with calculated intent.
+            <p className="text-xs text-brand-navy/55 leading-normal italic pl-3 border-l-2 border-brand-coral">
+              Disclaimer: Choices made within the simulation have immediate, integrated consequences on student metrics. Advance with focused, balanced intent.
             </p>
           </div>
 
-          <div className="mt-6 sm:mt-8 border-t border-zinc-800 pt-6">
+          <div className="mt-6 sm:mt-8 border-t border-brand-navy/10 pt-6">
             <div 
               className="flex items-start gap-3 cursor-pointer group mb-6 w-full"
               onClick={handleAgreeClick}
             >
-              <div className="text-cyan-400 relative mt-0.5 shrink-0">
+              <div className="text-brand-blue relative mt-0.5 shrink-0">
                 {agreed ? (
                   <CheckSquare className="w-5 h-5 sm:w-6 sm:h-6" />
                 ) : (
-                  <Square className="w-5 h-5 sm:w-6 sm:h-6 text-zinc-600 group-hover:text-cyan-500 transition-colors" />
+                  <Square className="w-5 h-5 sm:w-6 sm:h-6 text-brand-navy/25 group-hover:text-brand-blue transition-colors" />
                 )}
               </div>
-              <span className={`text-xs sm:text-sm select-none transition-colors leading-snug ${agreed ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`}>
-                I acknowledge the simulation parameters and wish to enter the matrix.
+              <span className={`text-xs sm:text-sm select-none transition-colors font-medium leading-snug ${agreed ? 'text-brand-ink font-semibold' : 'text-brand-navy/60 group-hover:text-brand-navy/85'}`}>
+                I acknowledge the academic balance criteria and wish to enroll.
               </span>
             </div>
 
             <motion.button
-              whileHover={agreed ? { scale: 1.02, boxShadow: '0 0 20px rgba(6,182,212,0.4)' } : {}}
-              whileTap={agreed ? { scale: 0.98 } : {}}
+              whileHover={agreed ? { scale: 1.01 } : {}}
+              whileTap={agreed ? { scale: 0.99 } : {}}
               onClick={handleEnterClick}
               disabled={!agreed}
-              className={`w-full py-3.5 sm:py-4 rounded-xl flex items-center justify-center gap-2 font-bold tracking-widest uppercase text-sm sm:text-base transition-all duration-300 ${
+              className={`w-full py-4 rounded-xl flex items-center justify-center gap-2 font-bold tracking-widest uppercase text-xs sm:text-sm transition-all duration-300 ${
                 agreed 
-                  ? 'bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.2)] cursor-pointer' 
-                  : 'bg-zinc-900 text-zinc-600 border border-zinc-800 cursor-not-allowed'
+                  ? 'bg-brand-blue text-white shadow-md shadow-brand-blue/15 cursor-pointer' 
+                  : 'bg-brand-cream text-brand-navy/30 border border-brand-navy/5 cursor-not-allowed'
               }`}
             >
-              <span>Initialize Matrix</span>
-              <ChevronRight className="w-5 h-5" />
+              <span>Begin Term Enrollment</span>
+              <ChevronRight className="w-4 h-4" />
             </motion.button>
           </div>
         </div>

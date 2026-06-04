@@ -15,21 +15,21 @@ const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
 export default function ProgressTracker({ currentDayIndex }: ProgressTrackerProps) {
   return (
-    <div className="p-4 rounded-xl border border-zinc-800 bg-zinc-950/40 backdrop-blur-md">
-      <div className="flex items-center gap-2 border-b border-zinc-900 pb-2.5 mb-4">
-        <Calendar className="w-4 h-4 text-violet-400" />
-        <span className="text-xs font-mono tracking-widest text-[#a5b4fc] uppercase">PROGRESS TRACKER</span>
+    <div className="p-4 rounded-2xl border border-brand-navy/15 bg-brand-paper shadow-sm select-none">
+      <div className="flex items-center gap-2 border-b border-brand-navy/10 pb-2.5 mb-4">
+        <Calendar className="w-4 h-4 text-brand-blue" />
+        <span className="text-xs font-mono tracking-wider text-brand-navy/60 font-bold uppercase">WEEKLY TIMELOG TIMETABLE</span>
       </div>
 
       <div className="relative flex justify-between items-center w-full px-2">
         {/* Background connector line */}
-        <div className="absolute top-[15px] left-8 right-8 h-[2px] bg-zinc-900" />
+        <div className="absolute top-[16px] left-8 right-8 h-[2.5px] bg-brand-cream" />
         
         {/* Fill line with animated width representing progress */}
         <motion.div 
-          className="absolute top-[15px] left-8 h-[2px] bg-gradient-to-r from-cyan-500 to-indigo-500 origin-left"
+          className="absolute top-[16px] left-8 h-[2.5px] bg-gradient-to-r from-brand-blue to-brand-lavender origin-left"
           initial={{ width: '0%' }}
-          animate={{ width: `${(currentDayIndex / 4) * 85}%` }}
+          animate={{ width: `${(currentDayIndex / 4) * 82}%` }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
         />
 
@@ -37,24 +37,23 @@ export default function ProgressTracker({ currentDayIndex }: ProgressTrackerProp
         {days.map((day, idx) => {
           const isCompleted = idx < currentDayIndex;
           const isCurrent = idx === currentDayIndex;
-          const isFuture = idx > currentDayIndex;
 
           return (
             <div key={day} className="z-10 flex flex-col items-center select-none">
               
-              {/* Orb indicator */}
+              {/* Card tab indicator */}
               <motion.div
-                whileHover={{ scale: 1.15 }}
-                className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-300 ${
+                whileHover={{ scale: 1.12 }}
+                className={`w-8 h-8 rounded-xl border flex items-center justify-center transition-all duration-300 ${
                   isCompleted 
-                    ? 'bg-cyan-950/80 border-cyan-500 text-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.3)]' 
+                    ? 'bg-brand-green/10 border-brand-green text-brand-green shadow-sm' 
                     : isCurrent 
-                      ? 'bg-indigo-900 border-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.5)]'
-                      : 'bg-zinc-950 border-zinc-800 text-zinc-600'
+                      ? 'bg-brand-blue border-brand-blue text-white shadow-md shadow-brand-blue/15'
+                      : 'bg-brand-cream/40 border-brand-navy/10 text-brand-navy/40 font-semibold'
                 }`}
               >
                 {isCompleted ? (
-                  <Check className="w-4 h-4 text-cyan-400 stroke-[3px]" />
+                  <Check className="w-4 h-4 text-brand-green stroke-[3px]" />
                 ) : (
                   <span className="text-xs font-mono font-bold">{idx + 1}</span>
                 )}
@@ -63,10 +62,10 @@ export default function ProgressTracker({ currentDayIndex }: ProgressTrackerProp
               {/* Day Label */}
               <span className={`text-[9px] font-mono font-bold tracking-wider mt-2.5 uppercase ${
                 isCurrent 
-                  ? 'text-indigo-400 font-extrabold drop-shadow-[0_0_8px_rgba(99,102,241,0.3)]' 
+                  ? 'text-brand-blue font-extrabold' 
                   : isCompleted 
-                    ? 'text-cyan-500/80' 
-                    : 'text-zinc-600'
+                    ? 'text-brand-green/80 font-bold' 
+                    : 'text-brand-navy/40 font-bold'
               }`}>
                 {day.substring(0, 3)}
               </span>

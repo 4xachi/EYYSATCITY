@@ -201,29 +201,29 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen text-slate-100 font-sans relative flex flex-col justify-between overflow-x-hidden selection:bg-cyan-500 selection:text-black">
+    <div className="min-h-screen text-brand-ink font-sans relative flex flex-col justify-between overflow-x-hidden selection:bg-brand-blue/20 selection:text-brand-ink">
       
       {/* Immersive cyber star background */}
       <AnimatedBackground />
 
       {/* Persistent glass header bar */}
-      <header className="sticky top-0 z-40 bg-zinc-950/60 border-b border-zinc-900/80 backdrop-blur-md">
+      <header className="sticky top-0 z-40 bg-brand-cream/80 border-b border-brand-navy/10 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           
           {/* Logo Name */}
           <div 
             onClick={handleReturnHome}
-            className="flex items-center gap-2 cursor-pointer select-none group"
+            className="flex items-center gap-2.5 cursor-pointer select-none group"
           >
-            <div className="relative w-8 h-8 rounded-lg bg-cyan-950/30 border border-cyan-500/30 flex items-center justify-center group-hover:border-cyan-400 font-bold text-cyan-400 text-xs shadow-[0_0_10px_rgba(6,182,212,0.15)]">
-              Ω
+            <div className="relative w-8.5 h-8.5 rounded-xl bg-brand-blue/10 border border-brand-blue/30 flex items-center justify-center group-hover:border-brand-blue font-bold text-brand-blue text-sm shadow-sm transition-all">
+              📄
             </div>
             <div>
-              <span className="text-sm font-extrabold text-white tracking-widest uppercase block">
+              <span className="text-sm font-extrabold text-brand-ink tracking-widest uppercase block">
                 EYYSAT CITY
               </span>
-              <span className="text-[9px] font-mono text-[#a5b4fc] tracking-widest uppercase block">
-                LIFE MATRIX v1.0
+              <span className="text-[9px] font-mono text-brand-navy/60 tracking-wider uppercase block font-bold">
+                CAMPUS PORTAL v1.0
               </span>
             </div>
           </div>
@@ -248,7 +248,7 @@ export default function App() {
               key="loading-screen"
               initial={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 z-50 bg-[#010108]"
+              className="absolute inset-0 z-50 bg-[#F7F3EA]"
             >
               <LoadingScreen onComplete={() => setScreen('agreement')} />
             </motion.div>
@@ -257,11 +257,11 @@ export default function App() {
           {screen === 'agreement' && (
             <motion.div
               key="agreement-screen"
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.05 }}
+              exit={{ opacity: 0, scale: 1.02 }}
               transition={{ duration: 0.3 }}
-              className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-xl overflow-y-auto flex flex-col items-center justify-start sm:justify-center p-4 sm:p-6 md:p-10"
+              className="fixed inset-0 z-[100] bg-brand-ink/45 backdrop-blur-md overflow-y-auto flex flex-col items-center justify-start sm:justify-center p-4 sm:p-6 md:p-10"
             >
               <AgreementScreen 
                 onAgree={() => setScreen('hero')} 
@@ -524,21 +524,21 @@ export default function App() {
                                                                                                                                                                                                                                                                       {/* Standard Event Component call */}
                                                                                                                                                                                                                                                                       <div className="w-full">
                                                                                                                                                                                                                                                                         {/* Embed of the actual RandomEventPanel component */}
-                                                                                                                                                                                                                                                                        <div className="relative border border-cyan-500/30 bg-[#09081a]/80 rounded-xl p-6 select-none max-w-lg mx-auto">
-                                                                                                                                                                                                                                                                          <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-cyan-500 to-indigo-500" />
-                                                                                                                                                                                                                                                                          <div className="flex items-center gap-2 border-b border-zinc-800 pb-2 mb-4">
-                                                                                                                                                                                                                                                                            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
-                                                                                                                                                                                                                                                                            <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-400">RANDOM CITY EVENT</span>
+                                                                                                                                                                                                                                                                        <div className="relative border-brand-navy/15 bg-brand-paper rounded-2xl p-6 select-none max-w-lg mx-auto shadow-[0_12px_24px_rgba(30,42,68,0.06)]">
+                                                                                                                                                                                                                                                                          <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-brand-amber via-brand-coral to-brand-lavender rounded-t-2xl" />
+                                                                                                                                                                                                                                                                          <div className="flex items-center gap-2 border-b border-brand-navy/10 pb-2 mb-4">
+                                                                                                                                                                                                                                                                            <span className="w-2.5 h-2.5 rounded-full bg-brand-coral animate-pulse" />
+                                                                                                                                                                                                                                                                            <span className="text-[10px] font-mono uppercase tracking-widest text-brand-navy/60 font-semibold">CAMPUS SECURITY CORNER // EVENT DIARY</span>
                                                                                                                                                                                                                                                                           </div>
                                                                                                                                                                                                                                                                           
                                                                                                                                                                                                                                                                           {/* Content block */}
                                                                                                                                                                                                                                                                           {randomEvent ? (
                                                                                                                                                                                                                                                                             <div className="space-y-4">
-                                                                                                                                                                                                                                                                              <h3 className="text-xl font-bold text-white uppercase">{randomEvent.title}</h3>
-                                                                                                                                                                                                                                                                              <p className="text-xs text-zinc-300 leading-relaxed font-sans">{randomEvent.message}</p>
-                                                                                                                                                                                                                                                                              <div className="pt-3 border-t border-zinc-900 grid grid-cols-2 gap-2 text-[10px]">
+                                                                                                                                                                                                                                                                              <h3 className="text-xl font-sans font-extrabold text-brand-ink uppercase">{randomEvent.title}</h3>
+                                                                                                                                                                                                                                                                              <p className="text-xs text-brand-navy/80 leading-relaxed font-sans">{randomEvent.message}</p>
+                                                                                                                                                                                                                                                                              <div className="pt-3 border-t border-brand-navy/10 grid grid-cols-2 gap-2 text-[10px]">
                                                                                                                                                                                                                                                                                 {(Object.entries(randomEvent.effects) as [string, number][]).map(([key, val]) => (
-                                                                                                                                                                                                                                                                                  <div key={key} className={`p-2 rounded border font-mono ${val > 0 ? 'bg-emerald-950/20 border-emerald-500/20 text-emerald-400' : 'bg-red-950/20 border-red-500/20 text-red-400'}`}>
+                                                                                                                                                                                                                                                                                  <div key={key} className={`p-2 rounded border font-mono ${val > 0 ? 'bg-brand-green/10 border-brand-green/20 text-brand-green font-semibold' : 'bg-brand-coral/10 border-brand-coral/20 text-brand-coral font-semibold'}`}>
                                                                                                                                                                                                                                                                                     {key.toUpperCase()}: {val > 0 ? '+' : ''}{val}
                                                                                                                                                                                                                                                                                   </div>
                                                                                                                                                                                                                                                                                 ))}
@@ -546,13 +546,13 @@ export default function App() {
                                                                                                                                                                                                                                                                             </div>
                                                                                                                                                                                                                                                                           ) : (
                                                                                                                                                                                                                                                                             <div className="space-y-2">
-                                                                                                                                                                                                                                                                              <h3 className="text-lg font-bold text-zinc-400">The City Stays Quiet</h3>
-                                                                                                                                                                                                                                                                              <p className="text-xs text-zinc-400 font-sans">No major event happened today. The city stays quiet. Use this time to establish standard schedules.</p>
+                                                                                                                                                                                                                                                                              <h3 className="text-lg font-bold text-brand-navy">The Campus is Calm</h3>
+                                                                                                                                                                                                                                                                              <p className="text-xs text-brand-navy/70 font-sans">No major academic events happened. Enjoy your day.</p>
                                                                                                                                                                                                                                                                             </div>
                                                                                                                                                                                                                                                                           )}
 
                                                                                                                                                                                                                                                                           <div className="mt-6 flex justify-end">
-                                                                                                                                                                                                                                                                            <button id="event-action-continue" onClick={handleContinueFromRandomEvent} className="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-[10px] uppercase tracking-widest cursor-pointer">
+                                                                                                                                                                                                                                                                            <button id="event-action-continue" onClick={handleContinueFromRandomEvent} className="px-5 py-2.5 rounded-xl bg-brand-blue hover:bg-brand-blue/90 text-white font-bold text-[10px] uppercase tracking-widest cursor-pointer shadow-md shadow-brand-blue/15 transition-all">
                                                                                                                                                                                                                                                                               <span>Continue</span>
                                                                                                                                                                                                                                                                             </button>
                                                                                                                                                                                                                                                                           </div>
@@ -713,13 +713,13 @@ export default function App() {
       </main>
 
       {/* Persistent glow footer */}
-      <footer className="py-6 border-t border-zinc-900/80 bg-zinc-950/80 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-1.5 select-none">
-          <p className="text-xs font-mono text-zinc-500 uppercase tracking-widest">
-            EYYSAT CITY Simulation Terminal • Active Workspace Host
+      <footer className="py-8 border-t border-brand-navy/10 bg-brand-cream/90 backdrop-blur-sm mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-2 select-none">
+          <p className="text-xs font-mono text-brand-navy/60 uppercase tracking-widest font-bold">
+            EYYSAT CITY • LIVING CAMPUS SIMULATION
           </p>
-          <p className="text-[10px] text-zinc-600 font-sans">
-            Designed for survival analytics. Responsive performance. No logins, no database required.
+          <p className="text-[10px] text-brand-navy/40 font-sans leading-relaxed">
+            A premium study-life simulation designed for the survival of students. All characters and situations are interactive study journals.
           </p>
         </div>
       </footer>

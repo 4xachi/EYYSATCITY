@@ -5,13 +5,12 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { MapPin, AlertCircle, Info, GraduationCap, Zap, Activity, Briefcase, Coffee, Crown } from 'lucide-react';
+import { MapPin, Info, GraduationCap, Zap, Briefcase, Coffee, Crown, BookOpen } from 'lucide-react';
 import { Scenario, Stats, Choice, StudentType } from '../types/simulation';
 import ProgressTracker from './ProgressTracker';
 import StatDashboard from './StatDashboard';
 import ChoiceCard from './ChoiceCard';
 import ConsequencePanel from './ConsequencePanel';
-import { playClickSound } from '../utils/audio';
 
 interface SimulationDashboardProps {
   currentScenario: Scenario;
@@ -33,6 +32,22 @@ const archetypeIcons: { [key: string]: any } = {
   leader: Crown,
 };
 
+// Map original raw locations to requested theme regions dynamically
+function mapVisualLocation(loc: string): { name: string; detail: string } {
+  const normalized = loc.toLowerCase();
+  if (normalized.includes('build') || normalized.includes('lounge') || normalized.includes('lab') || normalized.includes('study') || normalized.includes('lecture') || normalized.includes('class')) {
+    return { name: 'Study District', detail: 'desk / library' };
+  } else if (normalized.includes('cafeteria') || normalized.includes('canteen') || normalized.includes('cafe') || normalized.includes('budget') || normalized.includes('receipt') || normalized.includes('alley') || normalized.includes('mall') || normalized.includes('store') || normalized.includes('lunch')) {
+    return { name: 'Budget Alley', detail: 'allowance tracker / canteen' };
+  } else if (normalized.includes('hub') || normalized.includes('dorm') || normalized.includes('social') || normalized.includes('quad') || normalized.includes('club') || normalized.includes('friend') || normalized.includes('chat') || normalized.includes('pub') || normalized.includes('party')) {
+    return { name: 'Social Hub', detail: 'group project board / chat' };
+  } else if (normalized.includes('mind') || normalized.includes('zone') || normalized.includes('wellness') || normalized.includes('sleep') || normalized.includes('calm') || normalized.includes('corner') || normalized.includes('gym') || normalized.includes('park') || normalized.includes('garden')) {
+    return { name: 'MindZone', detail: 'wellness journal / calm reading' };
+  } else {
+    return { name: 'Deadline Tower', detail: 'calendar deadline pressure' };
+  }
+}
+
 export default function SimulationDashboard({
   currentScenario,
   stats,
@@ -46,50 +61,58 @@ export default function SimulationDashboard({
 }: SimulationDashboardProps) {
 
   const StudentIcon = selectedStudentType ? (archetypeIcons[selectedStudentType.id] || GraduationCap) : GraduationCap;
+  const mappedLocation = mapVisualLocation(currentScenario.location);
 
   return (
-    <div className="py-8 max-w-7xl mx-auto px-4 sm:px-6 z-10 w-full animate-fade-in space-y-8 select-none">
+    <div className="py-6 max-w-7xl mx-auto px-4 sm:px-6 z-10 w-full select-none space-y-6">
       
       {/* Simulation Grid System */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
         
         {/* LEFT COLUMN: Scenario Description, Option Buttons & Consequences (7/12 cols) */}
-        <div className="lg:col-span-7 space-y-6">
+        <div className="lg:col-span-7 space-y-6 w-full">
           
           {/* Day & Location Banner */}
-          <div className="relative rounded-2xl border border-zinc-800 bg-[#04040e]/95 p-6 backdrop-blur-md overflow-hidden flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-lg shadow-black/40">
+          <div className="relative rounded-2xl border border-brand-navy/15 bg-brand-paper p-6 overflow-hidden flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-[0_4px_12px_rgba(30,42,68,0.03)]">
+            <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-brand-blue to-brand-coral" />
             <div className="space-y-1">
-              <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-cyan-400 uppercase">
-                CURRENT TEMPORAL SECTOR
+              <span className="text-[10px] font-mono font-bold tracking-[0.15em] text-brand-blue uppercase">
+                CALENDAR WORKLOAD TIMELINE
               </span>
-              <h2 className="text-3xl font-extrabold text-white tracking-tight">
-                {currentScenario.dayName}
+              <h2 className="text-3xl font-serif font-extrabold text-brand-ink tracking-tight flex items-center gap-2">
+                <span>{currentScenario.dayName}</span>
+                <span className="text-xs font-mono font-bold bg-brand-cream text-brand-navy/60 px-2 py-0.5 rounded-md uppercase tracking-wider">Day {currentScenario.dayIndex + 1} of 5</span>
               </h2>
             </div>
 
-            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-cyan-950/40 border border-cyan-500/20 w-fit">
-              <MapPin className="w-4 h-4 text-cyan-400 shrink-0" />
-              <div className="font-mono text-xs uppercase tracking-wider text-cyan-300">
-                LCTN: <strong className="text-white">{currentScenario.location}</strong>
+            <div className="flex flex-col gap-0.5 px-4 py-2 rounded-xl bg-brand-cream border border-brand-navy/10 w-fit">
+              <div className="flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-brand-coral shrink-0" />
+                <span className="text-[10px] font-mono font-bold text-brand-navy/55 uppercase tracking-wider">
+                  LOCATION CATEGORY
+                </span>
+              </div>
+              <div className="text-xs font-sans font-bold text-brand-ink block mt-0.5">
+                {mappedLocation.name} <span className="font-medium text-[9px] text-[#4F7BFF]/95">({mappedLocation.detail})</span>
               </div>
             </div>
           </div>
 
-          {/* Scenario Graphic Card */}
+          {/* Scenario Graphic Card as a pristine study journal sheet */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-2xl border border-zinc-800 bg-zinc-950/65 p-6 backdrop-blur-md space-y-4"
+            className="rounded-2xl border border-brand-navy/15 bg-brand-paper p-6 space-y-4 shadow-[0_6px_18px_rgba(30,42,68,0.02)]"
           >
-            <div className="flex items-center gap-1.5 text-xs text-indigo-400 font-mono tracking-widest uppercase">
-              <Info className="w-3.5 h-3.5" /> DILEMMA SEQUENCE
+            <div className="flex items-center gap-1.5 text-xs text-brand-blue font-mono tracking-widest uppercase font-bold">
+              <BookOpen className="w-4 h-4 text-brand-blue" /> STUDY LIFE DILEMMA
             </div>
 
             <div className="space-y-2">
-              <h3 className="text-xl sm:text-2xl font-sans font-bold text-white tracking-tight">
+              <h3 className="text-xl sm:text-2xl font-serif font-extrabold text-brand-ink tracking-tight">
                 {currentScenario.title}
               </h3>
-              <p className="text-zinc-300 leading-relaxed font-sans text-sm sm:text-base">
+              <p className="text-brand-navy/85 leading-relaxed font-sans text-sm sm:text-base">
                 {currentScenario.description}
               </p>
             </div>
@@ -97,7 +120,7 @@ export default function SimulationDashboard({
 
           {/* Decision Choice Buttons Selection Map */}
           <div className="space-y-3.5">
-            <h4 className="text-[10px] font-mono uppercase text-zinc-500 tracking-wider">AVAILABLE OUTCOMES</h4>
+            <h4 className="text-[10px] font-mono uppercase text-brand-navy/50 tracking-wider font-bold">CHOOSE YOUR STUDY STRATEGY</h4>
             <div className="grid grid-cols-1 gap-3.5">
               {currentScenario.choices.map((choice) => (
                 <ChoiceCard
@@ -133,21 +156,22 @@ export default function SimulationDashboard({
         </div>
 
         {/* RIGHT COLUMN: Live Stat Dashes, Progress, and Archetype summary (5/12 cols) */}
-        <div className="lg:col-span-5 space-y-6">
+        <div className="lg:col-span-5 space-y-6 w-full">
           
-          {/* Chosen Archetype summary card */}
+          {/* Chosen Archetype summary card styled as a cute library log */}
           {selectedStudentType && (
-            <div className="rounded-2xl border border-zinc-800 bg-[#040410]/70 p-4.5 backdrop-blur-md flex items-center gap-4">
-              <div className="p-3 rounded-xl bg-indigo-950/30 border border-indigo-500/20 text-indigo-400">
+            <div className="rounded-2xl border border-brand-navy/15 bg-brand-paper p-4.5 flex items-center gap-4 shadow-sm relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-brand-blue/5 rounded-full -mr-6 -mt-6" />
+              <div className="p-3 rounded-xl bg-brand-blue/10 text-brand-blue border border-brand-blue/15">
                 <StudentIcon className="w-6 h-6 shrink-0" />
               </div>
               <div className="space-y-1">
-                <span className="text-[9px] font-mono uppercase tracking-widest text-zinc-500 block">IDENTITY SECTOR</span>
-                <h4 className="text-base font-extrabold text-white tracking-tight uppercase">
+                <span className="text-[9px] font-mono uppercase tracking-widest text-brand-navy/50 block font-bold">IDENTITY CARD</span>
+                <h4 className="text-base font-extrabold text-brand-ink tracking-tight uppercase">
                   {selectedStudentType.name}
                 </h4>
-                <p className="text-xs text-zinc-400 leading-normal">
-                  Strength: <strong className="text-indigo-300">{selectedStudentType.strength}</strong>
+                <p className="text-xs text-brand-navy/70 leading-normal font-medium">
+                  Resource Multiplier: <span className="text-brand-blue font-bold">{selectedStudentType.strength}</span>
                 </p>
               </div>
             </div>

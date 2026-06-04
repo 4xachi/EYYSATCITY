@@ -11,15 +11,12 @@ import {
   Briefcase, 
   Coffee, 
   Crown, 
-  Flame, 
-  Activity, 
-  ShieldAlert, 
   CheckCircle2, 
   ArrowRight,
-  TrendingUp,
-  AlertTriangle
+  ThumbsUp,
+  AlertCircle
 } from 'lucide-react';
-import { StudentType, Stats } from '../types/simulation';
+import { StudentType } from '../types/simulation';
 import { studentTypes } from '../data/studentTypes';
 import { playClickSound, playPositiveSound } from '../utils/audio';
 
@@ -58,19 +55,20 @@ export default function StudentTypeSelection({ onSelect, soundEnabled }: Student
   const currentSelected = studentTypes.find((s) => s.id === selectedId);
 
   return (
-    <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 z-10 w-full">
+    <div className="py-10 max-w-7xl mx-auto px-4 sm:px-6 z-10 w-full select-none">
+      
       {/* Selection Header */}
       <div className="text-center space-y-3 mb-10">
-        <span className="text-xs font-mono text-cyan-400 tracking-[0.2em] uppercase">STEP 02 : SYSTEM ARCHETYPE</span>
-        <h2 className="text-3xl sm:text-5xl font-sans font-extrabold text-white tracking-tight">
-          Select Student Identity
+        <span className="text-xs font-mono text-brand-blue tracking-[0.2em] uppercase font-bold">LOG #02 : CHOOSE ARCHETYPE</span>
+        <h2 className="text-3xl sm:text-5xl font-serif font-extrabold text-brand-ink tracking-tight">
+          Select Student Profile
         </h2>
-        <p className="text-zinc-400 max-w-xl mx-auto text-sm sm:text-base">
-          Each student class begins with unique stats representing their starting strengths, habits, and balance parameters.
+        <p className="text-brand-navy/70 max-w-xl mx-auto text-sm sm:text-base">
+          Choose your survival perspective. Each class holds different initial resources, stress capacities, and weekly study strategies.
         </p>
       </div>
 
-      {/* Grid of 5 Cards */}
+      {/* Grid of 5 Cards (Styled as Student ID Cards pinned on a notice board) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-10 w-full">
         {studentTypes.map((student) => {
           const IconComponent = iconMap[student.iconName] || GraduationCap;
@@ -81,78 +79,93 @@ export default function StudentTypeSelection({ onSelect, soundEnabled }: Student
               id={`student-card-${student.id}`}
               key={student.id}
               whileHover={{ 
-                scale: 1.03, 
-                borderColor: isSelected ? 'rgba(6,182,212,0.8)' : 'rgba(255,255,255,0.22)',
-                boxShadow: isSelected 
-                  ? '0 0 25px rgba(6,182,212,0.25)' 
-                  : '0 10px 30px rgba(0,0,0,0.5)'
+                scale: 1.03,
+                y: -4,
+                boxShadow: '0 12px 24px rgba(30,42,68,0.08)'
               }}
               whileTap={{ scale: 0.98 }}
               onClick={() => handleCardClick(student)}
-              className={`relative rounded-xl border p-5 backdrop-blur-md cursor-pointer transition-[border-color,background-color,color,box-shadow] duration-300 flex flex-col justify-between ${
+              className={`relative rounded-2xl border p-5 cursor-pointer transition-all duration-300 flex flex-col justify-between ${
                 isSelected 
-                  ? 'bg-cyan-950/20 border-cyan-500 shadow-[0_0_20px_rgba(6,182,212,0.2)] text-white' 
-                  : 'bg-zinc-950/40 border-zinc-800 text-zinc-300'
+                  ? 'bg-brand-paper border-brand-blue shadow-[0_12px_24px_rgba(79,123,255,0.12)] ring-1 ring-brand-blue' 
+                  : 'bg-brand-paper border-brand-navy/15 text-brand-navy shadow-sm'
               }`}
             >
-              {/* Selected indicator chip */}
+              {/* Selected indicator checkmark */}
               {isSelected && (
-                <div className="absolute top-3 right-3 text-cyan-400">
-                  <CheckCircle2 className="w-5 h-5 fill-cyan-950/80" />
+                <div className="absolute top-4 right-4 text-brand-blue">
+                  <CheckCircle2 className="w-5 h-5 fill-white" />
                 </div>
               )}
 
               {/* Main Info */}
               <div className="space-y-4">
-                <div className={`p-3 rounded-lg w-fit ${
-                  isSelected ? 'bg-cyan-900/30 text-cyan-400' : 'bg-zinc-900 text-zinc-400'
+                
+                {/* ID Card Portrait placeholder with badge */}
+                <div className={`p-3 rounded-xl w-fit ${
+                  isSelected ? 'bg-brand-blue/10 text-brand-blue font-bold shadow-inner' : 'bg-brand-cream text-brand-navy/55 border border-brand-navy/5'
                 }`}>
                   <IconComponent className="w-6 h-6" />
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-bold tracking-tight">{student.name}</h3>
-                  <p className="text-xs text-zinc-400 leading-relaxed mt-1">{student.description}</p>
+                  <h3 className="text-base font-bold tracking-tight text-brand-ink uppercase font-sans">
+                    {student.name}
+                  </h3>
+                  <p className="text-xs text-brand-navy/75 leading-relaxed mt-1 min-h-[48px] font-sans">
+                    {student.description}
+                  </p>
                 </div>
 
                 {/* Strength & Weakness Bullet Elements */}
-                <div className="space-y-2 border-t border-zinc-900 pt-3 text-[11px] font-sans">
-                  <div className="flex items-center gap-1 text-cyan-300">
-                    <TrendingUp className="w-3.5 h-3.5 shrink-0 col-cyan" />
-                    <span><strong>Pros:</strong> {student.strength}</span>
+                <div className="space-y-2.5 border-t border-brand-navy/10 pt-3.5 text-[11px] font-sans">
+                  <div className="flex items-start gap-1.5 text-brand-green">
+                    <ThumbsUp className="w-3.5 h-3.5 mt-0.5 shrink-0 text-brand-green" />
+                    <span><strong className="text-brand-ink">Pros:</strong> {student.strength}</span>
                   </div>
-                  <div className="flex items-center gap-1 text-rose-300">
-                    <AlertTriangle className="w-3.5 h-3.5 shrink-0 col-rose" />
-                    <span><strong>Cons:</strong> {student.weakness}</span>
+                  <div className="flex items-start gap-1.5 text-brand-coral">
+                    <AlertCircle className="w-3.5 h-3.5 mt-0.5 shrink-0 text-brand-coral" />
+                    <span><strong className="text-brand-ink">Cons:</strong> {student.weakness}</span>
                   </div>
                 </div>
               </div>
 
-              {/* Mini Stat bars inside each student preview card */}
-              <div className="mt-5 pt-3 border-t border-zinc-900 space-y-2">
-                <div className="flex justify-between text-[10px] text-zinc-500 font-mono">
-                  <span>ENERGY</span>
-                  <span className="text-zinc-300 font-bold">{student.startingStats.energy}</span>
-                </div>
-                <div className="h-1 bg-zinc-900 rounded-full overflow-hidden">
-                  <div className="h-full bg-amber-400" style={{ width: `${student.startingStats.energy}%` }} />
-                </div>
-
-                <div className="flex justify-between text-[10px] text-zinc-500 font-mono">
-                  <span>GRADES</span>
-                  <span className="text-zinc-300 font-bold">{student.startingStats.grades}</span>
-                </div>
-                <div className="h-1 bg-zinc-900 rounded-full overflow-hidden">
-                  <div className="h-full bg-cyan-400" style={{ width: `${student.startingStats.grades}%` }} />
+              {/* High-quality compact Stat Bars inside preview cards */}
+              <div className="mt-5 pt-3.5 border-t border-brand-navy/10 space-y-2">
+                
+                {/* energy bar */}
+                <div className="space-y-1">
+                  <div className="flex justify-between text-[9px] text-brand-navy/55 font-mono font-bold">
+                    <span>ENERGY</span>
+                    <span className="text-brand-navy font-bold">{student.startingStats.energy}%</span>
+                  </div>
+                  <div className="h-1 bg-brand-navy/5 rounded-full overflow-hidden">
+                    <div className="h-full bg-brand-amber rounded-full" style={{ width: `${student.startingStats.energy}%` }} />
+                  </div>
                 </div>
 
-                <div className="flex justify-between text-[10px] text-zinc-500 font-mono">
-                  <span>STRESS</span>
-                  <span className="text-zinc-400 font-bold">{student.startingStats.stress}</span>
+                {/* grades bar */}
+                <div className="space-y-1">
+                  <div className="flex justify-between text-[9px] text-brand-navy/55 font-mono font-bold">
+                    <span>GRADES</span>
+                    <span className="text-brand-navy font-bold">{student.startingStats.grades}%</span>
+                  </div>
+                  <div className="h-1 bg-brand-navy/5 rounded-full overflow-hidden">
+                    <div className="h-full bg-brand-blue rounded-full" style={{ width: `${student.startingStats.grades}%` }} />
+                  </div>
                 </div>
-                <div className="h-1 bg-zinc-900 rounded-full overflow-hidden">
-                  <div className="h-full bg-rose-500" style={{ width: `${student.startingStats.stress}%` }} />
+
+                {/* stress bar */}
+                <div className="space-y-1">
+                  <div className="flex justify-between text-[9px] text-brand-navy/55 font-mono font-bold">
+                    <span>STRESS</span>
+                    <span className="text-brand-navy font-bold">{student.startingStats.stress}%</span>
+                  </div>
+                  <div className="h-1 bg-brand-navy/5 rounded-full overflow-hidden">
+                    <div className="h-full bg-brand-coral rounded-full" style={{ width: `${student.startingStats.stress}%` }} />
+                  </div>
                 </div>
+
               </div>
 
             </motion.div>
@@ -160,30 +173,32 @@ export default function StudentTypeSelection({ onSelect, soundEnabled }: Student
         })}
       </div>
 
-      {/* Confirmation & Summary Panel */}
+      {/* Confirmation & Summary Sticky Note */}
       {selectedId && currentSelected && (
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-xl border border-cyan-500/30 bg-cyan-950/10 p-6 backdrop-blur-xl max-w-2xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6"
+          className="rounded-2xl border border-brand-navy/15 bg-brand-paper p-6 shadow-md max-w-2xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 relative"
         >
+          <div className="absolute top-0 inset-x-0 h-[4px] bg-brand-blue rounded-t-2xl" />
+          
           <div className="space-y-1 text-center md:text-left">
-            <p className="text-xs font-mono text-cyan-400 tracking-widest uppercase">CLASS SELECTED</p>
-            <h4 className="text-xl font-bold text-white uppercase">{currentSelected.name}</h4>
-            <p className="text-xs text-zinc-400">
-              Starting multipliers: <strong className="text-cyan-300">Focus ({currentSelected.startingStats.focus})</strong>, <strong className="text-violet-300">Social ({currentSelected.startingStats.social})</strong>
+            <p className="text-[10px] font-mono text-brand-blue tracking-widest uppercase font-bold">PROFILE CHOSEN</p>
+            <h4 className="text-xl font-serif font-extrabold text-brand-ink uppercase">{currentSelected.name}</h4>
+            <p className="text-xs text-brand-navy/70 font-sans">
+              Initial multi-triggers: <strong className="text-brand-blue">Focus rate multiplier ({currentSelected.startingStats.focus})</strong>, <strong className="text-brand-lavender">Social bandwidth ({currentSelected.startingStats.focus})</strong>
             </p>
           </div>
 
           <motion.button
             id="start-school-week-btn"
-            whileHover={{ scale: 1.05, boxShadow: '0 0 15px rgba(6,182,212,0.3)' }}
+            whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={handleConfirmClick}
-            className="w-full md:w-auto px-6 py-3 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-extrabold text-xs tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer transition-[background-color,color,box-shadow] duration-300 shadow-[0_0_15px_rgba(6,182,212,0.2)]"
+            className="w-full md:w-auto px-6 py-3 rounded-xl bg-brand-blue hover:bg-brand-blue/95 text-white font-extrabold text-xs tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-brand-blue/15 transition-all"
           >
             <span>Start School Week</span>
-            <ArrowRight className="w-4 h-4 text-black" />
+            <ArrowRight className="w-4 h-4 text-white" />
           </motion.button>
         </motion.div>
       )}

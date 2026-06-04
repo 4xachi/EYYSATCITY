@@ -21,109 +21,89 @@ import {
 const functionsList = [
   {
     num: '01',
-    title: 'Start Function',
-    desc: 'Starts the simulation and moves the user from the landing page to the student life experience.',
+    title: 'Start Method',
+    desc: 'Starts the simulation and initiates the user from the greeting hall to the student experience.',
     icon: GitCommit,
-    color: 'text-cyan-400',
-    borderColor: 'border-cyan-500/15',
-    glow: 'shadow-[0_0_15px_rgba(6,182,212,0.1)]'
+    color: 'text-brand-blue bg-brand-blue/10 border-brand-blue/20',
   },
   {
     num: '02',
-    title: 'Student Type Function',
-    desc: 'Lets the user choose a student type with different starting stats.',
+    title: 'Student Choice Selector',
+    desc: 'Assigns chosen profiles holding unique balance multipliers.',
     icon: UserPlus,
-    color: 'text-violet-400',
-    borderColor: 'border-violet-500/15',
-    glow: 'shadow-[0_0_15px_rgba(139,92,246,0.1)]'
+    color: 'text-brand-lavender bg-brand-lavender/10 border-brand-lavender/20',
   },
   {
     num: '03',
-    title: 'Scenario Display Function',
-    desc: 'Shows the current school day, location, and problem the user must solve.',
+    title: 'Campus Scenario Mapper',
+    desc: 'Brings current days and mapped survival neighborhoods (e.g., Study District) to view.',
     icon: MapPin,
-    color: 'text-emerald-400',
-    borderColor: 'border-emerald-500/15',
-    glow: 'shadow-[0_0_15px_rgba(16,185,129,0.1)]'
+    color: 'text-brand-coral bg-brand-coral/10 border-brand-coral/20',
   },
   {
     num: '04',
-    title: 'Choice Function',
-    desc: 'Allows the user to select a decision from multiple options.',
+    title: 'Strategy Resolver',
+    desc: 'Processes active decision models from the student options pool.',
     icon: CheckSquare,
-    color: 'text-amber-400',
-    borderColor: 'border-amber-500/15',
-    glow: 'shadow-[0_0_15px_rgba(245,158,11,0.1)]'
+    color: 'text-brand-amber bg-brand-amber/10 border-brand-amber/20',
   },
   {
     num: '05',
-    title: 'Stat Update Function',
-    desc: 'Updates energy, stress, grades, money, focus, and social life based on the selected choice.',
+    title: 'Multi-Stat Compiler',
+    desc: 'Calculates active gains and losses across energy, budget, and sanity meters.',
     icon: Sliders,
-    color: 'text-rose-450',
-    borderColor: 'border-rose-500/15',
-    glow: 'shadow-[0_0_15px_rgba(244,63,94,0.1)]'
+    color: 'text-brand-green bg-brand-green/10 border-brand-green/20',
   },
   {
     num: '06',
-    title: 'Consequence Function',
-    desc: 'Displays the result of the user’s decision.',
+    title: 'Reflection Logger',
+    desc: 'Reveals qualitative reports and highlights physical status reminders.',
     icon: FileText,
-    color: 'text-sky-400',
-    borderColor: 'border-sky-500/15',
-    glow: 'shadow-[0_0_15px_rgba(56,189,248,0.1)]'
+    color: 'text-brand-blue bg-brand-blue/10 border-brand-blue/20',
   },
   {
     num: '07',
-    title: 'Random Event Function',
-    desc: 'Generates unexpected events that affect the user’s stats.',
+    title: 'Random Event Trigger',
+    desc: 'Hooks dynamic high-school occurrences affecting active resources.',
     icon: Workflow,
-    color: 'text-fuchsia-400',
-    borderColor: 'border-fuchsia-500/15',
-    glow: 'shadow-[0_0_15px_rgba(232,121,249,0.1)]'
+    color: 'text-brand-lavender bg-brand-lavender/10 border-brand-lavender/20',
   },
   {
     num: '08',
-    title: 'Progress Function',
-    desc: 'Tracks the user’s progress from Monday to Friday.',
+    title: 'Calendar Timer',
+    desc: 'Maintains week progression state from Monday to the final Friday buzzer.',
     icon: Calendar,
-    color: 'text-blue-400',
-    borderColor: 'border-blue-500/15',
-    glow: 'shadow-[0_0_15px_rgba(59,130,246,0.1)]'
+    color: 'text-brand-coral bg-brand-coral/10 border-brand-coral/20',
   },
   {
     num: '09',
-    title: 'Final Result Function',
-    desc: 'Calculates the final outcome based on the user’s stats.',
+    title: 'Term Mark Evaluator',
+    desc: 'Aggregates the final scores against historic best scores to rate final outcomes.',
     icon: Calculator,
-    color: 'text-orange-400',
-    borderColor: 'border-orange-500/15',
-    glow: 'shadow-[0_0_15px_rgba(249,115,22,0.1)]'
+    color: 'text-brand-amber bg-brand-amber/10 border-brand-amber/20',
   },
   {
     num: '10',
-    title: 'Restart Function',
-    desc: 'Resets the simulation so the user can try again.',
+    title: 'Curriculum Restart',
+    desc: 'Flushes active week timelines to let users enroll in another week.',
     icon: RotateCcw,
-    color: 'text-teal-400',
-    borderColor: 'border-teal-500/15',
-    glow: 'shadow-[0_0_15px_rgba(20,184,166,0.1)]'
+    color: 'text-brand-green bg-brand-green/10 border-brand-green/20',
   }
 ];
 
 export default function FunctionsSection() {
   return (
-    <section className="py-14 border-t border-zinc-800 bg-[#02020a]/60 w-full z-10 select-none">
+    <section className="py-14 border-t border-brand-navy/10 bg-transparent w-full z-10 select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
         
         {/* Core Presentation Section Title */}
         <div className="text-center space-y-3">
-          <span className="text-xs font-mono text-cyan-400 tracking-[0.25em] uppercase">SYSTEM ANALYSIS OVERVIEW</span>
-          <h2 className="text-3xl sm:text-5xl font-sans font-extrabold text-white tracking-tight">
-            How EYYSAT CITY Works
+          <span className="text-xs font-mono text-brand-blue tracking-[0.25em] uppercase font-bold">SYSTEM ARCHITECTURE MANUAL</span>
+          <h2 className="text-3xl sm:text-5xl font-serif font-extrabold text-brand-ink tracking-tight">
+            How Eyysat City Works
           </h2>
-          <p className="text-zinc-400 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
-            These are the 10 core programmatic functions governing the simulation life engine. Leverage this section for presentation queries.
+          <p className="text-brand-navy/70 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
+            Ten core programmatic systems governing the student simulation. Read this guide to understand its inner academic machinery.
           </p>
         </div>
 
@@ -135,25 +115,25 @@ export default function FunctionsSection() {
             return (
               <motion.div
                 key={f.num}
-                whileHover={{ y: -5, scale: 1.02 }}
-                className={`flex flex-col justify-between rounded-xl border ${f.borderColor} bg-zinc-950/55 p-5 relative overflow-hidden transition-all duration-300 ${f.glow}`}
+                whileHover={{ y: -4, scale: 1.01 }}
+                className="flex flex-col justify-between rounded-2xl border border-brand-navy/15 bg-brand-paper p-5 relative overflow-hidden transition-all duration-300 shadow-sm"
               >
                 {/* Diagonal background number label */}
-                <span className="absolute top-2 right-3 font-mono text-[11px] font-bold tracking-widest text-[#a5b4fc] opacity-60">
+                <span className="absolute top-3 right-3.5 font-mono text-xs font-extrabold tracking-widest text-[#4F7BFF]/75">
                   {f.num}
                 </span>
 
                 <div className="space-y-4">
                   {/* Glowing icon circle */}
-                  <div className={`p-2 w-fit rounded-lg bg-zinc-900 border border-zinc-800 ${f.color}`}>
+                  <div className={`p-2 w-fit rounded-xl border ${f.color}`}>
                     <IconComponent className="w-5 h-5 shrink-0" />
                   </div>
 
-                  <div className="space-y-1.5">
-                    <h3 className="text-sm font-extrabold text-white tracking-tight uppercase">
+                  <div className="space-y-1.5 pr-2">
+                    <h3 className="text-sm font-bold text-brand-ink tracking-tight uppercase">
                       {f.title}
                     </h3>
-                    <p className="text-xs text-zinc-400 leading-relaxed font-sans">
+                    <p className="text-xs text-brand-navy/75 leading-relaxed font-sans font-medium">
                       {f.desc}
                     </p>
                   </div>
