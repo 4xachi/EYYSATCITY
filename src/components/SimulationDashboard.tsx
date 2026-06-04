@@ -11,6 +11,9 @@ import ProgressTracker from './ProgressTracker';
 import StatDashboard from './StatDashboard';
 import ChoiceCard from './ChoiceCard';
 import ConsequencePanel from './ConsequencePanel';
+import BrainBoosterQuiz from './BrainBoosterQuiz';
+
+import StudentShopInventory from './StudentShopInventory';
 
 interface SimulationDashboardProps {
   currentScenario: Scenario;
@@ -22,6 +25,10 @@ interface SimulationDashboardProps {
   onNextDay: () => void;
   selectedStudentType: StudentType | null;
   soundEnabled: boolean;
+  onApplyStatBonus: (bonus: Partial<Stats>) => void;
+  inventory: string[];
+  onBuyItem: (itemId: string, cost: number) => void;
+  onUseItem: (itemId: string, effects: Partial<Stats>) => void;
 }
 
 const archetypeIcons: { [key: string]: any } = {
@@ -58,6 +65,10 @@ export default function SimulationDashboard({
   onNextDay,
   selectedStudentType,
   soundEnabled,
+  onApplyStatBonus,
+  inventory,
+  onBuyItem,
+  onUseItem,
 }: SimulationDashboardProps) {
 
   const StudentIcon = selectedStudentType ? (archetypeIcons[selectedStudentType.id] || GraduationCap) : GraduationCap;
@@ -182,6 +193,22 @@ export default function SimulationDashboard({
 
           {/* Main Stat Dashboard parameters */}
           <StatDashboard stats={stats} statChanges={statChanges} />
+
+          {/* Academic Brain Booster Pop-Quiz Trivia mini-game */}
+          <BrainBoosterQuiz 
+            currentDayIndex={currentScenario.dayIndex} 
+            soundEnabled={soundEnabled} 
+            onApplyStatBonus={onApplyStatBonus}
+          />
+
+          {/* Student Survival Store & Locker Inventory Desk */}
+          <StudentShopInventory 
+            money={stats.money} 
+            inventory={inventory} 
+            soundEnabled={soundEnabled} 
+            onBuyItem={onBuyItem} 
+            onUseItem={onUseItem} 
+          />
 
         </div>
 

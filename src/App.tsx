@@ -59,6 +59,7 @@ export default function App() {
   const [selectedChoice, setSelectedChoice] = useState<Choice | null>(null);
   const [statChanges, setStatChanges] = useState<Partial<Stats> | null>(null);
   const [activeScenarios, setActiveScenarios] = useState<Scenario[]>([]);
+  const [inventory, setInventory] = useState<string[]>([]);
 
   // Random event state
   const [randomEvent, setRandomEvent] = useState<RandomEvent | null>(null);
@@ -94,6 +95,7 @@ export default function App() {
     setHasChosenToday(false);
     setSelectedChoice(null);
     setStatChanges(null);
+    setInventory([]);
   };
 
   // Select a dilemma option
@@ -117,6 +119,33 @@ export default function App() {
       }
 
       return nextStats;
+    });
+  };
+
+  // Apply a custom stat bonus/penalty (from brain booster quizzes, trivia, etc)
+  const handleApplyStatBonus = (bonus: Partial<Stats>) => {
+    setStats((prevStats) => applyEffects(prevStats, bonus));
+  };
+
+  // Shop actions
+  const handleBuyItem = (itemId: string, cost: number) => {
+    setStats((prev) => ({
+      ...prev,
+      money: Math.max(0, prev.money - cost),
+    }));
+    setInventory((prev) => [...prev, itemId]);
+  };
+
+  const handleUseItem = (itemId: string, effects: Partial<Stats>) => {
+    setStats((prev) => applyEffects(prev, effects));
+    setInventory((prev) => {
+      const idx = prev.indexOf(itemId);
+      if (idx > -1) {
+        const copy = [...prev];
+        copy.splice(idx, 1);
+        return copy;
+      }
+      return prev;
     });
   };
 
@@ -182,6 +211,7 @@ export default function App() {
     setRandomEvent(null);
     setFinalResult(null);
     setEarnedBadges([]);
+    setInventory([]);
     setScreen('studentSelection');
   };
 
@@ -197,6 +227,7 @@ export default function App() {
     setRandomEvent(null);
     setFinalResult(null);
     setEarnedBadges([]);
+    setInventory([]);
     setScreen('hero');
   };
 
@@ -340,6 +371,10 @@ export default function App() {
                 onNextDay={handleProceedFromConsequence}
                 selectedStudentType={selectedStudentType}
                 soundEnabled={soundEnabled}
+                onApplyStatBonus={handleApplyStatBonus}
+                inventory={inventory}
+                onBuyItem={handleBuyItem}
+                onUseItem={handleUseItem}
               />
             </motion.div>
           )}
