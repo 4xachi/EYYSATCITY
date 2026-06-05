@@ -177,23 +177,23 @@ export default function StudentShopInventory({
         <div className="flex bg-brand-navy/5 p-1 rounded-xl gap-1">
           <button
             onClick={() => { playClickSound(soundEnabled); setActiveTab('shop'); }}
-            className={`flex-1 py-1.5 rounded-lg text-[10px] font-mono uppercase font-black transition-all ${
+            className={`flex-1 py-1.5 px-1 rounded-lg text-[9px] sm:text-[10px] font-mono uppercase font-black transition-all truncate ${
               activeTab === 'shop' 
                 ? 'bg-white text-brand-ink shadow-sm font-extrabold border border-brand-navy/5' 
                 : 'text-brand-navy/60 hover:text-brand-ink'
             }`}
           >
-            🛒 PURCHASE AMMUNITION
+            <span className="hidden sm:inline">🛒 </span>SHOP
           </button>
           <button
             onClick={() => { playClickSound(soundEnabled); setActiveTab('inventory'); }}
-            className={`flex-1 py-1.5 rounded-lg text-[10px] font-mono uppercase font-black transition-all relative ${
+            className={`flex-1 py-1.5 px-1 rounded-lg text-[9px] sm:text-[10px] font-mono uppercase font-black transition-all relative truncate ${
               activeTab === 'inventory' 
                 ? 'bg-white text-brand-ink shadow-sm font-extrabold border border-brand-navy/5' 
                 : 'text-brand-navy/60 hover:text-brand-ink'
             }`}
           >
-            🎒 INVENTORY DESK ({inventory.length})
+            <span className="hidden sm:inline">🎒 </span>INVENTORY ({inventory.length})
             {inventory.length > 0 && (
               <span className="absolute top-1 right-1.5 w-2 h-2 bg-brand-coral rounded-full animate-pulse" />
             )}

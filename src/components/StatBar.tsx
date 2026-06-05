@@ -119,21 +119,21 @@ export default function StatBar({ statKey, value, latestChange }: StatBarProps) 
       </AnimatePresence>
 
       {/* Title & Micro indicators */}
-      <div className="flex justify-between items-start mb-2">
-        <div className="flex items-center gap-2">
-          <span className={`p-1.5 rounded-lg border border-brand-navy/5 ${style.lightBg} ${style.text}`}>
+      <div className="flex justify-between items-start mb-2 gap-1">
+        <div className="flex items-center gap-1.5 min-w-0">
+          <span className={`p-1.5 rounded-lg border border-brand-navy/5 shrink-0 ${style.lightBg} ${style.text}`}>
             <IconComponent className="w-4 h-4 shrink-0" />
           </span>
-          <div>
-            <span className="text-[9px] font-mono tracking-wider text-brand-navy/50 font-bold uppercase block">STATISTIC</span>
-            <span className="text-xs font-bold text-brand-ink capitalize">{statKey}</span>
+          <div className="min-w-0">
+            <span className="text-[8px] sm:text-[9px] font-mono tracking-wider text-brand-navy/50 font-bold uppercase block truncate">STAT</span>
+            <span className="text-xs font-bold text-brand-ink capitalize truncate block">{statKey}</span>
           </div>
         </div>
 
         {/* Status text label (e.g. Critical, Energized) */}
-        <div className="text-right">
-          <span className="text-[9px] font-mono tracking-wide text-brand-navy/50 font-bold uppercase block">CONDITION</span>
-          <span className={`text-[10px] font-mono font-bold uppercase tracking-wider ${
+        <div className="text-right min-w-0 shrink-0">
+          <span className="text-[8px] sm:text-[9px] font-mono tracking-wide text-brand-navy/50 font-bold uppercase block truncate">STATUS</span>
+          <span className={`text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider block truncate ${
             isStressWarning ? 'text-brand-coral animate-pulse' : 
             isEnergyWarning ? 'text-brand-amber animate-pulse' : style.text
           }`}>

@@ -20,18 +20,18 @@ export default function StatDashboard({ stats, statChanges }: StatDashboardProps
   return (
     <div className="space-y-4">
       {/* Mini Title Grid */}
-      <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+      <div className="flex flex-wrap items-center justify-between border-b border-brand-navy/10 pb-2 gap-2">
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-          <h3 className="text-sm font-mono tracking-widest text-[#cbd5e1] uppercase flex items-center gap-1">
-            <Activity className="w-4 h-4 text-cyan-400" /> Current Stats
+          <div className="w-2 h-2 rounded-full bg-brand-blue animate-pulse" />
+          <h3 className="text-sm font-mono tracking-widest text-brand-ink uppercase flex items-center gap-1 font-bold">
+            <Activity className="w-4 h-4 text-brand-blue" /> Current Stats
           </h3>
         </div>
-        <p className="text-[10px] font-mono text-zinc-500 uppercase">Clamped 0 - 100 max</p>
+        <p className="text-[9px] font-mono text-brand-navy/50 uppercase font-bold tracking-wider">Clamped 0 - 100 max</p>
       </div>
 
       {/* Grid Display */}
-      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4">
         {orderedKeys.map((key) => {
           const value = stats[key];
           const latestChange = statChanges ? statChanges[key] : undefined;
