@@ -18,13 +18,15 @@ export const mondayScenarios: Scenario[] = [
         id: 'mon_1_a',
         text: 'Study early for 1 hour',
         effects: { grades: 15, focus: 10, energy: -10, stress: -5 },
-        feedback: 'You prepared before panic could take over. Your grades and focus improved, and your stress became easier to control.'
+        feedback: 'You prepared before panic could take over. Your grades and focus improved, and your stress became easier to control.',
+        memoryFlag: 'studiedEarly'
       },
       {
         id: 'mon_1_b',
         text: 'Scroll social media first',
         effects: { energy: 5, focus: -15, grades: -10, stress: 10 },
-        feedback: 'You felt relaxed for a moment, but the unfinished work stayed in your mind. Your focus dropped and stress increased.'
+        feedback: 'You felt relaxed for a moment, but the unfinished work stayed in your mind. Your focus dropped and stress increased.',
+        memoryFlag: 'scrolledInsteadOfStudying'
       },
       {
         id: 'mon_1_c',
@@ -42,7 +44,8 @@ export const mondayScenarios: Scenario[] = [
         id: 'mon_1_e',
         text: 'Cram at midnight',
         effects: { grades: 10, energy: -25, stress: 20, focus: -10 },
-        feedback: 'You learned something, but your body paid the price. The late-night pressure increased your stress and weakened your focus.'
+        feedback: 'You learned something, but your body paid the price. The late-night pressure increased your stress and weakened your focus.',
+        memoryFlag: 'crammedAtMidnight'
       }
     ]
   },
@@ -145,25 +148,29 @@ export const tuesdayScenarios: Scenario[] = [
         id: 'tue_1_b',
         text: 'Buy affordable cafeteria food',
         effects: { energy: 10, money: -10 },
-        feedback: 'You made a practical choice. You gained enough energy without damaging your budget too much.'
+        feedback: 'You made a practical choice. You gained enough energy without damaging your budget too much.',
+        memoryFlag: 'savedMoney'
       },
       {
         id: 'tue_1_c',
         text: 'Skip eating to save money',
         effects: { energy: -25, focus: -15, stress: 10 },
-        feedback: 'You saved money, but your body and focus suffered. Skipping meals made the day harder.'
+        feedback: 'You saved money, but your body and focus suffered. Skipping meals made the day harder.',
+        memoryFlag: 'skippedMeal'
       },
       {
         id: 'tue_1_d',
         text: 'Borrow money from a friend',
         effects: { money: 20, social: -10, stress: 5 },
-        feedback: 'You solved the money problem for now, but depending on others added a little social pressure.'
+        feedback: 'You solved the money problem for now, but depending on others added a little social pressure.',
+        memoryFlag: 'borrowedMoney'
       },
       {
         id: 'tue_1_e',
         text: 'Prepare packed food at home',
         effects: { energy: 15, money: -5, focus: 5 },
-        feedback: 'You planned ahead. You stayed energized, saved money, and improved your focus.'
+        feedback: 'You planned ahead. You stayed energized, saved money, and improved your focus.',
+        memoryFlag: 'savedMoney'
       }
     ]
   },
@@ -260,31 +267,36 @@ export const wednesdayScenarios: Scenario[] = [
         id: 'wed_1_a',
         text: 'Do everything alone',
         effects: { grades: 15, stress: 25, energy: -20, social: -15 },
-        feedback: 'You protected the project, but you carried too much alone. Your stress increased and your connection with the group weakened.'
+        feedback: 'You protected the project, but you carried too much alone. Your stress increased and your connection with the group weakened.',
+        memoryFlag: 'handledProjectAlone'
       },
       {
         id: 'wed_1_b',
         text: 'Ignore the project',
         effects: { grades: -25, stress: 15 },
-        feedback: 'Avoiding the problem made it worse. The deadline moved closer and your academic standing dropped.'
+        feedback: 'Avoiding the problem made it worse. The deadline moved closer and your academic standing dropped.',
+        memoryFlag: 'ignoredProject'
       },
       {
         id: 'wed_1_c',
         text: 'Message the group respectfully',
         effects: { social: 15, stress: -5, grades: 10 },
-        feedback: 'You communicated clearly without attacking anyone. The group became easier to manage.'
+        feedback: 'You communicated clearly without attacking anyone. The group became easier to manage.',
+        memoryFlag: 'messagedGroupRespectfully'
       },
       {
         id: 'wed_1_d',
         text: 'Report immediately to professor',
         effects: { grades: 5, social: -20, stress: 5 },
-        feedback: 'You protected yourself, but the group relationship became tense.'
+        feedback: 'You protected yourself, but the group relationship became tense.',
+        memoryFlag: 'reportedGroup'
       },
       {
         id: 'wed_1_e',
         text: 'Create a task plan and assign roles',
         effects: { grades: 20, social: 10, focus: 10, stress: -5 },
-        feedback: 'You turned confusion into structure. The group had direction, and your performance improved.'
+        feedback: 'You turned confusion into structure. The group had direction, and your performance improved.',
+        memoryFlag: 'createdTaskPlan'
       }
     ]
   },
@@ -381,31 +393,36 @@ export const thursdayScenarios: Scenario[] = [
         id: 'thu_1_a',
         text: 'Keep working without rest',
         effects: { grades: 10, energy: -30, stress: 25 },
-        feedback: 'You pushed forward, but the pressure damaged your energy. Productivity without rest became risky.'
+        feedback: 'You pushed forward, but the pressure damaged your energy. Productivity without rest became risky.',
+        memoryFlag: 'overworked'
       },
       {
         id: 'thu_1_b',
         text: 'Take a short break',
         effects: { energy: 15, stress: -15, focus: 10 },
-        feedback: 'You paused before breaking down. The short rest helped your mind recover.'
+        feedback: 'You paused before breaking down. The short rest helped your mind recover.',
+        memoryFlag: 'tookBreak'
       },
       {
         id: 'thu_1_c',
         text: 'Sleep for a long time',
         effects: { energy: 30, stress: -20, grades: -5 },
-        feedback: 'You recovered a lot of energy, but some schoolwork was delayed.'
+        feedback: 'You recovered a lot of energy, but some schoolwork was delayed.',
+        memoryFlag: 'tookBreak'
       },
       {
         id: 'thu_1_d',
         text: 'Talk to a trusted friend',
         effects: { social: 15, stress: -15 },
-        feedback: 'You shared the pressure instead of carrying it alone. Your stress became lighter.'
+        feedback: 'You shared the pressure instead of carrying it alone. Your stress became lighter.',
+        memoryFlag: 'talkedToFriend'
       },
       {
         id: 'thu_1_e',
         text: 'Plan your remaining tasks',
         effects: { focus: 20, stress: -10, grades: 10 },
-        feedback: 'You turned mental chaos into a clear plan. Your focus and grades improved.'
+        feedback: 'You turned mental chaos into a clear plan. Your focus and grades improved.',
+        memoryFlag: 'plannedTasks'
       }
     ]
   },
@@ -508,25 +525,29 @@ export const fridayScenarios: Scenario[] = [
         id: 'fri_1_b',
         text: 'Try to finish everything at once',
         effects: { grades: 10, stress: 25, energy: -25 },
-        feedback: 'You tried to handle everything, but your energy dropped hard and the pressure rose.'
+        feedback: 'You tried to handle everything, but your energy dropped hard and the pressure rose.',
+        memoryFlag: 'overworked'
       },
       {
         id: 'fri_1_c',
         text: 'Ask for help and divide tasks',
         effects: { social: 15, grades: 15, stress: -10 },
-        feedback: 'You used teamwork instead of forcing everything alone. The load became lighter and results improved.'
+        feedback: 'You used teamwork instead of forcing everything alone. The load became lighter and results improved.',
+        memoryFlag: 'askedForHelpFinal'
       },
       {
         id: 'fri_1_d',
         text: 'Give up because it is too much',
         effects: { stress: -5, grades: -30, focus: -20 },
-        feedback: 'You escaped the pressure for a moment, but the unfinished responsibilities damaged your outcome.'
+        feedback: 'You escaped the pressure for a moment, but the unfinished responsibilities damaged your outcome.',
+        memoryFlag: 'gaveUpFinal'
       },
       {
         id: 'fri_1_e',
         text: 'Organize your day hour by hour',
         effects: { focus: 25, grades: 20, energy: -10, stress: -10 },
-        feedback: 'You gave the day structure. Your focus improved, your grades increased, and stress became easier to handle.'
+        feedback: 'You gave the day structure. Your focus improved, your grades increased, and stress became easier to handle.',
+        memoryFlag: 'plannedTasks'
       }
     ]
   },

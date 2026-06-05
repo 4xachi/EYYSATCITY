@@ -3,209 +3,182 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { 
   Trophy, 
   RotateCcw, 
-  Home, 
-  Activity, 
   Sparkles,
-  Award
+  Award,
+  RefreshCcw
 } from 'lucide-react';
-import { FinalResult, Stats, Badge } from '../types/simulation';
-import BadgeChip from './BadgeChip';
-import StatBar from './StatBar';
-import { playClickSound, playResultSound } from '../utils/audio';
+import { FinalResult, Stats, Badge, Goal, ReflectionEntry } from '../types/simulation';
+import StatDashboard from './StatDashboard';
+import GoalStatusCard from './GoalStatusCard';
+import WeeklyReflectionReport from './WeeklyReflectionReport';
+import BadgeCollection from './BadgeCollection';
+import { playResultSound } from '../utils/audio';
 
 interface FinalResultScreenProps {
-  finalResult: FinalResult;
-  stats: Stats;
-  badges: Badge[];
-  bestScore: number;
-  bestResult: string;
+  result: FinalResult;
+  finalStats: Stats;
+  badgesEarned: Badge[];
+  studentName: string;
+  studentIcon: string;
   onRestart: () => void;
-  onHome: () => void;
   soundEnabled: boolean;
+  selectedGoal: Goal | null;
+  reflectionJournal: ReflectionEntry[];
+  unlockedBadgeIds: string[];
+  onShowWhatIf: () => void;
 }
 
 export default function FinalResultScreen({
-  finalResult,
-  stats,
-  badges,
-  bestScore,
-  bestResult,
+  result,
+  finalStats,
+  badgesEarned,
+  studentName,
+  studentIcon,
   onRestart,
-  onHome,
-  soundEnabled
+  soundEnabled,
+  selectedGoal,
+  reflectionJournal,
+  unlockedBadgeIds,
+  onShowWhatIf
 }: FinalResultScreenProps) {
-  
-  // Play triumphant sound on component mount
-  React.useEffect(() => {
-    playResultSound(soundEnabled);
-  }, [soundEnabled]);
 
-  const handleRestart = () => {
-    playClickSound(soundEnabled);
-    onRestart();
-  };
-
-  const handleHome = () => {
-    playClickSound(soundEnabled);
-    onHome();
-  };
+  useEffect(() => {
+    // Play fanfare based on score ranking
+    playResultSound(soundEnabled, result.finalScore > 75);
+  }, [soundEnabled, result.finalScore]);
 
   return (
-    <div className="py-10 max-w-5xl mx-auto px-4 sm:px-6 z-10 w-full select-none space-y-10">
+    <div className="py-12 px-4 max-w-5xl mx-auto space-y-12 pb-24">
       
-      {/* Top Banner Result Titles */}
-      <div className="text-center space-y-3">
-        <span className="text-xs font-mono text-brand-blue tracking-[0.25em] uppercase font-bold">LOG #05 : COMPILATION FINALIZED</span>
-        <h2 className="text-3xl sm:text-5xl font-serif font-extrabold text-brand-ink tracking-tight">
-          Your Week in Review
-        </h2>
-        <p className="text-brand-navy/70 max-w-xl mx-auto text-sm sm:text-base">
-          Thermometer report card finalized. Our simulation models have successfully cataloged your high-school week.
+      {/* Title Header */}
+      <div className="text-center space-y-4 pt-8">
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: 'spring', bounce: 0.5 }}
+          className="inline-flex items-center justify-center w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-brand-cream border-4 border-white shadow-xl text-4xl sm:text-6xl text-brand-blue mb-4"
+        >
+          {studentIcon}
+        </motion.div>
+        
+        <h1 className="text-4xl sm:text-6xl font-sans font-extrabold text-brand-ink uppercase tracking-tight text-balance">
+          {result.title}
+        </h1>
+        <p className="text-brand-navy/60 font-mono tracking-widest text-sm uppercase font-bold">
+          {studentName} Run Complete
         </p>
       </div>
 
-      {/* Main Core Score Card Block (Styled as an official Academic folder receipt) */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="relative rounded-2xl border border-brand-navy/15 bg-brand-paper p-8 sm:p-10 shadow-[0_12px_36px_rgba(30,42,68,0.06)] overflow-hidden"
-      >
-        {/* Soft notebook grid accent */}
-        <div className="absolute inset-0 notebook-grid opacity-15 pointer-events-none" />
-        <div className="absolute top-0 inset-x-0 h-[4px] bg-gradient-to-r from-brand-blue via-brand-amber to-brand-coral rounded-t-2xl" />
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-          
-          {/* Left Large Badge Wax Seal element */}
-          <div className="lg:col-span-4 flex flex-col items-center justify-center text-center space-y-4">
-            
-            <div className="relative w-36 h-36 rounded-full bg-brand-cream border-2 border-brand-blue/30 flex items-center justify-center shadow-[0_4px_12px_rgba(30,42,68,0.03)] p-2">
-              <div className="absolute inset-1 rounded-full border border-dashed border-brand-navy/20" />
-              <div className="text-center">
-                <span className="text-[10px] font-mono text-brand-navy/40 tracking-wider block font-bold">FINAL SCORE</span>
-                <span className="text-5xl font-mono font-extrabold text-brand-ink">{finalResult.finalScore}</span>
-                <span className="text-xs font-mono text-brand-blue block uppercase font-bold tracking-widest mt-0.5">PTS</span>
-              </div>
-            </div>
-
-            <div className="px-4 py-1.5 rounded-xl bg-brand-cream border border-brand-navy/10 text-[10px] font-mono text-brand-blue font-bold uppercase tracking-widest shadow-sm">
-              GRADE CLASSIFICATION: {finalResult.gradeLevel}
-            </div>
-          </div>
-
-          {/* Right Core Data Description */}
-          <div className="lg:col-span-8 space-y-4 text-center lg:text-left">
-            <div className="space-y-1">
-              <span className="text-xs font-mono text-brand-blue tracking-widest uppercase font-bold block">OBTAINED SURVIVAL CHARACTER</span>
-              <h3 className="text-2xl sm:text-3xl font-serif font-extrabold text-brand-ink tracking-tight">
-                {finalResult.title}
-              </h3>
-            </div>
-
-            <p className="text-brand-navy/80 leading-relaxed font-sans text-sm sm:text-base">
-              {finalResult.description}
-            </p>
-
-            {/* Micro high-scores comparison folder */}
-            <div className="pt-4 border-t border-brand-navy/10 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-3.5 rounded-xl bg-brand-cream border border-brand-navy/10 flex items-start gap-3 shadow-sm">
-                <Trophy className="w-5 h-5 text-brand-blue mt-0.5 shrink-0" />
-                <div>
-                  <span className="text-[9px] font-mono text-brand-navy/50 font-bold uppercase block">BEST HISTORIC RECORD</span>
-                  <span className="text-xs font-mono font-bold text-brand-ink">{bestScore || finalResult.finalScore} PTS</span>
-                </div>
-              </div>
-
-              <div className="p-3.5 rounded-xl bg-brand-cream border border-brand-navy/10 flex items-start gap-3 shadow-sm">
-                <Award className="w-5 h-5 text-brand-amber mt-0.5 shrink-0" />
-                <div>
-                  <span className="text-[9px] font-mono text-brand-navy/50 font-bold uppercase block">BEST PROFILE TYPE</span>
-                  <span className="text-xs font-sans font-bold text-brand-ink">{bestResult || finalResult.title}</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      </motion.div>
-
-      {/* Grid: Stats Summary on Left, Badges list on Right */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        {/* Left Side: Week Final Stats */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-2 border-b border-brand-navy/10 pb-2">
-            <Activity className="w-4 h-4 text-brand-blue" />
-            <h4 className="text-sm font-mono tracking-wider text-brand-blue font-bold uppercase">Week Ending Stats</h4>
+        {/* Left Column: Summary and Core Stats */}
+        <div className="lg:col-span-7 space-y-8">
+          
+          <div className="bg-white p-6 sm:p-8 rounded-3xl border border-brand-navy/10 shadow-sm relative overflow-hidden">
+             {/* Score Ribbon */}
+             <div className="absolute top-0 right-0 bg-brand-ink text-brand-paper px-6 py-2 rounded-bl-3xl font-mono font-bold text-xl flex items-center gap-2">
+               <Trophy className="w-5 h-5 text-brand-gold" /> 
+               {result.finalScore} / 100
+             </div>
+
+             <div className="mt-8 space-y-4">
+               <div>
+                  <h3 className="text-sm font-mono text-brand-navy/50 uppercase tracking-widest font-bold mb-2">Final Evaluation</h3>
+                  <p className="text-lg font-sans text-brand-ink font-medium leading-relaxed">
+                    {result.description}
+                  </p>
+               </div>
+               
+               {/* Pattern Diagnostics */}
+               <div className="pt-4 mt-4 border-t border-brand-navy/10 grid grid-cols-2 gap-4">
+                  <div>
+                     <span className="text-[10px] font-mono text-brand-navy/40 uppercase tracking-widest font-bold block mb-1">Tendency</span>
+                     <span className="font-sans font-bold text-brand-ink text-sm bg-brand-paper px-2 py-1 rounded inline-block">{result.riskPattern}</span>
+                  </div>
+                  <div>
+                     <span className="text-[10px] font-mono text-brand-navy/40 uppercase tracking-widest font-bold block mb-1">Peak Capability</span>
+                     <span className="font-mono font-bold text-brand-green text-sm bg-brand-green/10 px-2 py-1 rounded inline-block uppercase">{result.strongestStat}</span>
+                  </div>
+               </div>
+             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {(Object.keys(stats) as (keyof Stats)[]).map((key) => (
-              <StatBar key={key} statKey={key} value={stats[key]} />
-            ))}
+          <GoalStatusCard 
+            goal={selectedGoal} 
+            achieved={result.goalAchieved} 
+            message={result.goalMessage} 
+          />
+
+          <div className="bg-white rounded-3xl border border-brand-navy/10 p-6 shadow-sm">
+             <h3 className="text-sm font-mono text-brand-navy/50 uppercase tracking-widest font-bold mb-4">Final Student Vitals</h3>
+             <StatDashboard stats={finalStats} statChanges={null} />
           </div>
+
         </div>
 
-        {/* Right Side: Earned Badges */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-2 border-b border-brand-navy/10 pb-2">
-            <Award className="w-4 h-4 text-brand-coral" />
-            <h4 className="text-sm font-mono tracking-wider text-brand-coral font-bold uppercase">
-              Badges Earned ({badges.length})
-            </h4>
-          </div>
-
-          {badges.length > 0 ? (
-            <div className="grid grid-cols-1 gap-4 max-h-[420px] overflow-y-auto pr-1 planner-scrollbar">
-              {badges.map((badge) => (
-                <BadgeChip key={badge.id} badge={badge} />
-              ))}
-            </div>
-          ) : (
-            <div className="rounded-2xl border border-dashed border-brand-navy/15 bg-brand-paper p-8 text-center text-brand-navy/50 space-y-2">
-              <Sparkles className="w-8 h-8 mx-auto text-brand-navy/30" />
-              <p className="text-[10px] uppercase tracking-widest font-mono text-brand-navy/40 font-bold block">No Badges Awarded</p>
-              <p className="text-xs text-brand-navy/70 max-w-xs mx-auto font-sans leading-relaxed">
-                Your stats did not reach any extreme boundary conditions this week. Keep experimenting to earn stickers!
-              </p>
+        {/* Right Column: Badges & Next Steps */}
+        <div className="lg:col-span-5 space-y-8">
+          
+          { badgesEarned.length > 0 && (
+            <div className="bg-gradient-to-br from-brand-gold/20 to-brand-gold/5 p-6 sm:p-8 rounded-3xl border border-brand-gold/30 shadow-sm animate-pulse-slow">
+              <div className="flex items-center gap-2 mb-4 text-brand-gold">
+                <Sparkles className="w-6 h-6" />
+                <h3 className="text-lg font-sans font-extrabold uppercase tracking-tight">New Badges Earned</h3>
+              </div>
+              <div className="space-y-3">
+                {badgesEarned.map(b => (
+                  <div key={b.id} className="bg-white p-3 rounded-xl flex items-center gap-3 shadow-sm border border-brand-gold/10">
+                    <div className="bg-brand-gold/20 p-2 rounded-lg text-brand-gold">
+                      <Award className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <span className="font-bold text-brand-ink block text-sm">{b.name}</span>
+                      <span className="text-xs text-brand-navy/60 font-sans">{b.description}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
+
+          <div className="bg-brand-navy p-6 sm:p-8 rounded-3xl text-white shadow-xl flex flex-col gap-6">
+             <div>
+                <h3 className="font-mono text-brand-blue uppercase tracking-widest text-xs font-bold mb-2">Instructor Advice</h3>
+                <p className="font-sans font-medium text-white/90 leading-relaxed text-sm">
+                  {result.suggestedNextGoal}
+                </p>
+             </div>
+
+             <div className="space-y-3 pt-6 border-t border-white/10">
+                <button 
+                  onClick={onShowWhatIf}
+                  className="w-full py-4 px-6 rounded-xl bg-brand-blue/20 hover:bg-brand-blue/30 text-brand-blue font-sans font-bold flex items-center justify-center gap-2 transition-colors border border-brand-blue/30"
+                >
+                  <RefreshCcw className="w-5 h-5" />
+                  Try a What-If Replay
+                </button>
+                <button 
+                  onClick={onRestart}
+                  className="w-full py-4 px-6 rounded-xl bg-white text-brand-navy hover:bg-brand-paper hover:scale-[1.02] font-sans font-extrabold uppercase tracking-wide transition-all shadow-md active:scale-95 flex items-center justify-center gap-2"
+                >
+                  <RotateCcw className="w-5 h-5" />
+                  Start New Week
+                </button>
+             </div>
+          </div>
+
         </div>
-
       </div>
 
-      {/* Navigation block */}
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 border-t border-brand-navy/10 pt-8">
-        <motion.button
-          id="restart-sim-btn"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={handleRestart}
-          className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-brand-blue hover:bg-brand-blue/95 text-white font-extrabold text-xs tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-brand-blue/15"
-        >
-          <RotateCcw className="w-4 h-4 text-white shrink-0" />
-          <span>Try Another Week</span>
-        </motion.button>
-
-        <motion.button
-          id="back-home-btn"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={handleHome}
-          className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-brand-cream border border-brand-navy/15 hover:bg-brand-cream/80 text-brand-ink font-extrabold text-xs tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer"
-        >
-          <Home className="w-4 h-4 text-brand-navy/70 shrink-0" />
-          <span>Campus Directory</span>
-        </motion.button>
-      </div>
-
+      <WeeklyReflectionReport journal={reflectionJournal} />
+      
+      <BadgeCollection unlockedBadgeIds={unlockedBadgeIds} />
+      
     </div>
   );
 }

@@ -35,3 +35,44 @@ export function loadBestScore(): BestScoreInfo {
     };
   }
 }
+
+export function loadUnlockedBadges(): string[] {
+  try {
+    const badgesStr = localStorage.getItem('eyysat_city_unlocked_badges');
+    return badgesStr ? JSON.parse(badgesStr) : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+export function saveUnlockedBadges(badges: string[]): void {
+  try {
+    localStorage.setItem('eyysat_city_unlocked_badges', JSON.stringify(badges));
+  } catch (error) {
+    console.warn('LocalStorage is not available:', error);
+  }
+}
+
+export function updateUnlockedBadges(newBadgeIds: string[]): string[] {
+  const currentBadges = loadUnlockedBadges();
+  const updatedBadges = [...new Set([...currentBadges, ...newBadgeIds])];
+  saveUnlockedBadges(updatedBadges);
+  return updatedBadges;
+}
+
+export function loadCompletedRuns(): number {
+  try {
+    const countStr = localStorage.getItem('eyysat_city_completed_runs');
+    return countStr ? parseInt(countStr, 10) : 0;
+  } catch (error) {
+    return 0;
+  }
+}
+
+export function saveCompletedRuns(count: number): void {
+  try {
+    localStorage.setItem('eyysat_city_completed_runs', count.toString());
+  } catch (error) {
+    console.warn('LocalStorage is not available:', error);
+  }
+}

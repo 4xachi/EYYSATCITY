@@ -6,88 +6,120 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { 
-  GitCommit, 
-  UserPlus, 
-  MapPin, 
-  CheckSquare, 
-  Sliders, 
-  FileText, 
-  Workflow, 
-  Calendar, 
-  Calculator, 
+  Play,
+  Target,
+  GraduationCap,
+  MapPin,
+  BookOpen,
+  CheckSquare,
+  Activity,
+  GitFork,
+  Sparkles,
+  FileText,
+  Trophy,
+  Award,
+  RefreshCw,
   RotateCcw 
 } from 'lucide-react';
 
 const functionsList = [
   {
     num: '01',
-    title: 'Start Method',
-    desc: 'Starts the simulation and initiates the user from the greeting hall to the student experience.',
-    icon: GitCommit,
+    title: 'Start Function',
+    desc: 'Starts the simulator and moves the user into the student-life experience.',
+    icon: Play,
     color: 'text-brand-blue bg-brand-blue/10 border-brand-blue/20',
   },
   {
     num: '02',
-    title: 'Student Choice Selector',
-    desc: 'Assigns chosen profiles holding unique balance multipliers.',
-    icon: UserPlus,
+    title: 'Goal Selection Function',
+    desc: 'Lets the user choose a personal goal and checks if they achieved it at the end.',
+    icon: Target,
     color: 'text-brand-lavender bg-brand-lavender/10 border-brand-lavender/20',
   },
   {
     num: '03',
-    title: 'Campus Scenario Mapper',
-    desc: 'Brings current days and mapped survival neighborhoods (e.g., Study District) to view.',
-    icon: MapPin,
+    title: 'Student Type Function',
+    desc: 'Lets the user choose a student type with different starting stats.',
+    icon: GraduationCap,
     color: 'text-brand-coral bg-brand-coral/10 border-brand-coral/20',
   },
   {
     num: '04',
-    title: 'Strategy Resolver',
-    desc: 'Processes active decision models from the student options pool.',
-    icon: CheckSquare,
+    title: 'Campus Map Function',
+    desc: 'Shows the school-week locations and lets the user enter the current unlocked day.',
+    icon: MapPin,
     color: 'text-brand-amber bg-brand-amber/10 border-brand-amber/20',
   },
   {
     num: '05',
-    title: 'Multi-Stat Compiler',
-    desc: 'Calculates active gains and losses across energy, budget, and sanity meters.',
-    icon: Sliders,
+    title: 'Scenario Display Function',
+    desc: 'Displays realistic student-life situations for each school day.',
+    icon: BookOpen,
     color: 'text-brand-green bg-brand-green/10 border-brand-green/20',
   },
   {
     num: '06',
-    title: 'Reflection Logger',
-    desc: 'Reveals qualitative reports and highlights physical status reminders.',
-    icon: FileText,
+    title: 'Choice Function',
+    desc: 'Allows the user to make one decision per day.',
+    icon: CheckSquare,
     color: 'text-brand-blue bg-brand-blue/10 border-brand-blue/20',
   },
   {
     num: '07',
-    title: 'Random Event Trigger',
-    desc: 'Hooks dynamic high-school occurrences affecting active resources.',
-    icon: Workflow,
+    title: 'Stat Engine Function',
+    desc: 'Updates energy, stress, grades, money, focus, and social life based on user decisions.',
+    icon: Activity,
     color: 'text-brand-lavender bg-brand-lavender/10 border-brand-lavender/20',
   },
   {
     num: '08',
-    title: 'Calendar Timer',
-    desc: 'Maintains week progression state from Monday to the final Friday buzzer.',
-    icon: Calendar,
+    title: 'Branching Consequence Function',
+    desc: 'Changes future scenarios based on previous decisions.',
+    icon: GitFork,
     color: 'text-brand-coral bg-brand-coral/10 border-brand-coral/20',
   },
   {
     num: '09',
-    title: 'Term Mark Evaluator',
-    desc: 'Aggregates the final scores against historic best scores to rate final outcomes.',
-    icon: Calculator,
+    title: 'Campus Event Function',
+    desc: 'Adds unexpected school-life events between days.',
+    icon: Sparkles,
     color: 'text-brand-amber bg-brand-amber/10 border-brand-amber/20',
   },
   {
     num: '10',
-    title: 'Curriculum Restart',
-    desc: 'Flushes active week timelines to let users enroll in another week.',
-    icon: RotateCcw,
+    title: 'Reflection Journal Function',
+    desc: 'Summarizes what happened each day and gives a short student-life lesson.',
+    icon: FileText,
     color: 'text-brand-green bg-brand-green/10 border-brand-green/20',
+  },
+  {
+    num: '11',
+    title: 'Multiple Ending Function',
+    desc: 'Generates different final student profiles based on stats, score, goals, and decision patterns.',
+    icon: Trophy,
+    color: 'text-brand-blue bg-brand-blue/10 border-brand-blue/20',
+  },
+  {
+    num: '12',
+    title: 'Badge Collection Function',
+    desc: 'Rewards different play styles and saves unlocked badges locally.',
+    icon: Award,
+    color: 'text-brand-lavender bg-brand-lavender/10 border-brand-lavender/20',
+  },
+  {
+    num: '13',
+    title: 'What-If Replay Function',
+    desc: 'Shows how a different choice could have changed the user’s result.',
+    icon: RefreshCw,
+    color: 'text-brand-coral bg-brand-coral/10 border-brand-coral/20',
+  },
+  {
+    num: '14',
+    title: 'Restart Function',
+    desc: 'Resets the simulation so the user can try a new path.',
+    icon: RotateCcw,
+    color: 'text-brand-amber bg-brand-amber/10 border-brand-amber/20',
   }
 ];
 
@@ -103,12 +135,12 @@ export default function FunctionsSection() {
             How Eyysat City Works
           </h2>
           <p className="text-brand-navy/70 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
-            Ten core programmatic systems governing the student simulation. Read this guide to understand its inner academic machinery.
+            Fourteen core programmatic systems governing the student simulation. Read this guide to understand its inner academic machinery.
           </p>
         </div>
 
-        {/* 10 Columns Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+        {/* Responsive Grid with equal card sizing logic */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {functionsList.map((f) => {
             const IconComponent = f.icon;
 
@@ -116,29 +148,30 @@ export default function FunctionsSection() {
               <motion.div
                 key={f.num}
                 whileHover={{ y: -4, scale: 1.01 }}
-                className="flex flex-col justify-between rounded-2xl border border-brand-navy/15 bg-brand-paper p-5 relative overflow-hidden transition-all duration-300 shadow-sm"
+                className="flex flex-col justify-between h-full rounded-2xl border border-brand-navy/15 bg-brand-paper p-5 relative overflow-hidden transition-all duration-300 shadow-sm"
               >
+                <div className="flex flex-col justify-between h-full w-full space-y-4">
+                  <div className="space-y-4">
+                    {/* Glowing icon circle */}
+                    <div className={`p-2 w-fit rounded-xl border ${f.color}`}>
+                      <IconComponent className="w-5 h-5 shrink-0" />
+                    </div>
+
+                    <div className="space-y-1.5 pr-2">
+                      <h3 className="text-sm font-bold text-brand-ink tracking-tight uppercase">
+                        {f.title}
+                      </h3>
+                      <p className="text-xs text-brand-navy/75 leading-relaxed font-sans font-medium">
+                        {f.desc}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Diagonal background number label */}
                 <span className="absolute top-3 right-3.5 font-mono text-xs font-extrabold tracking-widest text-[#4F7BFF]/75">
                   {f.num}
                 </span>
-
-                <div className="space-y-4">
-                  {/* Glowing icon circle */}
-                  <div className={`p-2 w-fit rounded-xl border ${f.color}`}>
-                    <IconComponent className="w-5 h-5 shrink-0" />
-                  </div>
-
-                  <div className="space-y-1.5 pr-2">
-                    <h3 className="text-sm font-bold text-brand-ink tracking-tight uppercase">
-                      {f.title}
-                    </h3>
-                    <p className="text-xs text-brand-navy/75 leading-relaxed font-sans font-medium">
-                      {f.desc}
-                    </p>
-                  </div>
-                </div>
-
               </motion.div>
             );
           })}

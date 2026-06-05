@@ -96,19 +96,19 @@ export default function StatBar({ statKey, value, latestChange }: StatBarProps) 
       <AnimatePresence>
         {latestChange !== undefined && latestChange !== 0 && (
           <motion.div
-            initial={{ opacity: 0, y: -2 }}
-            animate={{ opacity: 1, y: -15 }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            className={`absolute top-0 right-4 flex items-center gap-0.5 px-2 py-0.5 rounded-lg text-[10px] font-bold font-mono tracking-wide ${
+            className={`absolute -top-3 -right-2 flex items-center gap-0.5 px-2 py-0.5 rounded-lg text-[10px] font-bold font-mono tracking-wide z-10 ${
               latestChange > 0 
-                ? 'bg-brand-green/10 border border-brand-green/30 text-brand-green shadow-sm'
-                : 'bg-brand-coral/10 border border-brand-coral/30 text-brand-coral shadow-sm'
+                ? 'bg-brand-green border border-brand-green text-white shadow-sm'
+                : 'bg-brand-coral border border-brand-coral text-white shadow-sm'
             }`}
           >
             {latestChange > 0 ? (
-              <ArrowUp className="w-2.5 h-2.5 text-brand-green shrink-0" />
+              <ArrowUp className="w-2.5 h-2.5 text-white shrink-0" />
             ) : (
-              <ArrowDown className="w-2.5 h-2.5 text-brand-coral shrink-0" />
+              <ArrowDown className="w-2.5 h-2.5 text-white shrink-0" />
             )}
             <span>
               {latestChange > 0 ? '+' : ''}
@@ -119,19 +119,19 @@ export default function StatBar({ statKey, value, latestChange }: StatBarProps) 
       </AnimatePresence>
 
       {/* Title & Micro indicators */}
-      <div className="flex justify-between items-start mb-2 gap-1">
-        <div className="flex items-center gap-1.5 min-w-0">
+      <div className="flex justify-between items-start mb-2 gap-2">
+        <div className="flex items-center gap-1.5 min-w-0 flex-1">
           <span className={`p-1.5 rounded-lg border border-brand-navy/5 shrink-0 ${style.lightBg} ${style.text}`}>
             <IconComponent className="w-4 h-4 shrink-0" />
           </span>
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <span className="text-[8px] sm:text-[9px] font-mono tracking-wider text-brand-navy/50 font-bold uppercase block truncate">STAT</span>
             <span className="text-xs font-bold text-brand-ink capitalize truncate block">{statKey}</span>
           </div>
         </div>
 
         {/* Status text label (e.g. Critical, Energized) */}
-        <div className="text-right min-w-0 shrink-0">
+        <div className="text-right min-w-0 shrink-0 max-w-[55%]">
           <span className="text-[8px] sm:text-[9px] font-mono tracking-wide text-brand-navy/50 font-bold uppercase block truncate">STATUS</span>
           <span className={`text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider block truncate ${
             isStressWarning ? 'text-brand-coral animate-pulse' : 

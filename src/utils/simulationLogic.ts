@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Stats, FinalResult, Badge, StatKey } from '../types/simulation';
+import { Stats, FinalResult, Badge, StatKey, DecisionMemory, Goal, Choice, RandomEvent, ReflectionEntry, ChoiceHistoryEntry, WhatIfSuggestion, Scenario, RunMeta } from '../types/simulation';
+import { ALL_BADGES } from '../data/badges';
 
 export function clampStat(value: number): number {
   return Math.min(100, Math.max(0, value));
@@ -23,8 +24,44 @@ export function calculateFinalScore(stats: Stats): number {
   return stats.grades + stats.energy + stats.focus + stats.social + stats.money - stats.stress;
 }
 
-export function calculateFinalResult(stats: Stats): FinalResult {
+export function evaluateGoal(selectedGoal: Goal | null, stats: Stats, finalScore: number): boolean {
+  if (!selectedGoal || !selectedGoal.evaluate) return false;
+  return selectedGoal.evaluate(stats, finalScore);
+}
+
+export function getStrongestStat(stats: Omit<Stats, 'stress'>): StatKey {
+  const positiveStats = { energy: stats.energy, grades: stats.grades, money: stats.money, focus: stats.focus, social: stats.social };
+  return Object.keys(positiveStats).reduce((a, b) => positiveStats[a as keyof typeof positiveStats] > positiveStats[b as keyof typeof positiveStats] ? a : b) as StatKey;
+}
+
+export function getWeakestStat(stats: Omit<Stats, 'stress'>): StatKey {
+  const positiveStats = { energy: stats.energy, grades: stats.grades, money: stats.money, focus: stats.focus, social: stats.social };
+  return Object.keys(positiveStats).reduce((a, b) => positiveStats[a as keyof typeof positiveStats] < positiveStats[b as keyof typeof positiveStats] ? a : b) as StatKey;
+}
+
+export function getRiskPattern(stats: Stats, decisionMemory: DecisionMemory): string {
+  if (stats.stress >= 75) return 'High Stress Accumulation';
+  if (stats.energy <= 30) return 'Chronic Fatigue';
+  if (stats.money <= 30 && decisionMemory.borrowedMoney) return 'Dependent Budgeting';
+  if (stats.social <= 30 && decisionMemory.handledProjectAlone) return 'Isolation Working';
+  if (decisionMemory.crammedAtMidnight || decisionMemory.skippedMeal) return 'Last-Minute Scrambling';
+  return 'Generally Balanced';
+}
+
+export function getSuggestedNextGoal(stats: Stats, decisionMemory: DecisionMemory): string {
+  if (stats.stress >= 70) return 'Avoid Burnout';
+  if (stats.money <= 40) return 'Save Money';
+  if (stats.social <= 40) return 'Build Social Life';
+  if (stats.grades <= 60) return 'Get High Grades';
+  return 'Balanced Run';
+}
+
+export function calculateFinalResult(stats: Stats, decisionMemory: DecisionMemory, selectedGoal: Goal | null): FinalResult {
   const finalScore = calculateFinalScore(stats);
+  const goalAchieved = evaluateGoal(selectedGoal, stats, finalScore);
+  const goalMessage = goalAchieved
+    ? "You successfully met your primary goal."
+    : "You survived, but your main goal slipped away.";
 
   // Determine Letter Grade Level for display
   let gradeLevel = 'C';
@@ -35,196 +72,70 @@ export function calculateFinalResult(stats: Stats): FinalResult {
   else if (finalScore >= 150) gradeLevel = 'D';
   else gradeLevel = 'F';
 
-  // 1. Priority conditions
-  if (stats.stress >= 80 && stats.energy <= 35) {
-    return {
-      title: 'Burnout Survivor',
-      description: 'You survived the week, but your stress became too high and your energy dropped too low. Your result shows that rest and balance are also part of success.',
-      gradeLevel,
-      finalScore
-    };
-  }
+  const hasRiskyChoice = decisionMemory.skippedMeal || decisionMemory.ignoredProject || decisionMemory.crammedAtMidnight || decisionMemory.overworked || decisionMemory.gaveUpFinal;
 
-  if (stats.grades >= 85 && stats.stress >= 70) {
-    return {
-      title: 'Academic Beast',
-      description: 'Your academic performance is strong, but it came with a cost. You pushed hard, but your energy and peace suffered.',
-      gradeLevel,
-      finalScore
-    };
-  }
+  let title = 'Survived the Week';
+  let description = 'You made it through the week with mixed results. Some choices helped you, while others made student life harder.';
 
-  if (stats.social >= 80 && stats.grades >= 60) {
-    return {
-      title: 'Social Strategist',
-      description: 'You used communication and teamwork to survive the week. You proved that student life is not meant to be handled alone.',
-      gradeLevel,
-      finalScore
-    };
-  }
-
-  if (stats.stress <= 30 && stats.grades <= 50 && stats.focus <= 50) {
-    return {
-      title: 'Chill but Risky',
-      description: 'You stayed relaxed, but some responsibilities were left behind. Comfort is good, but too much avoidance can hurt your progress.',
-      gradeLevel,
-      finalScore
-    };
-  }
-
-  if (stats.grades <= 40 || stats.focus <= 35 || finalScore < 170) {
-    return {
-      title: 'Crisis Mode Student',
-      description: 'The week became overwhelming. Your choices led to too much pressure, low energy, or weak performance. Try again with better balance.',
-      gradeLevel,
-      finalScore
-    };
-  }
-
-  // 2. Score-based results
-  if (finalScore >= 330) {
-    return {
-      title: 'Future Ready Student',
-      description: 'You balanced your schoolwork, health, and decisions well. You did not just survive the week — you handled it wisely.',
-      gradeLevel,
-      finalScore
-    };
-  }
-
-  if (finalScore >= 270) {
-    return {
-      title: 'Balanced Achiever',
-      description: 'You made practical choices and kept your student life stable. You may not be perfect, but you know how to balance pressure and responsibility.',
-      gradeLevel,
-      finalScore
-    };
-  }
-
-  if (finalScore >= 220) {
-    return {
-      title: 'Survived the Week',
-      description: 'You made it through the week with mixed results. Some choices helped you, while others made student life harder.',
-      gradeLevel,
-      finalScore
-    };
-  }
-
-  if (finalScore >= 170) {
-    return {
-      title: 'Risky Week',
-      description: 'You survived, but the week exposed weak points in your balance. Better planning could improve your next run.',
-      gradeLevel,
-      finalScore
-    };
+  if (finalScore < 170 || stats.grades <= 35 || stats.focus <= 30) {
+    title = 'Crisis Mode Student';
+    description = 'The week became overwhelming. Your choices led to too much pressure, low energy, or weak performance. Try again with better balance.';
+  } else if (stats.stress >= 80 || stats.energy <= 25) {
+    title = 'Burnout Survivor';
+    description = 'You survived the week, but your stress became too high or your energy dropped too low. Your result shows that rest and balance are also part of success.';
+  } else if (stats.grades >= 85 && stats.stress >= 65) {
+    title = 'Academic Beast';
+    description = 'Your academic performance is strong, but it came with a cost. You pushed hard, but your energy and peace suffered.';
+  } else if (decisionMemory.handledProjectAlone || (decisionMemory.createdTaskPlan && stats.stress >= 70)) {
+    title = 'Overloaded Leader';
+    description = 'You carried responsibility for others. Your leadership helped the outcome, but the pressure became heavy.';
+  } else if (stats.social >= 80 && stats.grades >= 55) {
+    title = 'Social Strategist';
+    description = 'You used communication and teamwork to survive the week. You proved that student life is not meant to be handled alone.';
+  } else if (stats.money >= 75 && finalScore >= 240) {
+    title = 'Budget Genius';
+    description = 'You managed your allowance wisely while still surviving the school week. Your budget discipline gave you more control.';
+  } else if (finalScore >= 260 && stats.stress <= 60 && hasRiskyChoice) {
+    title = 'Comeback Student';
+    description = 'You made some risky choices, but you recovered before the week ended. Your result shows improvement and adjustment.';
+  } else if (decisionMemory.crammedAtMidnight || (finalScore >= 250 && stats.focus >= 70 && stats.stress >= 60)) {
+    title = 'Last-Minute Hero';
+    description = 'You relied on pressure and late effort to survive. It worked this time, but it is not the safest strategy.';
+  } else if (stats.social <= 35 && finalScore >= 220) {
+    title = 'Silent Survivor';
+    description = 'You made it through the week quietly. You survived, but your result shows that support and communication could have made things easier.';
+  } else if (stats.stress <= 30 && stats.grades <= 55 && stats.focus <= 55) {
+    title = 'Chill but Risky';
+    description = 'You stayed relaxed, but some responsibilities were left behind. Comfort is good, but too much avoidance can hurt your progress.';
+  } else if (finalScore >= 330 && stats.stress <= 60 && stats.energy >= 50) {
+    title = 'Future Ready Student';
+    description = 'You balanced schoolwork, health, and decisions well. You did not just survive the week — you handled it wisely.';
+  } else if (finalScore >= 270 && stats.stress <= 65) {
+    title = 'Balanced Achiever';
+    description = 'You made practical choices and kept your student life stable. You may not be perfect, but you know how to balance pressure and responsibility.';
   }
 
   return {
-    title: 'Crisis Mode Student',
-    description: 'The week became overwhelming. Your choices led to too much pressure, low energy, or weak performance. Try again with better balance.',
+    title,
+    description,
     gradeLevel,
-    finalScore
+    finalScore,
+    goalAchieved,
+    goalMessage,
+    strongestStat: getStrongestStat(stats),
+    weakestStat: getWeakestStat(stats),
+    riskPattern: getRiskPattern(stats, decisionMemory),
+    suggestedNextGoal: getSuggestedNextGoal(stats, decisionMemory)
   };
 }
 
-export function getBadges(stats: Stats, finalScore: number): Badge[] {
-  const badgesList: Badge[] = [];
-
-  // 1. Balance Master
-  if (
-    stats.energy > 50 &&
-    stats.grades > 50 &&
-    stats.money > 50 &&
-    stats.focus > 50 &&
-    stats.social > 50 &&
-    stats.stress < 60
-  ) {
-    badgesList.push({
-      id: 'balance_master',
-      name: 'Balance Master',
-      description: 'Kept all major stats above 50 and stress stable.',
-      requirement: 'All stats except stress are above 50 and stress below 60',
-      iconName: 'Scale'
-    });
-  }
-
-  // 2. Academic Beast
-  if (stats.grades > 90) {
-    badgesList.push({
-      id: 'academic_beast',
-      name: 'Academic Beast',
-      description: 'Acquired stellar marks through intense commitment.',
-      requirement: 'Grades above 90',
-      iconName: 'GraduationCap'
-    });
-  }
-
-  // 3. Calm Under Pressure
-  if (stats.stress < 30) {
-    badgesList.push({
-      id: 'calm_under_pressure',
-      name: 'Calm Under Pressure',
-      description: 'Sailed through stressful times without breaking a sweat.',
-      requirement: 'Stress below 30',
-      iconName: 'ShieldAlert'
-    });
-  }
-
-  // 4. Team Player
-  if (stats.social > 80) {
-    badgesList.push({
-      id: 'team_player',
-      name: 'Team Player',
-      description: 'Mastered student collaboration and group synergy.',
-      requirement: 'Social above 80',
-      iconName: 'Users'
-    });
-  }
-
-  // 5. Budget Genius
-  if (stats.money > 70) {
-    badgesList.push({
-      id: 'budget_genius',
-      name: 'Budget Genius',
-      description: 'Managed finances elegantly and maintained capital.',
-      requirement: 'Money above 70',
-      iconName: 'Coins'
-    });
-  }
-
-  // 6. Focus Locked
-  if (stats.focus > 85) {
-    badgesList.push({
-      id: 'focus_locked',
-      name: 'Focus Locked',
-      description: 'Demonstrated exceptional sharp mental clarity.',
-      requirement: 'Focus above 85',
-      iconName: 'Target'
-    });
-  }
-
-  // 7. Energy Keeper
-  if (stats.energy > 80) {
-    badgesList.push({
-      id: 'energy_keeper',
-      name: 'Energy Keeper',
-      description: 'Preserved cellular energy and avoided severe fatigue.',
-      requirement: 'Energy above 80',
-      iconName: 'BatteryCharging'
-    });
-  }
-
-  // 8. Comeback Student
-  if (finalScore > 250 && stats.stress < 50) {
-    badgesList.push({
-      id: 'comeback_student',
-      name: 'Comeback Student',
-      description: 'Ended with high stability and robust final performance.',
-      requirement: 'Final score above 250 and stress below 50',
-      iconName: 'Sparkles'
-    });
-  }
-
-  return badgesList;
+export function checkBadges(stats: Stats, finalScore: number, decisionMemory: DecisionMemory, selectedGoal: Goal | null, goalAchieved: boolean, runMeta: RunMeta): Badge[] {
+  return ALL_BADGES.filter(badge => {
+    if (badge.evaluate) {
+      return badge.evaluate(stats, finalScore, decisionMemory, selectedGoal, goalAchieved, runMeta);
+    }
+    return false;
+  });
 }
 
 export function getStatStatus(statName: StatKey, value: number): string {
@@ -262,4 +173,126 @@ export function getStatStatus(statName: StatKey, value: number): string {
     default:
       return '';
   }
+}
+
+export function getScenarioVariant(scenario: Scenario, dayIndex: number, stats: Stats, decisionMemory: DecisionMemory): Scenario {
+  const modified = { ...scenario };
+  
+  if (dayIndex === 1) { // Tuesday
+    if (decisionMemory.studiedEarly) {
+      modified.description = "Because you prepared early yesterday, your mind feels clearer today. " + modified.description;
+    } else if (decisionMemory.crammedAtMidnight) {
+      modified.description = "Because you crammed late last night, you start the day with lower energy. " + modified.description;
+    }
+  } else if (dayIndex === 2) { // Wednesday
+    if (decisionMemory.skippedMeal) {
+      modified.description = "Skipping food yesterday made it harder to focus today. " + modified.description;
+    } else if (decisionMemory.savedMoney) {
+      modified.description = "Your practical spending yesterday helped you enter the day with less budget pressure. " + modified.description;
+    }
+  } else if (dayIndex === 3) { // Thursday
+    if (decisionMemory.handledProjectAlone) {
+      modified.description = "You carried most of the group project alone, and now the pressure is catching up. " + modified.description;
+    } else if (decisionMemory.createdTaskPlan) {
+      modified.description = "Your group has clearer direction because of yesterday’s task plan, but you still need to manage your own stress. " + modified.description;
+    } else if (decisionMemory.ignoredProject) {
+      modified.description = "The ignored project is now becoming a serious problem. " + modified.description;
+    }
+  } else if (dayIndex === 4) { // Friday
+    if (decisionMemory.ignoredProject || decisionMemory.handledProjectAlone) {
+      modified.title = "Final Challenge: Project Pressure";
+      modified.description = "The final day arrives with your project still creating pressure. Your earlier group decisions are affecting the deadline. " + modified.description;
+    } else if (stats.stress >= 75 || stats.energy <= 30 || decisionMemory.overworked) {
+      modified.title = "Final Challenge: Burnout Risk";
+      modified.description = "You reached Friday, but your body and mind are running low. Every move now matters. " + modified.description;
+    } else if (decisionMemory.studiedEarly && decisionMemory.createdTaskPlan && stats.stress <= 60) {
+      modified.title = "Final Challenge: Prepared Momentum";
+      modified.description = "Your earlier planning is paying off. You enter the final day with a better chance to finish strong. " + modified.description;
+    }
+  }
+  
+  return modified;
+}
+
+export function generateReflectionEntry(day: string, location: string, scenarioTitle: string, chosenChoice: Choice, randomEvent: RandomEvent | null, statChanges: Partial<Stats>): ReflectionEntry {
+  let mood: ReflectionEntry["mood"] = "balanced";
+  let reflectionText = "You got through the day with moderate choices.";
+  let lessonText = "Consistency is key in student life.";
+
+  if ((statChanges.stress || 0) >= 20) {
+    mood = "stressful";
+    reflectionText = "Today helped your progress, but the pressure became heavier.";
+    lessonText = "Not all progress is worth the immediate burnout.";
+  } else if ((statChanges.grades || 0) > 10 && (statChanges.stress || 0) <= 0) {
+    mood = "strong";
+    reflectionText = "You made a smart academic choice without creating unnecessary pressure.";
+    lessonText = "Planning early can reduce stress later.";
+  } else if ((statChanges.energy || 0) <= -20) {
+    mood = "risky";
+    reflectionText = "You got through the day, but your energy took a serious hit.";
+    lessonText = "Skipping basic needs can hurt your focus in the long run.";
+  } else if ((statChanges.social || 0) >= 15) {
+    mood = "recovered";
+    reflectionText = "Communication made the day easier to handle.";
+    lessonText = "Teamwork works better when communication is clear.";
+  } else if ((statChanges.stress || 0) <= -15) {
+    mood = "recovered";
+    reflectionText = "You took time out to let your mind recover.";
+    lessonText = "Rest is not wasted time when it protects your focus.";
+  }
+
+  return {
+    day,
+    location,
+    scenarioTitle,
+    chosenChoiceTitle: chosenChoice.text,
+    feedback: chosenChoice.feedback,
+    randomEventTitle: randomEvent?.title,
+    randomEventMessage: randomEvent?.message,
+    totalStatChanges: statChanges,
+    reflectionText,
+    lessonText,
+    mood
+  };
+}
+
+export function getWhatIfSuggestion(choiceHistory: ChoiceHistoryEntry[], selectedGoal: Goal | null): WhatIfSuggestion | null {
+  // Find a risky choice
+  const riskyIndex = choiceHistory.findIndex(entry => {
+    const ef = entry.chosenEffects;
+    return (ef.stress || 0) >= 15 || (ef.energy || 0) <= -20 || (ef.grades || 0) <= -15 || (ef.focus || 0) <= -15 || (ef.money || 0) <= -20 || (ef.social || 0) <= -15;
+  });
+
+  if (riskyIndex === -1) return null;
+
+  const entry = choiceHistory[riskyIndex];
+  
+  // Find a less risky alternative
+  const alternatives = entry.availableChoices.filter(c => c.text !== entry.chosenChoiceTitle);
+  const betterAlternative = alternatives.find(c => {
+    const ef = c.effects;
+    return (ef.stress || 0) < 15 && (ef.energy || 0) > -20;
+  });
+
+  if (!betterAlternative) return null;
+
+  const ed: Partial<Stats> = {
+    stress: (betterAlternative.effects.stress || 0) - (entry.chosenEffects.stress || 0),
+    energy: (betterAlternative.effects.energy || 0) - (entry.chosenEffects.energy || 0),
+    grades: (betterAlternative.effects.grades || 0) - (entry.chosenEffects.grades || 0),
+    money: (betterAlternative.effects.money || 0) - (entry.chosenEffects.money || 0),
+    social: (betterAlternative.effects.social || 0) - (entry.chosenEffects.social || 0),
+    focus: (betterAlternative.effects.focus || 0) - (entry.chosenEffects.focus || 0),
+  };
+
+  return {
+    day: entry.day,
+    scenarioTitle: entry.scenarioTitle,
+    actualChoice: entry.chosenChoiceTitle,
+    alternativeChoice: betterAlternative.text,
+    actualEffects: entry.chosenEffects,
+    alternativeEffects: betterAlternative.effects,
+    estimatedDifference: ed,
+    explanation: `Your actual choice made things heavier. Choosing "${betterAlternative.text}" would have improved the outcome while protecting your status.`
+  };
 }

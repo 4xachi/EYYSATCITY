@@ -6,12 +6,13 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MapPin, Info, GraduationCap, Zap, Briefcase, Coffee, Crown, BookOpen } from 'lucide-react';
-import { Scenario, Stats, Choice, StudentType } from '../types/simulation';
+import { Scenario, Stats, Choice, StudentType, DecisionMemory } from '../types/simulation';
 import ProgressTracker from './ProgressTracker';
 import StatDashboard from './StatDashboard';
 import ChoiceCard from './ChoiceCard';
 import ConsequencePanel from './ConsequencePanel';
 import BrainBoosterQuiz from './BrainBoosterQuiz';
+import ChoiceMemoryCard from './ChoiceMemoryCard';
 
 import StudentShopInventory from './StudentShopInventory';
 
@@ -29,6 +30,7 @@ interface SimulationDashboardProps {
   inventory: string[];
   onBuyItem: (itemId: string, cost: number) => void;
   onUseItem: (itemId: string, effects: Partial<Stats>) => void;
+  decisionMemory?: DecisionMemory;
 }
 
 const archetypeIcons: { [key: string]: any } = {
@@ -69,6 +71,7 @@ export default function SimulationDashboard({
   inventory,
   onBuyItem,
   onUseItem,
+  decisionMemory
 }: SimulationDashboardProps) {
 
   const StudentIcon = selectedStudentType ? (archetypeIcons[selectedStudentType.id] || GraduationCap) : GraduationCap;
@@ -143,6 +146,9 @@ export default function SimulationDashboard({
                 />
               ))}
             </div>
+            {decisionMemory && (
+              <ChoiceMemoryCard decisionMemory={decisionMemory} />
+            )}
           </div>
 
           {/* Consequence Overlay Panel */}
