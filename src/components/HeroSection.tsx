@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight, Bookmark, Calendar, DollarSign, Award, Clock } from 'lucide-react';
+import { ArrowRight, BookOpen, Calendar, HelpCircle, Award, ShieldAlert, Sparkles, AlertCircle } from 'lucide-react';
 import { playClickSound } from '../utils/audio';
 
 interface HeroSectionProps {
@@ -15,233 +15,284 @@ interface HeroSectionProps {
   soundEnabled: boolean;
 }
 
+const previewDays = [
+  { day: 'Mon', title: 'Quiz Warning', location: 'Library Zone', desc: 'Prepare or risk grades.', icon: '📝', color: 'border-brand-blue/30 bg-brand-blue/5' },
+  { day: 'Tue', title: 'Allowance Problem', location: 'Canteen Lane', desc: 'Manage lunch or starve.', icon: '🍱', color: 'border-brand-amber/30 bg-brand-amber/5' },
+  { day: 'Wed', title: 'Group Project', location: 'Group Room', desc: 'Carried or coordinate.', icon: '👥', color: 'border-brand-lavender/30 bg-brand-lavender/5' },
+  { day: 'Thu', title: 'Burnout Warning', location: 'Wellness Corner', desc: 'Sanity vs deadlines.', icon: '🧘', color: 'border-brand-coral/30 bg-brand-coral/5' },
+  { day: 'Fri', title: 'Final Challenge', location: 'Deadline Board', desc: 'Term results evaluation.', icon: '🎯', color: 'border-brand-green/30 bg-brand-green/5' },
+];
+
 export default function HeroSection({ onEnter, bestScore, bestResult, soundEnabled }: HeroSectionProps) {
   const handleEnterClick = () => {
     playClickSound(soundEnabled);
     onEnter();
   };
 
+  const scrollToHowItWorks = () => {
+    playClickSound(soundEnabled);
+    const element = document.getElementById('how-eyysat-works');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div className="min-h-[calc(100vh-80px)] flex flex-col justify-center items-center py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10 select-none">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-12 items-center w-full">
+    <div className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10 w-full select-none space-y-12">
+      
+      {/* Red Notebook Margin line wrapper & grid dashboard */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch w-full">
         
-        {/* Left Column: Text Content & Actions (Academic Editorial style) */}
-        <div className="lg:col-span-6 space-y-8 text-center lg:text-left">
+        {/* Left Column: Student Week Introduction */}
+        <div className="lg:col-span-5 flex flex-col justify-between p-6 sm:p-8 bg-brand-paper rounded-3xl border border-brand-navy/12 shadow-sm relative overflow-hidden h-full">
           
-          {/* Best Score High-Contrast Micro-Indicator (styled as a campus merit badge) */}
-          {bestScore > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 }}
-              className="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-brand-paper border border-brand-blue/20 text-brand-blue text-xs font-semibold shadow-sm"
-            >
-              <Award className="w-4 h-4 text-brand-amber bg-brand-amber/10 p-0.5 rounded" />
-              <span>BEST SURVIVAL PROFILE: <strong className="text-brand-ink font-bold">{bestScore} pts</strong> ({bestResult})</span>
-            </motion.div>
-          )}
+          {/* Subtle Red Notebook Margin Line (Visual Detail 1) */}
+          <div className="absolute left-4 top-0 bottom-0 w-[1.5px] bg-[#F26D5B]/35" />
+          
+          <div className="space-y-6 sm:space-y-8 pl-4 sm:pl-6">
+            
+            {/* BEST RECORD pin */}
+            {bestScore > 0 ? (
+              <motion.div
+                initial={{ opacity: 0, hover: { scale: 1.05 } }}
+                animate={{ opacity: 1 }}
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-green/10 border border-brand-green/20 text-brand-green text-[10px] font-mono font-bold uppercase w-fit"
+              >
+                <Award className="w-3.5 h-3.5 text-brand-green animate-bounce" />
+                <span>Best Record: {bestScore} pts ({bestResult})</span>
+              </motion.div>
+            ) : (
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue/5 border border-brand-blue/15 text-brand-blue text-[10px] font-mono font-bold uppercase w-fit">
+                <Sparkles className="w-3.5 h-3.5 text-brand-amber" />
+                <span>Ready for Day 1</span>
+              </div>
+            )}
 
-          {/* Subtitle Accent (as a modern planner sticker) */}
-          <motion.div
-            initial={{ opacity: 0, x: -15 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center justify-center lg:justify-start gap-2.5 text-brand-blue font-mono text-xs uppercase tracking-[0.2em] font-semibold"
-          >
-            <span className="w-2 h-2 rounded-full bg-brand-coral animate-pulse" />
-            <span>EYYSAT CITY // STUDENT SURVIVAL DIARY</span>
-          </motion.div>
+            {/* Structured Branding Headings (Visual Detail & Brand Lockup) */}
+            <div className="space-y-3">
+              <div className="flex items-baseline gap-2">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl font-sans font-black tracking-tighter text-brand-ink uppercase">
+                  EYYSAT
+                </h1>
+                <span className="px-2.5 py-1 text-xs md:text-sm font-mono border-2 border-brand-coral/75 text-brand-coral font-black rounded uppercase rotate-[-4deg] tracking-widest inline-block bg-brand-coral/5 shadow-sm">
+                  CITY
+                </span>
+              </div>
+              <h2 className="text-lg sm:text-xl font-sans text-brand-navy/80 font-bold tracking-wide">
+                Student Life Survival Simulator
+              </h2>
+            </div>
 
-          {/* Main Titles - Soft Editorial Styling */}
-          <div className="space-y-4">
-            <motion.h1
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
-              className="text-5xl sm:text-7xl font-serif font-extrabold tracking-tight text-brand-ink"
-            >
-              EYYSAT <span className="text-brand-blue italic font-medium">CITY</span>
-            </motion.h1>
-            <motion.h2
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
-              className="text-lg sm:text-xl font-sans text-brand-navy/80 font-medium tracking-wide flex items-center justify-center lg:justify-start gap-2"
-            >
-              <span>The Premium Campus Life Simulator</span>
-            </motion.h2>
+            {/* Survival Paragraph */}
+            <p className="text-brand-navy/70 text-sm sm:text-base leading-relaxed font-sans font-medium">
+              Survive one school week through choices, campus events, goals, and final student profile results. Every decision changes your grades, stress, energy, money, focus, and social life.
+            </p>
+
+            {/* Tactical Primary and Secondary Action cards (Buttons Redesign) */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              {/* Primary action (styled like a custom campus permit pass card) */}
+              <button
+                id="enter-eyysatcity-btn"
+                onClick={handleEnterClick}
+                className="group flex-1 flex items-center justify-between px-6 py-4 rounded-xl bg-brand-blue hover:bg-brand-blue/95 text-white font-sans font-extrabold text-sm tracking-widest uppercase transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-blue/50 cursor-pointer"
+              >
+                <span>Start My Week</span>
+                <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />
+              </button>
+
+              <button
+                onClick={scrollToHowItWorks}
+                className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-xl border border-brand-navy/15 hover:border-brand-navy bg-white hover:bg-brand-paper hover:-translate-y-0.5 active:translate-y-0 transition-all font-sans font-extrabold text-xs tracking-widest uppercase text-brand-ink"
+              >
+                <HelpCircle className="w-4 h-4 text-brand-navy/60" />
+                <span>How It Works</span>
+              </button>
+            </div>
+
           </div>
 
-          {/* Hero Paragraph */}
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-brand-navy/70 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed font-sans"
-          >
-            Step into the simulator where high-school realities clash with your daily energy, grades, stress, and allowance. Balance sleep, assignments, social pressure, and school lunch budgets through a critical academic week.
-          </motion.p>
+          {/* Core metadata details wrapper */}
+          <div className="mt-8 pt-4 border-t border-brand-navy/8 pl-4 sm:pl-6 flex items-center justify-between text-[10px] font-mono text-brand-navy/50 font-semibold uppercase">
+            <span>Ver. 3.5 Standalone</span>
+            <span>Local DB Ready</span>
+          </div>
 
-          {/* CTA & Actions */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
-          >
-            <motion.button
-              id="enter-eyysatcity-btn"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={handleEnterClick}
-              className="w-full sm:w-auto px-8 py-4 rounded-xl bg-brand-blue hover:bg-brand-blue/95 text-white font-bold text-base tracking-wider shadow-lg shadow-brand-blue/15 flex items-center justify-center gap-3 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-blue/50"
-            >
-              <span>Enter Eyysat City</span>
-              <ArrowRight className="w-5 h-5 text-white" />
-            </motion.button>
-          </motion.div>
-
-          {/* Footer Note */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.6 }}
-            transition={{ delay: 0.5 }}
-            className="text-xs font-mono uppercase tracking-wider text-brand-navy/60 block"
-          >
-            No installation • Real-time choices • Designed for students
-          </motion.p>
         </div>
 
-        {/* Right Column: Beautiful Layered Desk Workspace (ID, schedule, sticky notes) */}
-        <div className="lg:col-span-6 relative w-full flex justify-center items-center py-6">
+        {/* Center/Right Panel: Interactive Campus Board Preview */}
+        <div className="lg:col-span-7 flex flex-col justify-between p-6 sm:p-8 bg-brand-cream/40 rounded-3xl border border-brand-navy/12 shadow-sm relative overflow-hidden h-full">
           
-          {/* Ambient desktop clock outline or book shadow */}
-          <div className="absolute w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] rounded-full border border-brand-navy/5 animate-pulse" />
-          
-          {/* Main container to hold layered cards */}
-          <div className="relative w-full max-w-[420px] h-[380px] sm:h-[420px]">
-            
-            {/* Card 1: Student ID Card (Back layer - rotated left) */}
-            <motion.div
-              initial={{ opacity: 0, x: -30, rotate: -15 }}
-              animate={{ opacity: 1, x: 0, rotate: -8 }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              whileHover={{ y: -8, rotate: -5, zIndex: 30 }}
-              className="absolute top-2 left-2 w-[240px] rounded-2xl bg-brand-paper border border-brand-navy/10 p-4 shadow-md select-none transition-all duration-300 z-10"
-            >
-              <div className="flex items-center justify-between border-b border-brand-navy/5 pb-2 mb-3">
-                <span className="text-[9px] font-mono font-bold tracking-wider text-brand-blue uppercase">STUDENT ID</span>
-                <span className="text-[8px] font-mono text-brand-navy/40">NO. L2057</span>
+          {/* Subtle wood desk board header or pins */}
+          <div className="flex justify-between items-center mb-6 border-b border-brand-navy/10 pb-4">
+            <div className="flex items-center gap-2 text-brand-ink">
+              <span className="text-xl">📍</span>
+              <div>
+                <h3 className="font-sans font-bold text-sm uppercase tracking-wider">Campus Board</h3>
+                <p className="text-[10px] font-mono font-bold text-brand-navy/50 uppercase">School-Week Outlook</p>
               </div>
-              <div className="flex gap-3">
-                {/* ID Portrait (Generative SVG styled as outline avatar) */}
-                <div className="w-12 h-12 rounded-lg bg-brand-cream border border-brand-navy/10 flex flex-col justify-end overflow-hidden">
-                  <div className="w-8 h-8 rounded-full bg-brand-blue/20 mx-auto -mb-2 flex items-center justify-center">
-                    <span className="text-[10px] text-brand-blue font-bold">☺</span>
+            </div>
+            {/* Tiny adhesive tape label (Visual Detail 2) */}
+            <div className="px-3 py-1 bg-brand-amber/15 border border-brand-amber/35 text-brand-amber text-[9px] font-mono font-extrabold uppercase rotate-[2deg] tracking-wider rounded-md">
+              Pinned Schedule
+            </div>
+          </div>
+
+          {/* Grid Layout representing Monday to Friday Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 relative">
+            
+            {/* Visual connector path connecting the days (Visual Detail 3) */}
+            <div className="hidden sm:block absolute top-[28px] left-[10%] right-[10%] h-[1.5px] border-t border-dashed border-brand-navy/20 z-0 pointer-events-none" />
+
+            {previewDays.map((item, index) => {
+              const isActive = index === 0; // Highlight Monday (Day 1) as active preview
+              return (
+                <div
+                  key={index}
+                  className={`relative p-3.5 rounded-xl border transition-all duration-300 z-10 flex flex-col justify-between h-[150px] group ${
+                    isActive
+                      ? 'bg-white border-brand-ink shadow-md scale-[1.03] ring-1 ring-brand-ink/50'
+                      : 'bg-brand-paper hover:bg-white border-brand-navy/10 opacity-80 hover:opacity-100 hover:scale-[1.02]'
+                  }`}
+                >
+                  {/* Miniature tape on top of Monday (Visual Detail 4) */}
+                  {isActive && (
+                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 w-14 h-6 bg-[#FFEAE5] border-x-2 border-brand-coral/35 rotate-[-3deg] uppercase font-mono text-[8px] flex items-center justify-center text-brand-coral font-black tracking-widest z-20 shadow-[0_1px_3px_rgba(0,0,0,0.05)] pointer-events-none">
+                      Active
+                    </div>
+                  )}
+
+                  <div className="space-y-1 text-left">
+                    <span className={`text-[9px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded-full inline-block ${
+                      isActive ? 'bg-brand-ink text-white' : 'bg-brand-navy/5 text-brand-navy/50'
+                    }`}>
+                      {item.day}
+                    </span>
+                    <h4 className="font-sans font-black text-xs text-brand-ink leading-tight pt-1 group-hover:text-brand-blue transition-colors">
+                      {item.title}
+                    </h4>
+                  </div>
+
+                  <div className="pt-2 text-left space-y-1">
+                    <span className="text-[8px] font-mono font-bold text-brand-navy/40 uppercase block">Location</span>
+                    <span className="text-[10px] font-sans font-bold text-brand-blue flex items-center gap-1">
+                      <span>{item.icon}</span> {item.location}
+                    </span>
                   </div>
                 </div>
-                <div className="space-y-1">
-                  <h4 className="text-xs font-bold text-brand-ink leading-tight">SIR PAL</h4>
-                  <p className="text-[9px] text-brand-navy/65 font-mono">EYYSAT ACADEMY</p>
-                  <p className="text-[8px] text-brand-green bg-brand-green/10 px-1 py-0.5 rounded font-bold w-fit">ACTIVE</p>
-                </div>
-              </div>
-              {/* barcode placeholder */}
-              <div className="mt-4 pt-2 border-t border-brand-navy/5 flex flex-col gap-1">
-                <div className="h-4 bg-brand-navy/15 rounded opacity-40 notebook-grid" />
-                <span className="text-[7px] font-mono text-center text-brand-navy/40 tracking-widest">** 5e174af8 **</span>
-              </div>
-            </motion.div>
-
-            {/* Card 2: Weekly Schedule Timetable Card (Rotated right) */}
-            <motion.div
-              initial={{ opacity: 0, x: 30, rotate: 12 }}
-              animate={{ opacity: 1, x: 0, rotate: 6 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              whileHover={{ y: -8, rotate: 2, zIndex: 30 }}
-              className="absolute top-10 right-2 w-[260px] rounded-2xl bg-brand-paper border border-brand-navy/10 p-5 shadow-lg select-none transition-all duration-300 z-20"
-            >
-              <div className="flex justify-between items-center mb-3">
-                <div className="flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5 text-brand-blue" />
-                  <span className="text-[10px] font-bold text-brand-ink uppercase font-sans">Weekly Focus</span>
-                </div>
-                <span className="text-[9px] font-mono text-brand-blue bg-brand-blue/10 px-2 py-0.5 rounded-full font-bold">MON - FRI</span>
-              </div>
-              
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-[11px] border-b border-brand-navy/5 pb-1">
-                  <span className="font-semibold text-brand-navy/80">Monday</span>
-                  <span className="text-brand-coral font-bold text-[10px]">Pop Quiz Alert</span>
-                </div>
-                <div className="flex items-center justify-between text-[11px] border-b border-brand-navy/5 pb-1">
-                  <span className="font-semibold text-brand-navy/80">Wednesday</span>
-                  <span className="text-brand-amber font-bold text-[10px]">Math Midnight Cram</span>
-                </div>
-                <div className="flex items-center justify-between text-[11px] pb-1">
-                  <span className="font-semibold text-brand-navy/80">Friday</span>
-                  <span className="text-brand-green font-bold text-[10px]">Survival Grade Card</span>
-                </div>
-              </div>
-
-              {/* Progress Slider note */}
-              <div className="mt-4 pt-3 border-t border-brand-navy/5 flex items-center justify-between">
-                <span className="text-[9px] font-mono text-brand-navy/50 flex items-center gap-1">
-                  <Clock className="w-3 h-3" /> TERM WORKFLOW
-                </span>
-                <span className="text-[9px] font-bold text-brand-blue">ON TRACK</span>
-              </div>
-            </motion.div>
-
-            {/* Card 3: Canteen Expense Receipt Card (Rotated slightly left, on top) */}
-            <motion.div
-              initial={{ opacity: 0, y: 40, rotate: -2 }}
-              animate={{ opacity: 1, y: 0, rotate: -1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              whileHover={{ y: -8, rotate: 0, zIndex: 30 }}
-              className="absolute bottom-4 left-6 w-[230px] rounded-2xl bg-[#FFFFFC] border border-brand-navy/10 p-4.5 shadow-xl select-none transition-all duration-300 z-25 flex flex-col justify-between"
-              style={{ backgroundImage: 'linear-gradient(rgba(245,184,75,0.03) 0%, rgba(255,255,255,0) 100%)' }}
-            >
-              <div className="border-b border-dashed border-brand-navy/20 pb-2 mb-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-[10px] font-bold text-brand-navy uppercase tracking-wider">CANTEEN RECEIPT</span>
-                  <DollarSign className="w-3.5 h-3.5 text-brand-green" />
-                </div>
-                <span className="text-[8px] font-mono text-brand-navy/40">TIME: 12:40 PM</span>
-              </div>
-              <div className="space-y-1.5 text-[10px] text-brand-navy/85 font-mono">
-                <div className="flex justify-between">
-                  <span>Double Espresso</span>
-                  <span>-$3.50</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Textbook PDF</span>
-                  <span>-$12.00</span>
-                </div>
-                <div className="flex justify-between font-bold text-brand-ink pt-1.5 border-t border-dashed border-brand-navy/15">
-                  <span>WEEKLY ALLOWANCE</span>
-                  <span className="text-brand-green">$50.00</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Sticky Yellow Notebook Note (At bottom right) */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, rotate: 15 }}
-              animate={{ opacity: 1, scale: 1, rotate: 8 }}
-              transition={{ type: 'spring', stiffness: 200, delay: 0.4 }}
-              whileHover={{ scale: 1.05, rotate: 4, zIndex: 35 }}
-              className="absolute bottom-6 right-8 w-32 h-30 bg-[#FEF9C3] hover:bg-[#FEF08A] border-l-3 border-brand-amber text-brand-ink p-3 shadow-md select-none transition-all duration-200 z-28 text-left rotate-8 transform"
-            >
-              <span className="text-[8px] font-mono text-brand-coral uppercase tracking-wider block font-bold mb-1">STICKY REMINDER</span>
-              <p className="text-[10px] font-sans font-semibold text-brand-navy/90 leading-snug">
-                Study Group Session cancelled. Sleep &gt; Coffee! Don't fail calculations.
-              </p>
-            </motion.div>
+              );
+            })}
 
           </div>
+
+          {/* Underlay Info Note (Visual Detail 5) */}
+          <div className="mt-6 pt-5 border-t border-brand-navy/10 flex items-center gap-3 bg-white/60 p-3 rounded-xl border border-brand-navy/5">
+            <AlertCircle className="w-5 h-5 text-brand-blue shrink-0" />
+            <p className="text-xs font-sans text-brand-navy/70 leading-relaxed font-semibold">
+              <strong className="text-brand-ink font-bold">Interactive Preview:</strong> Monday triggers a surprise <span className="text-brand-coral font-bold">Quiz Warning</span> in the Library. Prepare your starting student type's mental resources appropriately to protect your weekend results.
+            </p>
+          </div>
+
         </div>
 
       </div>
+
+      {/* Make Preview Cards Functional Looking (Allowance, Stress, ID, Badge Cards) */}
+      <div className="space-y-4">
+        <div className="text-left">
+          <span className="text-[10px] font-mono text-brand-navy/50 uppercase font-bold tracking-widest block mb-1">INTERACTIVE DESK OBJECT METRICS</span>
+          <h3 className="text-base font-sans font-black text-brand-ink uppercase tracking-tight">Active Simulator Previews</h3>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          
+          {/* Card 1: Student ID Pass */}
+          <div className="bg-white p-4.5 rounded-2xl border border-brand-navy/12 shadow-sm relative overflow-hidden flex flex-col justify-between min-h-[145px] hover:border-brand-blue/30 transition-all">
+            <div className="absolute top-0 right-0 w-12 h-12 bg-brand-blue/5 rounded-bl-full pointer-events-none" />
+            <div className="space-y-2">
+              <span className="text-[8px] font-mono font-bold text-brand-blue uppercase bg-brand-blue/10 px-2 py-0.5 rounded">Student ID</span>
+              <div className="space-y-0.5">
+                <h4 className="font-sans font-black text-sm text-brand-ink">Player One</h4>
+                <p className="text-[10px] font-mono text-brand-navy/50">Type: Not Chosen Yet</p>
+              </div>
+            </div>
+            <div className="pt-2 border-t border-brand-navy/8 flex items-center justify-between text-[10px]">
+              <span className="font-mono text-brand-navy/40 uppercase">Goal:</span>
+              <span className="font-sans font-bold text-brand-ink">Waiting...</span>
+            </div>
+          </div>
+
+          {/* Card 2: Allowance Tracker Receipt */}
+          <div className="bg-[#FFFFFE] p-4.5 rounded-2xl border border-brand-navy/12 shadow-sm relative overflow-hidden flex flex-col justify-between min-h-[145px] hover:border-brand-amber/30 transition-all">
+            {/* Tiny Red margin line at the edge */}
+            <div className="absolute left-0 top-0 bottom-0 w-1 bg-brand-amber" />
+            <div className="space-y-2">
+              <span className="text-[8px] font-mono font-bold text-brand-amber uppercase bg-brand-amber/10 px-2 py-0.5 rounded ml-1">Daily Allowance</span>
+              <div className="space-y-0.5 pl-1">
+                <h4 className="font-sans font-black text-sm text-brand-ink">₱50.00</h4>
+                <p className="text-[10px] font-mono text-brand-navy/55 font-bold">In-game Wallet Balance</p>
+              </div>
+            </div>
+            <div className="pt-2 border-t border-brand-navy/8 flex items-center justify-between text-[10px] pl-1">
+              <span className="font-mono text-brand-navy/40 uppercase">Status:</span>
+              <span className="font-sans font-bold text-brand-green">Tight / Manageable</span>
+            </div>
+          </div>
+
+          {/* Card 3: Stress Meter Warning */}
+          <div className="bg-[#FFFDFB] p-4.5 rounded-2xl border border-brand-navy/12 shadow-sm relative overflow-hidden flex flex-col justify-between min-h-[145px] hover:border-brand-coral/30 transition-all">
+            <div className="absolute top-2 right-2 flex gap-1">
+              <div className="w-1.5 h-1.5 rounded-full bg-brand-coral animate-ping" />
+              <div className="w-1.5 h-1.5 rounded-full bg-brand-coral" />
+            </div>
+            <div className="space-y-2">
+              <span className="text-[8px] font-mono font-bold text-brand-coral uppercase bg-brand-coral/10 px-2 py-0.5 rounded">Stress Warning</span>
+              <div className="space-y-0.5">
+                <h4 className="font-sans font-black text-sm text-brand-ink">Medium Tension</h4>
+                <p className="text-[10px] font-mono text-brand-navy/55 leading-tight">Rest directly affects academic focus</p>
+              </div>
+            </div>
+            <div className="pt-2 border-t border-brand-navy/8 flex items-center justify-between text-[10px]">
+              <span className="font-mono text-brand-navy/40 uppercase">Action Needed:</span>
+              <span className="font-sans font-bold text-brand-coral">Maintain Balance</span>
+            </div>
+          </div>
+
+          {/* Card 4: Goal Mission Planner */}
+          <div className="bg-white p-4.5 rounded-2xl border border-brand-navy/12 shadow-sm relative overflow-hidden flex flex-col justify-between min-h-[145px] hover:border-brand-lavender/30 transition-all">
+            <div className="space-y-1">
+              <span className="text-[8px] font-mono font-bold text-brand-lavender uppercase bg-brand-lavender/10 px-2 py-0.5 rounded">Active Objective</span>
+              <h4 className="font-sans font-bold text-xs text-brand-ink leading-tight pt-1">
+                Choose Before Start
+              </h4>
+            </div>
+            <p className="text-[10px] text-brand-navy/60 font-sans leading-tight">
+              Select your personal goal before starting the week to secure different endings.
+            </p>
+            <div className="pt-2 border-t border-brand-navy/8 text-right">
+              <span className="text-[9px] font-mono uppercase text-brand-navy/40 font-black">6 goals loaded</span>
+            </div>
+          </div>
+
+          {/* Card 5: Unlockable Badge Stickers */}
+          <div className="bg-white p-4.5 rounded-2xl border border-brand-navy/12 shadow-sm relative overflow-hidden flex flex-col justify-between min-h-[145px] hover:border-brand-green/30 transition-all">
+            <div className="space-y-2">
+              <span className="text-[8px] font-mono font-bold text-brand-green uppercase bg-brand-green/10 px-2 py-0.5 rounded">Sticker Unlock</span>
+              <div className="space-y-0.5">
+                <h4 className="font-sans font-black text-sm text-brand-ink flex items-center gap-1">
+                  🔒 Locked
+                </h4>
+                <p className="text-[10px] font-mono text-brand-navy/55">Achievement: Balance Master</p>
+              </div>
+            </div>
+            <div className="pt-2 border-t border-brand-navy/8 flex items-center justify-between text-[10px]">
+              <span className="font-mono text-brand-navy/40 uppercase">Award Rate:</span>
+              <span className="font-sans font-bold text-brand-navy">Hard Mode</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
   );
 }

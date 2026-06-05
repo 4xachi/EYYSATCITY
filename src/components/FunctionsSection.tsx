@@ -125,7 +125,7 @@ const functionsList = [
 
 export default function FunctionsSection() {
   return (
-    <section className="py-14 border-t border-brand-navy/10 bg-transparent w-full z-10 select-none">
+    <section id="how-eyysat-works" className="py-14 border-t border-brand-navy/10 bg-transparent w-full z-10 select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
         
         {/* Core Presentation Section Title */}

@@ -367,24 +367,29 @@ export default function App() {
       {/* Immersive cyber star background */}
       <AnimatedBackground />
 
-      {/* Persistent glass header bar */}
-      <header className="sticky top-0 z-40 bg-brand-cream/80 border-b border-brand-navy/10 backdrop-blur-md">
+      {/* Persistent desk header bar */}
+      <header className="sticky top-0 z-40 bg-brand-cream/90 border-b border-brand-navy/10 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           
           {/* Logo Name */}
           <div 
             onClick={handleReturnHome}
-            className="flex items-center gap-2.5 cursor-pointer select-none group"
+            className="flex items-center gap-2 mt-0.5 cursor-pointer select-none group"
           >
-            <div className="relative w-8.5 h-8.5 rounded-xl bg-brand-blue/10 border border-brand-blue/30 flex items-center justify-center group-hover:border-brand-blue font-bold text-brand-blue text-sm shadow-sm transition-all">
-              📄
+            <div className="relative w-9 h-9 rounded-xl bg-brand-blue/5 border border-brand-navy/10 flex items-center justify-center group-hover:border-brand-blue/50 font-bold text-brand-blue text-base shadow-sm transition-all rotate-[-2deg]">
+              🎓
             </div>
-            <div>
-              <span className="text-sm font-extrabold text-brand-ink tracking-widest uppercase block">
-                EYYSAT CITY
-              </span>
-              <span className="text-[9px] font-mono text-brand-navy/60 tracking-wider uppercase block font-bold">
-                LIVING CAMPUS INTERFACE
+            <div className="flex flex-col">
+              <div className="flex items-center gap-1.5 leading-none">
+                <span className="text-base font-black text-brand-ink tracking-tight font-sans">
+                  EYYSAT
+                </span>
+                <span className="px-1.5 py-0.2 text-[8px] sm:text-[9px] font-mono border border-brand-coral/40 text-brand-coral font-bold rounded uppercase rotate-[-2deg] tracking-wide inline-block bg-brand-coral/5">
+                  CITY
+                </span>
+              </div>
+              <span className="text-[8px] font-mono text-brand-navy/55 tracking-widest uppercase font-bold mt-1">
+                CAMPUS BOARD SURVIVAL
               </span>
             </div>
           </div>

@@ -78,22 +78,27 @@ export default function SimulationDashboard({
   const mappedLocation = mapVisualLocation(currentScenario.location);
 
   return (
-    <div className="py-6 max-w-7xl mx-auto px-4 sm:px-6 z-10 w-full select-none space-y-6">
+    <div className="py-6 sm:py-8 max-w-7xl mx-auto px-4 sm:px-6 z-10 w-full select-none space-y-6">
       
+      {/* Prominent Weekly Progress Calendar strip top-level planner bar */}
+      <ProgressTracker currentDayIndex={currentScenario.dayIndex} />
+
       {/* Simulation Grid System */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
         
         {/* LEFT COLUMN: Scenario Description, Option Buttons & Consequences (7/12 cols) */}
-        <div className="lg:col-span-7 space-y-6 w-full">
+        <div className="lg:col-span-7 space-y-6 w-full relative">
           
           {/* Day & Location Banner */}
-          <div className="relative rounded-2xl border border-brand-navy/15 bg-brand-paper p-6 overflow-hidden flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-[0_4px_12px_rgba(30,42,68,0.03)]">
-            <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-brand-blue to-brand-coral" />
+          <div className="relative rounded-2xl border border-brand-navy/15 bg-brand-paper p-6 overflow-visible flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-[0_4px_12px_rgba(30,42,68,0.03)]">
+            {/* Soft adhesive tape graphic anchor detail */}
+            <div className="absolute -top-2.5 left-12 w-16 h-5 bg-[#FFF2DE] border-x-2 border-[#F5B84B]/35 rotate-[-2deg] z-20 shadow-[0_1px_3px_rgba(0,0,0,0.04)] pointer-events-none" />
+            
             <div className="space-y-1">
               <span className="text-[10px] font-mono font-bold tracking-[0.15em] text-brand-blue uppercase">
                 CALENDAR WORKLOAD TIMELINE
               </span>
-              <h2 className="text-3xl font-serif font-extrabold text-brand-ink tracking-tight flex items-center gap-2">
+              <h2 className="text-3xl font-serif font-black text-brand-ink tracking-tight flex items-center gap-2">
                 <span>{currentScenario.dayName}</span>
                 <span className="text-xs font-mono font-bold bg-brand-cream text-brand-navy/60 px-2 py-0.5 rounded-md uppercase tracking-wider">Day {currentScenario.dayIndex + 1} of 5</span>
               </h2>
@@ -112,23 +117,28 @@ export default function SimulationDashboard({
             </div>
           </div>
 
-          {/* Scenario Graphic Card as a pristine study journal sheet */}
+          {/* Scenario Graphic Card as a beautiful handwritten study journal notebook sheet */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-2xl border border-brand-navy/15 bg-brand-paper p-6 space-y-4 shadow-[0_6px_18px_rgba(30,42,68,0.02)]"
+            className="rounded-3xl border border-brand-navy/15 bg-brand-paper p-6 sm:p-8 space-y-4 shadow-[0_6px_18px_rgba(30,42,68,0.02)] relative overflow-hidden"
           >
-            <div className="flex items-center gap-1.5 text-xs text-brand-blue font-mono tracking-widest uppercase font-bold">
-              <BookOpen className="w-4 h-4 text-brand-blue" /> STUDY LIFE DILEMMA
-            </div>
+            {/* Red notebook margin line on this specific visual card */}
+            <div className="absolute left-5 top-0 bottom-0 w-[1.5px] bg-brand-coral/30" />
+            
+            <div className="space-y-3 pl-6">
+              <div className="flex items-center gap-1.5 text-xs text-brand-blue font-mono tracking-widest uppercase font-bold">
+                <BookOpen className="w-4 h-4 text-brand-blue" /> STUDY LIFE DILEMMA
+              </div>
 
-            <div className="space-y-2">
-              <h3 className="text-xl sm:text-2xl font-serif font-extrabold text-brand-ink tracking-tight">
-                {currentScenario.title}
-              </h3>
-              <p className="text-brand-navy/85 leading-relaxed font-sans text-sm sm:text-base">
-                {currentScenario.description}
-              </p>
+              <div className="space-y-3 text-left">
+                <h3 className="text-2xl sm:text-3xl font-sans font-black text-brand-ink tracking-tight leading-snug">
+                  {currentScenario.title}
+                </h3>
+                <p className="text-brand-navy/85 leading-relaxed font-sans text-sm sm:text-base font-medium">
+                  {currentScenario.description}
+                </p>
+              </div>
             </div>
           </motion.div>
 
@@ -182,23 +192,23 @@ export default function SimulationDashboard({
               <div className="p-3 rounded-xl bg-brand-blue/10 text-brand-blue border border-brand-blue/15">
                 <StudentIcon className="w-6 h-6 shrink-0" />
               </div>
-              <div className="space-y-1">
+              <div className="space-y-1 text-left">
                 <span className="text-[9px] font-mono uppercase tracking-widest text-brand-navy/50 block font-bold">IDENTITY CARD</span>
-                <h4 className="text-base font-extrabold text-brand-ink tracking-tight uppercase">
+                <h4 className="text-base font-black text-brand-ink tracking-tight uppercase">
                   {selectedStudentType.name}
                 </h4>
-                <p className="text-xs text-brand-navy/70 leading-normal font-medium">
+                <p className="text-xs text-brand-navy/70 leading-normal font-semibold">
                   Resource Multiplier: <span className="text-brand-blue font-bold">{selectedStudentType.strength}</span>
                 </p>
               </div>
             </div>
           )}
 
-          {/* Dynamic Progress Tracker bar */}
-          <ProgressTracker currentDayIndex={currentScenario.dayIndex} />
-
           {/* Main Stat Dashboard parameters */}
-          <StatDashboard stats={stats} statChanges={statChanges} />
+          <div className="bg-brand-paper rounded-3xl p-5 border border-brand-navy/12 shadow-sm space-y-1">
+            <span className="text-[9px] font-mono font-bold tracking-widest text-[#4F7BFF] uppercase block">Live Student Stats</span>
+            <StatDashboard stats={stats} statChanges={statChanges} />
+          </div>
 
           {/* Academic Brain Booster Pop-Quiz Trivia mini-game */}
           <BrainBoosterQuiz 

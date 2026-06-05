@@ -38,8 +38,8 @@ export interface ShopItem {
 export const SHOP_ITEMS: ShopItem[] = [
   {
     id: 'espresso',
-    name: '☕ Nano-Jet Double Espresso',
-    description: 'Bypasses adenosine receptors using atomic steam. +20 Energy, -5 Focus, +8 Stress.',
+    name: '☕ Extra-Shot Canteen Espresso',
+    description: 'Freshly brewed dark roast coffee. +20 Energy, -5 Focus, +8 Stress.',
     cost: 6,
     effects: { energy: 20, focus: -5, stress: 8 },
     rarity: 'Common',
@@ -48,8 +48,8 @@ export const SHOP_ITEMS: ShopItem[] = [
   },
   {
     id: 'burger',
-    name: '🍔 Tactical C canteen Burger',
-    description: 'Deep-fried thermodynamic carb-cluster. +30 Energy, -10 Focus, -12 Stress.',
+    name: '🍔 Double Cheese Burger combo',
+    description: 'Classic cheese and carb energy meal. +30 Energy, -10 Focus, -12 Stress.',
     cost: 10,
     effects: { energy: 30, focus: -10, stress: -12 },
     rarity: 'Common',
@@ -58,8 +58,8 @@ export const SHOP_ITEMS: ShopItem[] = [
   },
   {
     id: 'nootropic',
-    name: '💊 Nootropix-X Neural Pill',
-    description: 'Increases cerebral bandwidth. +25 Focus, +10 Grades, -15 Energy.',
+    name: '💊 Focus Study Supplement',
+    description: 'Student multivitamins to boost studying speed. +25 Focus, +10 Grades, -15 Energy.',
     cost: 15,
     effects: { focus: 25, grades: 10, energy: -15 },
     rarity: 'Rare',
@@ -68,8 +68,8 @@ export const SHOP_ITEMS: ShopItem[] = [
   },
   {
     id: 'cheatsheet',
-    name: '📝 Calculus Leak Sheet',
-    description: 'Formulas written in microscopic invisible ink. +20 Grades, +18 Stress.',
+    name: '📝 Calculus Study Note Card',
+    description: 'Handwritten formulas summarized on index cards. +20 Grades, +18 Stress.',
     cost: 22,
     effects: { grades: 20, stress: 18 },
     rarity: 'Rare',
@@ -78,8 +78,8 @@ export const SHOP_ITEMS: ShopItem[] = [
   },
   {
     id: 'gaming',
-    name: '🎮 Voxel-VR Escape Pod',
-    description: 'Submerge into a simulated visual realm. -35 Stress, +20 Social, -15 Focus.',
+    name: '🎮 Arcade Lounge Gaming Token',
+    description: 'Spend an hour playing retro games to beat burnout. -35 Stress, +20 Social, -15 Focus.',
     cost: 18,
     effects: { stress: -35, social: 20, focus: -15 },
     rarity: 'Rare',
@@ -89,7 +89,7 @@ export const SHOP_ITEMS: ShopItem[] = [
   {
     id: 'canteen_pass',
     name: '🎟️ VIP Canteen Pass Coupon',
-    description: 'Full buffet permission in the executive cafeteria. +45 Energy, -20 Stress, +15 Focus, +15 Social.',
+    description: 'Access to the quiet premium study seating & buffet. +45 Energy, -20 Stress, +15 Focus, +15 Social.',
     cost: 32,
     effects: { energy: 45, stress: -20, focus: 15, social: 15 },
     rarity: 'Legendary',
