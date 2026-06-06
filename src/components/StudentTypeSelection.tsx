@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { 
   GraduationCap, 
@@ -36,6 +36,16 @@ interface StudentTypeSelectionProps {
 
 export default function StudentTypeSelection({ onSelect, soundEnabled }: StudentTypeSelectionProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const confirmRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (selectedId && confirmRef.current) {
+      const timer = setTimeout(() => {
+        confirmRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedId]);
 
   const handleCardClick = (student: StudentType) => {
     setSelectedId(student.id);
@@ -176,6 +186,7 @@ export default function StudentTypeSelection({ onSelect, soundEnabled }: Student
       {/* Confirmation & Summary Sticky Note */}
       {selectedId && currentSelected && (
         <motion.div
+          ref={confirmRef}
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           className="rounded-2xl border border-brand-navy/15 bg-brand-paper p-6 shadow-md max-w-2xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 relative"

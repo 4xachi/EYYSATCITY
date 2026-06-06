@@ -4,6 +4,7 @@
  */
 
 import { motion } from 'motion/react';
+import { useRef, useEffect } from 'react';
 import { Target, CheckCircle2 } from 'lucide-react';
 import { GOALS } from '../data/goals';
 import { Goal } from '../types/simulation';
@@ -15,6 +16,17 @@ interface GoalSelectionScreenProps {
 }
 
 export default function GoalSelectionScreen({ onSelectGoal, selectedGoal, onContinue }: GoalSelectionScreenProps) {
+  const continueButtonRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (selectedGoal && continueButtonRef.current) {
+      const timer = setTimeout(() => {
+        continueButtonRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedGoal]);
+
   return (
     <div className="min-h-[100dvh] flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-4xl mx-auto space-y-8">
@@ -70,7 +82,7 @@ export default function GoalSelectionScreen({ onSelectGoal, selectedGoal, onCont
           })}
         </div>
 
-        <div className="flex justify-center pt-8">
+        <div ref={continueButtonRef} className="flex justify-center pt-8 pb-12">
           <motion.button
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: selectedGoal ? 1 : 0.5, y: 0 }}

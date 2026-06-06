@@ -214,7 +214,7 @@ export function getScenarioVariant(scenario: Scenario, dayIndex: number, stats: 
   return modified;
 }
 
-export function generateReflectionEntry(day: string, location: string, scenarioTitle: string, chosenChoice: Choice, randomEvent: RandomEvent | null, statChanges: Partial<Stats>): ReflectionEntry {
+export function generateReflectionEntry(day: string, location: string, scenarioTitle: string, chosenChoice: Choice, randomEvent: RandomEvent | null, statChanges: Partial<Stats>, endStressLevel?: number): ReflectionEntry {
   let mood: ReflectionEntry["mood"] = "balanced";
   let reflectionText = "You got through the day with moderate choices.";
   let lessonText = "Consistency is key in student life.";
@@ -252,7 +252,8 @@ export function generateReflectionEntry(day: string, location: string, scenarioT
     totalStatChanges: statChanges,
     reflectionText,
     lessonText,
-    mood
+    mood,
+    endStressLevel
   };
 }
 

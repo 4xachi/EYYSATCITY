@@ -13,13 +13,27 @@ import {
   RefreshCcw,
   BookOpen,
   Calendar,
-  Compass
+  Compass,
+  GraduationCap,
+  Zap,
+  Briefcase,
+  Coffee,
+  Crown
 } from 'lucide-react';
+
+const iconMap: { [key: string]: React.ComponentType<any> } = {
+  GraduationCap,
+  Zap,
+  Briefcase,
+  Coffee,
+  Crown
+};
 import { FinalResult, Stats, Badge, Goal, ReflectionEntry } from '../types/simulation';
 import StatDashboard from './StatDashboard';
 import GoalStatusCard from './GoalStatusCard';
 import WeeklyReflectionReport from './WeeklyReflectionReport';
 import BadgeCollection from './BadgeCollection';
+import PotentialFutures from './PotentialFutures';
 import { playResultSound } from '../utils/audio';
 
 interface FinalResultScreenProps {
@@ -52,7 +66,7 @@ export default function FinalResultScreen({
 
   useEffect(() => {
     // Play fanfare based on score ranking
-    playResultSound(soundEnabled, result.finalScore > 75);
+    playResultSound(soundEnabled);
   }, [soundEnabled, result.finalScore]);
 
   return (
@@ -64,11 +78,14 @@ export default function FinalResultScreen({
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: 'spring', bounce: 0.5 }}
-          className="inline-flex items-center justify-center w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-[#FFFDF7] border-4 border-brand-ink/10 shadow-xl text-4xl sm:text-6xl text-brand-blue mb-2 relative"
+          className="inline-flex items-center justify-center w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-[#FFFDF7] border-4 border-brand-ink/10 shadow-xl text-brand-blue mb-2 relative"
         >
           {/* Wooden desk pin at top */}
           <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-brand-coral shadow" />
-          <span className="relative z-10">{studentIcon}</span>
+          {(() => {
+            const IconComponent = iconMap[studentIcon] || GraduationCap;
+            return <IconComponent className="w-12 h-12 sm:w-16 sm:h-16 relative z-10 text-brand-blue animate-pulse" />;
+          })()}
         </motion.div>
         
         <h1 className="text-4xl sm:text-5xl font-sans font-black text-brand-ink uppercase tracking-tight leading-none text-balance">
@@ -210,6 +227,9 @@ export default function FinalResultScreen({
 
         </div>
       </div>
+
+      {/* Potential Futures Projection Analysis Section */}
+      <PotentialFutures finalStats={finalStats} badgesEarned={badgesEarned} />
 
       {/* Reflection Journal Log entries */}
       <WeeklyReflectionReport journal={reflectionJournal} />

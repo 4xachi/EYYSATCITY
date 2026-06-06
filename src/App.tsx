@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 
-import { ScreenType, Stats, StudentType, Choice, RandomEvent, FinalResult, Badge, Scenario, Goal, DecisionMemory, ReflectionEntry, ChoiceHistoryEntry, WhatIfSuggestion, RunMeta } from './types/simulation';
+import { ScreenType, Stats, StudentType, Choice, RandomEvent, FinalResult, Badge, Scenario, Goal, DecisionMemory, ReflectionEntry, ChoiceHistoryEntry, WhatIfSuggestion, RunMeta, StatKey } from './types/simulation';
 import { scenarios, getSequenceOfScenarios } from './data/scenarios';
 import { randomEvents } from './data/randomEvents';
 import { clampStat, applyEffects, calculateFinalResult, checkBadges, calculateFinalScore, evaluateGoal, getScenarioVariant, generateReflectionEntry, getWhatIfSuggestion } from './utils/simulationLogic';
@@ -266,13 +266,16 @@ export default function App() {
         });
     }
 
+    const finalStressForThisDay = clampStat(stats.stress + (eventTriggered?.effects?.stress || 0));
+
     const entry = generateReflectionEntry(
       scenario.dayName,
       scenario.location,
       scenario.title,
       selectedChoice!,
       eventTriggered,
-      comboEffects
+      comboEffects,
+      finalStressForThisDay
     );
     
     setReflectionJournal(prev => [...prev, entry]);
@@ -478,7 +481,7 @@ export default function App() {
 
           {screen === 'reflection' && (
             <motion.div key={`reflection-screen-${currentDayIndex}`} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }} className="w-full flex-grow">
-              <ReflectionJournalScreen entry={currentReflection} onContinue={handleContinueFromReflection} isFriday={currentDayIndex === 4} />
+              <ReflectionJournalScreen entry={currentReflection} onContinue={handleContinueFromReflection} isFriday={currentDayIndex === 4} reflectionJournal={reflectionJournal} />
             </motion.div>
           )}
 

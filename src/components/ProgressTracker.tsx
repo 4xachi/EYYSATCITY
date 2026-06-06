@@ -23,11 +23,11 @@ export default function ProgressTracker({ currentDayIndex }: ProgressTrackerProp
 
       <div className="relative flex justify-between items-center w-full px-2">
         {/* Background connector line */}
-        <div className="absolute top-[16px] left-8 right-8 h-[2.5px] bg-brand-cream" />
+        <div className="absolute top-[16px] left-8 right-8 h-[2.5px] bg-brand-cream z-0" />
         
         {/* Fill line with animated width representing progress */}
         <motion.div 
-          className="absolute top-[16px] left-8 h-[2.5px] bg-gradient-to-r from-brand-blue to-brand-lavender origin-left"
+          className="absolute top-[16px] left-8 h-[2.5px] bg-gradient-to-r from-brand-blue to-brand-lavender origin-left z-0"
           initial={{ width: '0%' }}
           animate={{ width: `${(currentDayIndex / 4) * 82}%` }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -39,14 +39,14 @@ export default function ProgressTracker({ currentDayIndex }: ProgressTrackerProp
           const isCurrent = idx === currentDayIndex;
 
           return (
-            <div key={day} className="z-10 flex flex-col items-center select-none">
+            <div key={day} className="relative z-10 flex flex-col items-center select-none">
               
               {/* Card tab indicator */}
               <motion.div
                 whileHover={{ scale: 1.12 }}
                 className={`w-8 h-8 rounded-xl border flex items-center justify-center transition-all duration-300 ${
                   isCompleted 
-                    ? 'bg-brand-green/10 border-brand-green text-brand-green shadow-sm' 
+                    ? 'bg-[#EDF7F0] border-brand-green text-brand-green shadow-sm' 
                     : isCurrent 
                       ? 'bg-brand-blue border-brand-blue text-white shadow-md shadow-brand-blue/15'
                       : 'bg-brand-cream/40 border-brand-navy/10 text-brand-navy/40 font-semibold'

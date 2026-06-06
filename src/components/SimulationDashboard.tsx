@@ -76,9 +76,19 @@ export default function SimulationDashboard({
 
   const StudentIcon = selectedStudentType ? (archetypeIcons[selectedStudentType.id] || GraduationCap) : GraduationCap;
   const mappedLocation = mapVisualLocation(currentScenario.location);
+  const isCriticalStress = stats.stress >= 75;
 
   return (
-    <div className="py-6 sm:py-8 max-w-7xl mx-auto px-4 sm:px-6 z-10 w-full select-none space-y-6">
+    <div className="py-6 sm:py-8 max-w-7xl mx-auto px-4 sm:px-6 z-10 w-full select-none space-y-6 relative">
+      {/* Absolute floating ambient red warning halo vignette when student stress exceeds 75 */}
+      {isCriticalStress && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0.15, 0.35, 0.15] }}
+          transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
+          className="fixed inset-0 pointer-events-none z-50 border-[12px] border-brand-coral/15 rounded-[32px] blur-sm m-2 shadow-[inset_0_0_80px_rgba(242,109,91,0.15)]"
+        />
+      )}
       
       {/* Prominent Weekly Progress Calendar strip top-level planner bar */}
       <ProgressTracker currentDayIndex={currentScenario.dayIndex} />
@@ -89,15 +99,30 @@ export default function SimulationDashboard({
         {/* LEFT COLUMN: Scenario Description, Option Buttons & Consequences (7/12 cols) */}
         <div className="lg:col-span-7 space-y-6 w-full relative">
           
-          {/* Day & Location Banner */}
-          <div className="relative rounded-2xl border border-brand-navy/15 bg-brand-paper p-6 overflow-visible flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-[0_4px_12px_rgba(30,42,68,0.03)]">
+          {/* Day & Location Banner with interactive pressure warning */}
+          <div className={`relative rounded-2xl border bg-brand-paper p-6 overflow-visible flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-[0_4px_12px_rgba(30,42,68,0.03)] transition-all duration-500 ${
+            isCriticalStress 
+              ? 'border-brand-coral/45 shadow-[0_0_15px_rgba(242,109,91,0.1)] bg-[#FFFBFA]' 
+              : 'border-brand-navy/15'
+          }`}>
             {/* Soft adhesive tape graphic anchor detail */}
             <div className="absolute -top-2.5 left-12 w-16 h-5 bg-[#FFF2DE] border-x-2 border-[#F5B84B]/35 rotate-[-2deg] z-20 shadow-[0_1px_3px_rgba(0,0,0,0.04)] pointer-events-none" />
             
             <div className="space-y-1">
-              <span className="text-[10px] font-mono font-bold tracking-[0.15em] text-brand-blue uppercase">
-                CALENDAR WORKLOAD TIMELINE
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-mono font-bold tracking-[0.15em] text-brand-blue uppercase">
+                  CALENDAR WORKLOAD TIMELINE
+                </span>
+                {isCriticalStress && (
+                  <motion.span 
+                    animate={{ opacity: [0.6, 1, 0.6] }}
+                    transition={{ repeat: Infinity, duration: 1.5 }}
+                    className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-brand-coral/10 border border-brand-coral/30 text-brand-coral font-mono text-[8px] font-black uppercase tracking-wider"
+                  >
+                    ⚠️ High Stress
+                  </motion.span>
+                )}
+              </div>
               <h2 className="text-3xl font-serif font-black text-brand-ink tracking-tight flex items-center gap-2">
                 <span>{currentScenario.dayName}</span>
                 <span className="text-xs font-mono font-bold bg-brand-cream text-brand-navy/60 px-2 py-0.5 rounded-md uppercase tracking-wider">Day {currentScenario.dayIndex + 1} of 5</span>
@@ -121,10 +146,16 @@ export default function SimulationDashboard({
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-3xl border border-brand-navy/15 bg-brand-paper p-6 sm:p-8 space-y-4 shadow-[0_6px_18px_rgba(30,42,68,0.02)] relative overflow-hidden"
+            className={`rounded-3xl border p-6 sm:p-8 space-y-4 shadow-[0_6px_18px_rgba(30,42,68,0.02)] relative overflow-hidden transition-all duration-500 ${
+              isCriticalStress 
+                ? 'border-brand-coral/40 bg-gradient-to-br from-brand-paper to-[#FFFDFD] shadow-[0_8px_24px_rgba(242,109,91,0.04)]' 
+                : 'border-brand-navy/15 bg-brand-paper'
+            }`}
           >
             {/* Red notebook margin line on this specific visual card */}
-            <div className="absolute left-5 top-0 bottom-0 w-[1.5px] bg-brand-coral/30" />
+            <div className={`absolute top-0 bottom-0 w-[1.5px] transition-all duration-500 ${
+              isCriticalStress ? 'left-5 bg-brand-coral' : 'left-5 bg-brand-coral/30'
+            }`} />
             
             <div className="space-y-3 pl-6">
               <div className="flex items-center gap-1.5 text-xs text-brand-blue font-mono tracking-widest uppercase font-bold">
