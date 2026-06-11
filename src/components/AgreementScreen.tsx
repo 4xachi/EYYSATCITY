@@ -80,10 +80,6 @@ export default function AgreementScreen({ onAgree, soundEnabled }: AgreementScre
                   <span className="w-2 h-2 rounded-full bg-brand-lavender" />
                   <span className="text-xs sm:text-sm font-semibold text-brand-ink">Parenas, Elbhert John</span>
                 </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-brand-green" />
-                  <span className="text-xs sm:text-sm font-semibold text-brand-ink">kung sino ka man</span>
-                </li>
               </ul>
             </div>
             
