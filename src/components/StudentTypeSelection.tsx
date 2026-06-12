@@ -32,9 +32,10 @@ const iconMap: { [key: string]: any } = {
 interface StudentTypeSelectionProps {
   onSelect: (selected: StudentType) => void;
   soundEnabled: boolean;
+  studentName?: string;
 }
 
-export default function StudentTypeSelection({ onSelect, soundEnabled }: StudentTypeSelectionProps) {
+export default function StudentTypeSelection({ onSelect, soundEnabled, studentName }: StudentTypeSelectionProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const confirmRef = useRef<HTMLDivElement>(null);
 
@@ -68,13 +69,18 @@ export default function StudentTypeSelection({ onSelect, soundEnabled }: Student
     <div className="py-10 max-w-7xl mx-auto px-4 sm:px-6 z-10 w-full select-none">
       
       {/* Selection Header */}
-      <div className="text-center space-y-3 mb-10">
+      <div className="flex flex-col items-center text-center space-y-3 mb-10">
         <span className="text-xs font-mono text-brand-blue tracking-[0.2em] uppercase font-bold">LOG #02 : CHOOSE ARCHETYPE</span>
+        {studentName && (
+          <div className="inline-block px-3 py-1 bg-brand-blue/10 border border-brand-blue/15 rounded-full text-[10px] font-mono font-black text-brand-blue uppercase tracking-widest leading-none mb-1 mx-auto">
+            Student: {studentName}
+          </div>
+        )}
         <h2 className="text-3xl sm:text-5xl font-serif font-extrabold text-brand-ink tracking-tight">
           Select Student Profile
         </h2>
         <p className="text-brand-navy/70 max-w-xl mx-auto text-sm sm:text-base">
-          Choose your survival perspective. Each class holds different initial resources, stress capacities, and weekly study strategies.
+          {studentName ? `${studentName}, choose` : "Choose"} your survival perspective. Each class holds different initial resources, stress capacities, and weekly study strategies.
         </p>
       </div>
 

@@ -81,6 +81,9 @@ export default function App() {
     return localStorage.getItem('darkMode') === 'true';
   });
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
+  const [customStudentName, setCustomStudentName] = useState<string>(() => {
+    return localStorage.getItem('customStudentName') || '';
+  });
 
   // Sync Dark Mode class on index page element
   useEffect(() => {
@@ -480,6 +483,11 @@ export default function App() {
     setScreen('whatIfReplay');
   };
 
+  const handleDeleteData = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
+
   const handleReset = () => {
     setActiveScenarios(getSequenceOfScenarios());
     setSelectedGoal(null);
@@ -580,26 +588,34 @@ export default function App() {
 
           {screen === 'agreement' && (
             <motion.div key="agreement-screen" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.02 }} transition={{ duration: 0.3 }} className="fixed inset-0 z-[100] bg-brand-ink/45 backdrop-blur-md overflow-y-auto flex flex-col items-center justify-start sm:justify-center p-4 sm:p-6 md:p-10">
-              <AgreementScreen onAgree={() => setScreen('hero')} soundEnabled={soundEnabled} />
+              <AgreementScreen 
+                onAgree={(name) => {
+                  setCustomStudentName(name);
+                  localStorage.setItem('customStudentName', name);
+                  setScreen('hero');
+                }} 
+                soundEnabled={soundEnabled} 
+                initialStudentName={customStudentName}
+              />
             </motion.div>
           )}
 
           {screen === 'hero' && (
             <motion.div key="hero-screen" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="w-full flex-grow flex flex-col justify-center">
-              <HeroSection onEnter={() => setScreen('intro')} bestScore={bestScore} bestResult={bestResult} soundEnabled={soundEnabled} />
+              <HeroSection onEnter={() => setScreen('intro')} bestScore={bestScore} bestResult={bestResult} soundEnabled={soundEnabled} studentName={customStudentName} />
               <FunctionsSection />
             </motion.div>
           )}
 
           {screen === 'intro' && (
             <motion.div key="intro-screen" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="w-full flex-grow flex flex-col justify-center">
-              <IntroScreen onNext={() => setScreen('goalSelection')} soundEnabled={soundEnabled} />
+              <IntroScreen onNext={() => setScreen('goalSelection')} soundEnabled={soundEnabled} studentName={customStudentName} />
             </motion.div>
           )}
 
           {screen === 'goalSelection' && (
             <motion.div key="goal-selection-screen" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="w-full flex-grow">
-              <GoalSelectionScreen onSelectGoal={handleSelectGoal} selectedGoal={selectedGoal} onContinue={() => {
+              <GoalSelectionScreen onSelectGoal={handleSelectGoal} selectedGoal={selectedGoal} studentName={customStudentName} onContinue={() => {
                  playClickSound(soundEnabled);
                  setScreen('studentSelection');
               }} />
@@ -608,7 +624,7 @@ export default function App() {
 
           {screen === 'studentSelection' && (
             <motion.div key="student-selection-screen" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="w-full flex-grow">
-              <StudentTypeSelection onSelect={(st) => { playClickSound(soundEnabled); handleSelectStudentType(st); }} soundEnabled={soundEnabled} />
+              <StudentTypeSelection onSelect={(st) => { playClickSound(soundEnabled); handleSelectStudentType(st); }} soundEnabled={soundEnabled} studentName={customStudentName} />
             </motion.div>
           )}
 
@@ -617,6 +633,7 @@ export default function App() {
               <CampusMapScreen 
                 currentDayIndex={currentDayIndex} 
                 soundEnabled={soundEnabled}
+                studentName={customStudentName}
                 onEnterDay={() => { playClickSound(soundEnabled); setScreen('simulation'); }} 
                 onSelectScenario={(scenario) => {
                   setActiveScenarios(prev => {
@@ -648,13 +665,14 @@ export default function App() {
                 onBuyItem={handleBuyItem}
                 onUseItem={handleUseItem}
                 decisionMemory={decisionMemory}
+                studentName={customStudentName}
               />
             </motion.div>
           )}
 
           {screen === 'reflection' && (
             <motion.div key={`reflection-screen-${currentDayIndex}`} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }} className="w-full flex-grow">
-              <ReflectionJournalScreen entry={currentReflection} onContinue={handleContinueFromReflection} isFriday={currentDayIndex === 4} reflectionJournal={reflectionJournal} />
+              <ReflectionJournalScreen entry={currentReflection} onContinue={handleContinueFromReflection} isFriday={currentDayIndex === 4} reflectionJournal={reflectionJournal} studentName={customStudentName} />
             </motion.div>
           )}
 
@@ -670,7 +688,7 @@ export default function App() {
                 result={finalResult}
                 finalStats={stats}
                 badgesEarned={badgesEarnedThisRun}
-                studentName={selectedStudentType.name}
+                studentName={customStudentName || selectedStudentType.name}
                 studentIcon={selectedStudentType.iconName}
                 onRestart={handleReset}
                 soundEnabled={soundEnabled}
@@ -710,6 +728,7 @@ export default function App() {
           localStorage.setItem('darkMode', String(next));
           return next;
         })}
+        onDeleteData={handleDeleteData}
       />
 
     </div>

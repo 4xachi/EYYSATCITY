@@ -11,9 +11,10 @@ import { playClickSound } from '../utils/audio';
 interface IntroScreenProps {
   onNext: () => void;
   soundEnabled: boolean;
+  studentName?: string;
 }
 
-export default function IntroScreen({ onNext, soundEnabled }: IntroScreenProps) {
+export default function IntroScreen({ onNext, soundEnabled, studentName }: IntroScreenProps) {
   const handleNextClick = () => {
     playClickSound(soundEnabled);
     onNext();
@@ -34,7 +35,7 @@ export default function IntroScreen({ onNext, soundEnabled }: IntroScreenProps) 
         <div className="space-y-2 mb-8">
           <span className="text-xs font-mono text-brand-blue tracking-[0.2em] uppercase block font-bold">LOG #01 : SIMULATION BRIEFING</span>
           <h2 className="text-3xl sm:text-4xl font-serif font-extrabold text-brand-ink tracking-tight">
-            Welcome to Eyysat City.
+            {studentName ? `Welcome to Eyysat City, ${studentName}.` : "Welcome to Eyysat City."}
           </h2>
         </div>
 

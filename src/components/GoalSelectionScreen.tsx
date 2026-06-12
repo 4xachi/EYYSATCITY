@@ -13,9 +13,10 @@ interface GoalSelectionScreenProps {
   onSelectGoal: (goal: Goal) => void;
   selectedGoal: Goal | null;
   onContinue: () => void;
+  studentName?: string;
 }
 
-export default function GoalSelectionScreen({ onSelectGoal, selectedGoal, onContinue }: GoalSelectionScreenProps) {
+export default function GoalSelectionScreen({ onSelectGoal, selectedGoal, onContinue, studentName }: GoalSelectionScreenProps) {
   const continueButtonRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -31,7 +32,12 @@ export default function GoalSelectionScreen({ onSelectGoal, selectedGoal, onCont
     <div className="min-h-[100dvh] flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-4xl mx-auto space-y-8">
         
-        <div className="text-center space-y-4">
+        <div className="flex flex-col items-center text-center space-y-4">
+          {studentName && (
+            <div className="inline-block px-3 py-1.5 bg-brand-blue/10 border border-brand-blue/20 rounded-full text-[10px] font-mono font-black text-brand-blue uppercase tracking-widest leading-none">
+              Student ID: {studentName}
+            </div>
+          )}
           <div className="inline-flex items-center justify-center p-3 sm:p-4 rounded-2xl bg-brand-navy/5 text-brand-ink mb-2">
             <Target className="w-8 h-8 sm:w-10 sm:h-10" />
           </div>
@@ -39,7 +45,7 @@ export default function GoalSelectionScreen({ onSelectGoal, selectedGoal, onCont
             Choose Your Student Goal
           </h1>
           <p className="text-brand-navy/60 max-w-2xl mx-auto font-sans text-sm sm:text-base leading-relaxed">
-            Before the school week starts, choose what kind of student life you want to protect. Your final result will check if you achieved your goal.
+            {studentName ? `${studentName}, before` : "Before"} the school week starts, choose what kind of student life you want to protect. Your final result will check if you achieved your goal.
           </p>
         </div>
 

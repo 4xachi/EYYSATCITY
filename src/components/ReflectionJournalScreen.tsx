@@ -11,6 +11,7 @@ interface ReflectionJournalScreenProps {
   onContinue: () => void;
   isFriday: boolean;
   reflectionJournal?: ReflectionEntry[];
+  studentName?: string;
 }
 
 const weekdays = [
@@ -21,7 +22,7 @@ const weekdays = [
   { key: 'Friday', label: 'Fri', index: 4 }
 ];
 
-export default function ReflectionJournalScreen({ entry, onContinue, isFriday, reflectionJournal = [] }: ReflectionJournalScreenProps) {
+export default function ReflectionJournalScreen({ entry, onContinue, isFriday, reflectionJournal = [], studentName }: ReflectionJournalScreenProps) {
   if (!entry) return null;
 
   return (
@@ -29,12 +30,20 @@ export default function ReflectionJournalScreen({ entry, onContinue, isFriday, r
       <div className="w-full max-w-2xl bg-brand-paper rounded-3xl shadow-2xl overflow-hidden border border-brand-navy/10 relative">
         
         {/* Header */}
-        <div className="bg-brand-navy border-b border-brand-navy/10 p-6 sm:p-8 flex items-center gap-4 text-brand-paper">
-          <BookOpen className="w-8 h-8 text-brand-salmon" />
-          <div>
-            <span className="text-brand-salmon/80 font-mono text-xs uppercase tracking-widest font-bold">Reflection Journal</span>
-            <h2 className="text-2xl font-sans font-extrabold">{entry.day} completed</h2>
+        <div className="bg-brand-navy border-b border-brand-navy/10 p-6 sm:p-8 flex items-center justify-between text-brand-paper">
+          <div className="flex items-center gap-4">
+            <BookOpen className="w-8 h-8 text-brand-salmon" />
+            <div>
+              <span className="text-brand-salmon/80 font-mono text-xs uppercase tracking-widest font-bold">Reflection Journal</span>
+              <h2 className="text-2xl font-sans font-extrabold">{entry.day} completed</h2>
+            </div>
           </div>
+          {studentName && (
+            <div className="hidden sm:block text-right">
+              <span className="text-brand-cream/40 font-mono text-[9px] uppercase tracking-widest block font-bold">STUDENT LOG</span>
+              <span className="text-brand-cream font-sans text-xs font-black tracking-wide block">{studentName}</span>
+            </div>
+          )}
         </div>
 
         <div className="p-6 sm:p-8 space-y-8">

@@ -13,6 +13,7 @@ interface HeroSectionProps {
   bestScore: number;
   bestResult: string;
   soundEnabled: boolean;
+  studentName?: string;
 }
 
 const previewDays = [
@@ -23,7 +24,7 @@ const previewDays = [
   { day: 'Fri', title: 'Final Challenge', location: 'Deadline Board', desc: 'Term results evaluation.', icon: '🎯', color: 'border-brand-green/30 bg-brand-green/5' },
 ];
 
-export default function HeroSection({ onEnter, bestScore, bestResult, soundEnabled }: HeroSectionProps) {
+export default function HeroSection({ onEnter, bestScore, bestResult, soundEnabled, studentName }: HeroSectionProps) {
   const handleEnterClick = () => {
     playClickSound(soundEnabled);
     onEnter();
@@ -82,6 +83,19 @@ export default function HeroSection({ onEnter, bestScore, bestResult, soundEnabl
                 Student Life Survival Simulator
               </h2>
             </div>
+
+            {studentName && (
+              <motion.div 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-brand-blue/10 border-l-4 border-brand-blue px-4 py-2.5 rounded-r-xl text-left"
+              >
+                <span className="text-[10px] font-mono font-bold text-brand-blue uppercase block tracking-widest leading-none mb-1">OFFICIAL RECOGNITION</span>
+                <p className="text-sm font-sans font-black text-brand-ink leading-tight">
+                  Welcome back, <span className="text-brand-blue font-black">{studentName}</span>! Ready for next term?
+                </p>
+              </motion.div>
+            )}
 
             {/* Survival Paragraph */}
             <p className="text-brand-navy/70 text-sm sm:text-base leading-relaxed font-sans font-medium">

@@ -21,6 +21,7 @@ interface CampusMapScreenProps {
   onEnterDay: () => void;
   onSelectScenario: (scenario: Scenario) => void;
   soundEnabled: boolean;
+  studentName?: string;
 }
 
 const daysInfo = [
@@ -68,7 +69,8 @@ export default function CampusMapScreen({
   currentDayIndex,
   onEnterDay,
   onSelectScenario,
-  soundEnabled
+  soundEnabled,
+  studentName
 }: CampusMapScreenProps) {
   const [viewMode, setViewMode] = useState<'map' | 'choose'>('map');
   const [selectedScenarioIndex, setSelectedScenarioIndex] = useState<number>(0);
@@ -112,6 +114,13 @@ export default function CampusMapScreen({
                 <h1 className="text-3xl sm:text-4xl font-sans font-black text-brand-ink uppercase tracking-tight leading-none">
                   Weekly Map & Day Zones
                 </h1>
+                
+                {studentName && (
+                  <p className="text-xs font-mono font-black text-brand-blue uppercase tracking-wider flex items-center justify-center gap-1.5 bg-brand-blue/5 border border-brand-blue/10 px-3 py-1.5 rounded-lg w-fit mx-auto mt-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-blue animate-pulse" />
+                    <span>Active Enrollment: {studentName}</span>
+                  </p>
+                )}
                 
                 <p className="text-brand-navy/60 font-sans text-xs sm:text-sm max-w-xl mx-auto font-medium">
                   Enter the unlocked Day Zone to chart your custom route. Choose from different campus workspaces each day to fit your playstyle.

@@ -14,7 +14,8 @@ import {
   Sun, 
   Moon, 
   Sparkles,
-  HelpCircle
+  HelpCircle,
+  Trash2
 } from 'lucide-react';
 import { playClickSound } from '../utils/audio';
 
@@ -27,6 +28,7 @@ interface SettingsModalProps {
   onToggleFastForward: () => void;
   darkModeEnabled: boolean;
   onToggleDarkMode: () => void;
+  onDeleteData: () => void;
 }
 
 export default function SettingsModal({
@@ -37,9 +39,15 @@ export default function SettingsModal({
   fastForwardEnabled,
   onToggleFastForward,
   darkModeEnabled,
-  onToggleDarkMode
+  onToggleDarkMode,
+  onDeleteData
 }: SettingsModalProps) {
-  if (!isOpen) return null;
+  const [confirmDelete, setConfirmDelete] = React.useState(false);
+
+  if (!isOpen) {
+    if (confirmDelete) setConfirmDelete(false);
+    return null;
+  }
 
   return (
     <AnimatePresence>
@@ -216,6 +224,46 @@ export default function SettingsModal({
                 <div className={`w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${
                   soundEnabled ? 'translate-x-5' : 'translate-x-0'
                 }`} />
+              </button>
+            </div>
+
+            {/* Setting 4: Reset Local Data */}
+            <div className="flex items-center justify-between p-3 rounded-2xl bg-brand-cream/40 border border-brand-navy/5">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-xl border bg-brand-coral/10 border-brand-coral/25 text-brand-coral">
+                  <Trash2 className="w-4.5 h-4.5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-sans font-black text-brand-coral uppercase tracking-wide">
+                    Delete Data
+                  </h4>
+                  <p className="text-[10px] text-brand-coral/80 font-medium">
+                    Clear local saves & start over
+                  </p>
+                </div>
+              </div>
+
+              {/* Delete Button */}
+              <button
+                id="delete-data-btn"
+                onClick={() => {
+                  playClickSound(soundEnabled);
+                  if (confirmDelete) {
+                    onDeleteData();
+                    setConfirmDelete(false);
+                  } else {
+                    setConfirmDelete(true);
+                    setTimeout(() => setConfirmDelete(false), 3000); // Reset after 3 seconds
+                  }
+                }}
+                className={`px-3 py-1.5 rounded-lg font-bold text-[10px] uppercase tracking-wider hover:scale-105 transition-all focus:outline-none ${
+                  confirmDelete 
+                    ? 'bg-brand-coral text-white' 
+                    : 'bg-brand-coral/10 text-brand-coral hover:bg-brand-coral/20'
+                }`}
+                aria-label="Delete Local Data"
+              >
+                {confirmDelete ? "Confirm?" : "Reset"}
               </button>
             </div>
           </div>

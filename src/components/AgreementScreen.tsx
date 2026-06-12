@@ -9,12 +9,14 @@ import { GraduationCap, CheckSquare, Square, ChevronRight } from 'lucide-react';
 import { playClickSound } from '../utils/audio';
 
 interface AgreementScreenProps {
-  onAgree: () => void;
+  onAgree: (enteredName: string) => void;
   soundEnabled: boolean;
+  initialStudentName?: string;
 }
 
-export default function AgreementScreen({ onAgree, soundEnabled }: AgreementScreenProps) {
+export default function AgreementScreen({ onAgree, soundEnabled, initialStudentName = '' }: AgreementScreenProps) {
   const [agreed, setAgreed] = useState(false);
+  const [studentName, setStudentName] = useState(initialStudentName);
 
   const handleAgreeClick = () => {
     setAgreed(!agreed);
@@ -22,9 +24,9 @@ export default function AgreementScreen({ onAgree, soundEnabled }: AgreementScre
   };
 
   const handleEnterClick = () => {
-    if (agreed) {
+    if (agreed && studentName.trim().length >= 2) {
       playClickSound(soundEnabled);
-      onAgree();
+      onAgree(studentName.trim());
     }
   };
 
@@ -89,6 +91,28 @@ export default function AgreementScreen({ onAgree, soundEnabled }: AgreementScre
           </div>
 
           <div className="mt-6 sm:mt-8 border-t border-brand-navy/10 pt-6">
+            {/* Enrollment Name Input */}
+            <div className="mb-6 space-y-2 bg-brand-cream/45 p-4 rounded-2xl border border-brand-navy/10">
+              <label 
+                htmlFor="student-name-input"
+                className="block text-[10px] font-mono font-extrabold uppercase tracking-widest text-[#4F7BFF]"
+              >
+                Enrollment Name / Student ID
+              </label>
+              <input
+                type="text"
+                id="student-name-input"
+                value={studentName}
+                onChange={(e) => setStudentName(e.target.value)}
+                placeholder="Enter your name... (e.g. John Mark Estrada)"
+                className="w-full px-4 py-3 rounded-xl border border-brand-navy/15 bg-brand-paper text-brand-ink placeholder-brand-navy/35 focus:outline-none focus:ring-2 focus:ring-brand-blue/30 focus:border-brand-blue font-sans text-sm font-bold transition-all"
+                maxLength={30}
+              />
+              <p className="text-[10px] text-brand-navy/45 font-mono">
+                {studentName.trim().length < 2 ? "⚠️ Please enter your name to unlock enrollment." : "✓ Name accepted! Acknowledge below to begin."}
+              </p>
+            </div>
+
             <div 
               className="flex items-start gap-3 cursor-pointer group mb-6 w-full"
               onClick={handleAgreeClick}
@@ -106,12 +130,12 @@ export default function AgreementScreen({ onAgree, soundEnabled }: AgreementScre
             </div>
 
             <motion.button
-              whileHover={agreed ? { scale: 1.01 } : {}}
-              whileTap={agreed ? { scale: 0.99 } : {}}
+              whileHover={agreed && studentName.trim().length >= 2 ? { scale: 1.01 } : {}}
+              whileTap={agreed && studentName.trim().length >= 2 ? { scale: 0.99 } : {}}
               onClick={handleEnterClick}
-              disabled={!agreed}
+              disabled={!agreed || studentName.trim().length < 2}
               className={`w-full py-4 rounded-xl flex items-center justify-center gap-2 font-bold tracking-widest uppercase text-xs sm:text-sm transition-all duration-300 ${
-                agreed 
+                agreed && studentName.trim().length >= 2
                   ? 'bg-brand-blue text-white shadow-md shadow-brand-blue/15 cursor-pointer' 
                   : 'bg-brand-cream text-brand-navy/30 border border-brand-navy/5 cursor-not-allowed'
               }`}

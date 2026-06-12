@@ -31,6 +31,7 @@ interface SimulationDashboardProps {
   onBuyItem: (itemId: string, cost: number) => void;
   onUseItem: (itemId: string, effects: Partial<Stats>) => void;
   decisionMemory?: DecisionMemory;
+  studentName?: string;
 }
 
 const archetypeIcons: { [key: string]: any } = {
@@ -71,7 +72,8 @@ export default function SimulationDashboard({
   inventory,
   onBuyItem,
   onUseItem,
-  decisionMemory
+  decisionMemory,
+  studentName
 }: SimulationDashboardProps) {
 
   const [draftChoice, setDraftChoice] = React.useState<Choice | null>(null);
@@ -307,10 +309,15 @@ export default function SimulationDashboard({
                 <StudentIcon className="w-6 h-6 shrink-0" />
               </div>
               <div className="space-y-1 text-left">
-                <span className="text-[9px] font-mono uppercase tracking-widest text-brand-navy/50 block font-bold">IDENTITY CARD</span>
-                <h4 className="text-base font-black text-brand-ink tracking-tight uppercase">
-                  {selectedStudentType.name}
+                <span className="text-[9px] font-mono uppercase tracking-widest text-[#4F7BFF] block font-black">IDENTITY CARD</span>
+                <h4 className="text-base font-black text-brand-ink tracking-tight uppercase leading-snug">
+                  {studentName || selectedStudentType.name}
                 </h4>
+                {studentName && (
+                  <span className="text-[9px] font-mono text-brand-navy/50 font-bold uppercase tracking-wider block">
+                    Role: {selectedStudentType.name} archetype
+                  </span>
+                )}
                 <p className="text-xs text-brand-navy/70 leading-normal font-semibold">
                   Resource Multiplier: <span className="text-brand-blue font-bold">{selectedStudentType.strength}</span>
                 </p>
