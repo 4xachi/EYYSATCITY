@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Settings, 
@@ -15,9 +15,12 @@ import {
   Moon, 
   Sparkles,
   HelpCircle,
-  Trash2
+  Trash2,
+  Info,
+  ChevronLeft
 } from 'lucide-react';
 import { playClickSound } from '../utils/audio';
+import AgreementScreen from './AgreementScreen';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -29,6 +32,8 @@ interface SettingsModalProps {
   darkModeEnabled: boolean;
   onToggleDarkMode: () => void;
   onDeleteData: () => void;
+  studentName?: string;
+  onNameChange?: (name: string) => void;
 }
 
 export default function SettingsModal({
@@ -40,9 +45,29 @@ export default function SettingsModal({
   onToggleFastForward,
   darkModeEnabled,
   onToggleDarkMode,
-  onDeleteData
+  onDeleteData,
+  studentName = '',
+  onNameChange
 }: SettingsModalProps) {
-  const [confirmDelete, setConfirmDelete] = React.useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [activeView, setActiveView] = useState<'settings' | 'about'>('settings');
+  const [tempName, setTempName] = useState(studentName);
+
+  // Sync temp name when modal opens
+  React.useEffect(() => {
+    if (isOpen) {
+      setTempName(studentName);
+      setActiveView('settings');
+    }
+  }, [isOpen, studentName]);
+
+  const handleNameBlur = () => {
+    if (onNameChange && tempName.trim().length >= 2) {
+      onNameChange(tempName.trim());
+    } else {
+      setTempName(studentName); // Revert if invalid
+    }
+  };
 
   if (!isOpen) {
     if (confirmDelete) setConfirmDelete(false);
@@ -61,7 +86,20 @@ export default function SettingsModal({
           className="absolute inset-0 bg-brand-ink/40 backdrop-blur-[3px] cursor-pointer"
         />
 
+        {activeView === 'about' && (
+          <div className="relative z-[260] w-full max-w-2xl">
+              <AgreementScreen 
+                isSettingsMode={true} 
+                onClose={() => setActiveView('settings')}
+                onAgree={() => {}}
+                soundEnabled={soundEnabled}
+                initialStudentName={studentName}
+              />
+          </div>
+        )}
+
         {/* Modal content */}
+        {activeView === 'settings' && (
         <motion.div
           initial={{ scale: 0.93, y: 15, opacity: 0 }}
           animate={{ 
@@ -76,7 +114,7 @@ export default function SettingsModal({
             opacity: 0,
             transition: { duration: 0.15 }
           }}
-          className="relative max-w-sm w-full bg-brand-paper border-2 border-brand-navy rounded-3xl p-6 shadow-[0_12px_36px_rgba(33,39,52,0.18)] overflow-hidden"
+          className="relative max-w-sm w-full bg-brand-paper border-2 border-brand-navy rounded-3xl p-6 shadow-[0_12px_36px_rgba(33,39,52,0.18)] overflow-hidden z-[260]"
         >
           {/* Decorative design line */}
           <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-brand-blue via-brand-coral to-brand-amber" />
@@ -110,7 +148,23 @@ export default function SettingsModal({
           </div>
 
           {/* Settings list */}
-          <div className="space-y-4.5">
+          <div className="space-y-4.5 max-h-[60vh] overflow-y-auto pr-1">
+            {/* Enrollment Name Input */}
+            <div className="p-3 rounded-2xl bg-brand-cream/40 border border-brand-navy/5">
+              <label className="block text-xs font-sans font-black text-brand-ink uppercase tracking-wide mb-2 flex items-center gap-2">
+                <span className="p-1 rounded bg-brand-blue/10 text-brand-blue border border-brand-blue/20"><Sparkles className="w-3 h-3" /></span>
+                Student Name / ID
+              </label>
+              <input 
+                type="text" 
+                value={tempName}
+                onChange={(e) => setTempName(e.target.value)}
+                onBlur={handleNameBlur}
+                placeholder="Enter new name..."
+                maxLength={30}
+                className="w-full px-3 py-2 bg-brand-paper border border-brand-navy/15 rounded-xl text-sm font-bold text-brand-ink focus:outline-none focus:ring-1 focus:ring-brand-blue"
+              />
+            </div>
             {/* Setting 1: Dark Mode */}
             <div className="flex items-center justify-between p-3 rounded-2xl bg-brand-cream/40 border border-brand-navy/5">
               <div className="flex items-center gap-3">
@@ -266,6 +320,34 @@ export default function SettingsModal({
                 {confirmDelete ? "Confirm?" : "Reset"}
               </button>
             </div>
+            {/* Setting 5: About App & Agreement */}
+            <div className="flex items-center justify-between p-3 rounded-2xl bg-brand-cream/40 border border-brand-navy/5">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-xl border bg-brand-blue/10 border-brand-blue/25 text-brand-blue">
+                  <Info className="w-4.5 h-4.5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-sans font-black text-brand-ink uppercase tracking-wide">
+                    About App & Terms
+                  </h4>
+                  <p className="text-[10px] text-brand-navy/65 font-medium">
+                    View developers and enroll decree
+                  </p>
+                </div>
+              </div>
+
+              {/* View Button */}
+              <button
+                onClick={() => {
+                  playClickSound(soundEnabled);
+                  setActiveView('about');
+                }}
+                className="px-3 py-1.5 rounded-lg font-bold text-[10px] uppercase tracking-wider hover:scale-105 transition-all focus:outline-none bg-brand-blue/10 text-brand-blue hover:bg-brand-blue/20"
+                aria-label="View About App"
+              >
+                View
+              </button>
+            </div>
           </div>
 
           {/* Footer / Info Hint */}
@@ -289,6 +371,7 @@ export default function SettingsModal({
             </button>
           </div>
         </motion.div>
+        )}
       </div>
     </AnimatePresence>
   );

@@ -35,6 +35,7 @@ import WeeklyReflectionReport from './WeeklyReflectionReport';
 import BadgeCollection from './BadgeCollection';
 import PotentialFutures from './PotentialFutures';
 import { playResultSound } from '../utils/audio';
+import InteractiveStudentIDCard from './InteractiveStudentIDCard';
 import {
   ResponsiveContainer,
   LineChart,
@@ -111,28 +112,17 @@ export default function FinalResultScreen({
     <div className="py-12 px-4 max-w-5xl mx-auto space-y-12 pb-24 select-none bg-brand-cream notebook-grid min-h-screen">
       
       {/* Upper Corkboard Identity Section */}
-      <div className="text-center space-y-4 pt-8 relative max-w-xl mx-auto">
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: 'spring', bounce: 0.5 }}
-          className="inline-flex items-center justify-center w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-brand-paper border-4 border-brand-ink/10 shadow-xl text-brand-blue mb-2 relative"
-        >
-          {/* Wooden desk pin at top */}
-          <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-brand-coral shadow" />
-          {(() => {
-            const IconComponent = iconMap[studentIcon] || GraduationCap;
-            return <IconComponent className="w-12 h-12 sm:w-16 sm:h-16 relative z-10 text-brand-blue animate-pulse" />;
-          })()}
-        </motion.div>
+      <div className="text-center space-y-6 pt-8 relative max-w-xl mx-auto flex flex-col items-center">
+        <InteractiveStudentIDCard 
+          studentName={studentName} 
+          studentIcon={studentIcon}
+          isFlipped={true}
+          finalScore={result.finalScore}
+        />
         
         <h1 className="text-4xl sm:text-5xl font-sans font-black text-brand-ink uppercase tracking-tight leading-none text-balance">
           {result.title}
         </h1>
-        
-        <div className="inline-block px-3 py-1 bg-brand-blue/10 border border-brand-blue/25 text-brand-blue text-xs font-mono font-bold uppercase rounded-md tracking-wider">
-          Student ID: {studentName} &bull; Term Finished
-        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">

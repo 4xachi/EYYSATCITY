@@ -19,6 +19,7 @@ import {
 import { StudentType } from '../types/simulation';
 import { studentTypes } from '../data/studentTypes';
 import { playClickSound, playPositiveSound } from '../utils/audio';
+import InteractiveStudentIDCard from './InteractiveStudentIDCard';
 
 // Map icon names to Lucide icons
 const iconMap: { [key: string]: any } = {
@@ -70,12 +71,12 @@ export default function StudentTypeSelection({ onSelect, soundEnabled, studentNa
       
       {/* Selection Header */}
       <div className="flex flex-col items-center text-center space-y-3 mb-10">
-        <span className="text-xs font-mono text-brand-blue tracking-[0.2em] uppercase font-bold">LOG #02 : CHOOSE ARCHETYPE</span>
         {studentName && (
-          <div className="inline-block px-3 py-1 bg-brand-blue/10 border border-brand-blue/15 rounded-full text-[10px] font-mono font-black text-brand-blue uppercase tracking-widest leading-none mb-1 mx-auto">
-            Student: {studentName}
+          <div className="mb-4 w-full flex justify-center">
+            <InteractiveStudentIDCard studentName={studentName} />
           </div>
         )}
+        <span className="text-xs font-mono text-brand-blue tracking-[0.2em] uppercase font-bold">LOG #02 : CHOOSE ARCHETYPE</span>
         <h2 className="text-3xl sm:text-5xl font-serif font-extrabold text-brand-ink tracking-tight">
           Select Student Profile
         </h2>

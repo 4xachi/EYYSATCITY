@@ -582,7 +582,13 @@ export default function App() {
           
           {screen === 'loading' && (
             <motion.div key="loading-screen" initial={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 z-50 bg-brand-cream">
-              <LoadingScreen onComplete={() => setScreen('agreement')} />
+              <LoadingScreen onComplete={() => {
+                if (customStudentName && customStudentName.trim().length > 0) {
+                  setScreen('hero');
+                } else {
+                  setScreen('agreement');
+                }
+              }} />
             </motion.div>
           )}
 
@@ -729,6 +735,11 @@ export default function App() {
           return next;
         })}
         onDeleteData={handleDeleteData}
+        studentName={customStudentName}
+        onNameChange={(name) => {
+          setCustomStudentName(name);
+          localStorage.setItem('customStudentName', name);
+        }}
       />
 
     </div>

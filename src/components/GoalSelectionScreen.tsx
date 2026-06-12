@@ -8,6 +8,7 @@ import { useRef, useEffect } from 'react';
 import { Target, CheckCircle2 } from 'lucide-react';
 import { GOALS } from '../data/goals';
 import { Goal } from '../types/simulation';
+import InteractiveStudentIDCard from './InteractiveStudentIDCard';
 
 interface GoalSelectionScreenProps {
   onSelectGoal: (goal: Goal) => void;
@@ -34,8 +35,8 @@ export default function GoalSelectionScreen({ onSelectGoal, selectedGoal, onCont
         
         <div className="flex flex-col items-center text-center space-y-4">
           {studentName && (
-            <div className="inline-block px-3 py-1.5 bg-brand-blue/10 border border-brand-blue/20 rounded-full text-[10px] font-mono font-black text-brand-blue uppercase tracking-widest leading-none">
-              Student ID: {studentName}
+            <div className="mb-6 w-full flex justify-center">
+              <InteractiveStudentIDCard studentName={studentName} />
             </div>
           )}
           <div className="inline-flex items-center justify-center p-3 sm:p-4 rounded-2xl bg-brand-navy/5 text-brand-ink mb-2">

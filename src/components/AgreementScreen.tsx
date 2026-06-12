@@ -10,20 +10,29 @@ import { playClickSound } from '../utils/audio';
 
 interface AgreementScreenProps {
   onAgree: (enteredName: string) => void;
+  onClose?: () => void;
   soundEnabled: boolean;
   initialStudentName?: string;
+  isSettingsMode?: boolean;
 }
 
-export default function AgreementScreen({ onAgree, soundEnabled, initialStudentName = '' }: AgreementScreenProps) {
-  const [agreed, setAgreed] = useState(false);
+export default function AgreementScreen({ onAgree, onClose, soundEnabled, initialStudentName = '', isSettingsMode = false }: AgreementScreenProps) {
+  const [agreed, setAgreed] = useState(isSettingsMode ? true : false);
   const [studentName, setStudentName] = useState(initialStudentName);
 
   const handleAgreeClick = () => {
+    if (isSettingsMode) return;
     setAgreed(!agreed);
     playClickSound(soundEnabled);
   };
 
   const handleEnterClick = () => {
+    if (isSettingsMode) {
+      playClickSound(soundEnabled);
+      if (onClose) onClose();
+      return;
+    }
+    
     if (agreed && studentName.trim().length >= 2) {
       playClickSound(soundEnabled);
       onAgree(studentName.trim());
@@ -92,42 +101,46 @@ export default function AgreementScreen({ onAgree, soundEnabled, initialStudentN
 
           <div className="mt-6 sm:mt-8 border-t border-brand-navy/10 pt-6">
             {/* Enrollment Name Input */}
-            <div className="mb-6 space-y-2 bg-brand-cream/45 p-4 rounded-2xl border border-brand-navy/10">
-              <label 
-                htmlFor="student-name-input"
-                className="block text-[10px] font-mono font-extrabold uppercase tracking-widest text-[#4F7BFF]"
-              >
-                Enrollment Name / Student ID
-              </label>
-              <input
-                type="text"
-                id="student-name-input"
-                value={studentName}
-                onChange={(e) => setStudentName(e.target.value)}
-                placeholder="Enter your name... (e.g. John Mark Estrada)"
-                className="w-full px-4 py-3 rounded-xl border border-brand-navy/15 bg-brand-paper text-brand-ink placeholder-brand-navy/35 focus:outline-none focus:ring-2 focus:ring-brand-blue/30 focus:border-brand-blue font-sans text-sm font-bold transition-all"
-                maxLength={30}
-              />
-              <p className="text-[10px] text-brand-navy/45 font-mono">
-                {studentName.trim().length < 2 ? "⚠️ Please enter your name to unlock enrollment." : "✓ Name accepted! Acknowledge below to begin."}
-              </p>
-            </div>
-
-            <div 
-              className="flex items-start gap-3 cursor-pointer group mb-6 w-full"
-              onClick={handleAgreeClick}
-            >
-              <div className="text-brand-blue relative mt-0.5 shrink-0">
-                {agreed ? (
-                  <CheckSquare className="w-5 h-5 sm:w-6 sm:h-6" />
-                ) : (
-                  <Square className="w-5 h-5 sm:w-6 sm:h-6 text-brand-navy/25 group-hover:text-brand-blue transition-colors" />
-                )}
+            {!isSettingsMode && (
+              <div className="mb-6 space-y-2 bg-brand-cream/45 p-4 rounded-2xl border border-brand-navy/10">
+                <label 
+                  htmlFor="student-name-input"
+                  className="block text-[10px] font-mono font-extrabold uppercase tracking-widest text-[#4F7BFF]"
+                >
+                  Enrollment Name / Student ID
+                </label>
+                <input
+                  type="text"
+                  id="student-name-input"
+                  value={studentName}
+                  onChange={(e) => setStudentName(e.target.value)}
+                  placeholder="Enter your name... (e.g. John Mark Estrada)"
+                  className="w-full px-4 py-3 rounded-xl border border-brand-navy/15 bg-brand-paper text-brand-ink placeholder-brand-navy/35 focus:outline-none focus:ring-2 focus:ring-brand-blue/30 focus:border-brand-blue font-sans text-sm font-bold transition-all"
+                  maxLength={30}
+                />
+                <p className="text-[10px] text-brand-navy/45 font-mono">
+                  {studentName.trim().length < 2 ? "⚠️ Please enter your name to unlock enrollment." : "✓ Name accepted! Acknowledge below to begin."}
+                </p>
               </div>
-              <span className={`text-xs sm:text-sm select-none transition-colors font-medium leading-snug ${agreed ? 'text-brand-ink font-semibold' : 'text-brand-navy/60 group-hover:text-brand-navy/85'}`}>
-                I acknowledge the academic balance criteria and wish to enroll.
-              </span>
-            </div>
+            )}
+
+            {!isSettingsMode && (
+              <div 
+                className="flex items-start gap-3 cursor-pointer group mb-6 w-full"
+                onClick={handleAgreeClick}
+              >
+                <div className="text-brand-blue relative mt-0.5 shrink-0">
+                  {agreed ? (
+                    <CheckSquare className="w-5 h-5 sm:w-6 sm:h-6" />
+                  ) : (
+                    <Square className="w-5 h-5 sm:w-6 sm:h-6 text-brand-navy/25 group-hover:text-brand-blue transition-colors" />
+                  )}
+                </div>
+                <span className={`text-xs sm:text-sm select-none transition-colors font-medium leading-snug ${agreed ? 'text-brand-ink font-semibold' : 'text-brand-navy/60 group-hover:text-brand-navy/85'}`}>
+                  I acknowledge the academic balance criteria and wish to enroll.
+                </span>
+              </div>
+            )}
 
             <motion.button
               whileHover={agreed && studentName.trim().length >= 2 ? { scale: 1.01 } : {}}
@@ -140,8 +153,8 @@ export default function AgreementScreen({ onAgree, soundEnabled, initialStudentN
                   : 'bg-brand-cream text-brand-navy/30 border border-brand-navy/5 cursor-not-allowed'
               }`}
             >
-              <span>Begin Term Enrollment</span>
-              <ChevronRight className="w-4 h-4" />
+              <span>{isSettingsMode ? "Return to Settings" : "Begin Term Enrollment"}</span>
+              {!isSettingsMode && <ChevronRight className="w-4 h-4" />}
             </motion.button>
           </div>
         </div>
