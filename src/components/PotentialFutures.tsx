@@ -178,7 +178,7 @@ export default function PotentialFutures({ finalStats, badgesEarned }: Potential
   const recommendedCareers = evaluatedCareers.slice(0, 3);
 
   return (
-    <div className="bg-[#FFFDF7] rounded-3xl border border-brand-navy/12 p-6 sm:p-8 shadow-md relative text-left overflow-hidden">
+    <div className="bg-brand-paper rounded-3xl border border-brand-navy/12 p-6 sm:p-8 shadow-md relative text-left overflow-hidden">
       {/* Notebook margin line */}
       <div className="absolute left-6 top-0 bottom-0 w-[1.5px] bg-brand-coral/30 pointer-events-none" />
 
@@ -193,7 +193,7 @@ export default function PotentialFutures({ finalStats, badgesEarned }: Potential
               Potential Futures Analysis
             </h3>
           </div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-[#F7F3EA] border border-brand-navy/10 text-brand-navy/60 font-mono text-[9px] font-bold uppercase self-start sm:self-center">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-brand-cream border border-brand-navy/10 text-brand-navy/60 font-mono text-[9px] font-bold uppercase self-start sm:self-center">
             <span>Core Diagnostics Checked</span>
           </div>
         </div>
@@ -213,8 +213,8 @@ export default function PotentialFutures({ finalStats, badgesEarned }: Potential
                 onClick={() => setSelectedCareerId(isSelected ? null : career.id)}
                 className={`group p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between min-h-[220px] select-none ${
                   isSelected 
-                    ? "bg-[#172033]/95 border-brand-navy text-[#FFFDF7] scale-[1.02] shadow-lg" 
-                    : "bg-white hover:bg-brand-paper hover:-translate-y-1 border-brand-navy/10 shadow-sm"
+                    ? "bg-brand-ink border-brand-navy text-brand-paper scale-[1.02] shadow-lg" 
+                    : "bg-brand-paper hover:bg-brand-cream/50 hover:-translate-y-1 border-brand-navy/10 shadow-sm"
                 }`}
               >
                 <div>
@@ -237,7 +237,7 @@ export default function PotentialFutures({ finalStats, badgesEarned }: Potential
                   </div>
 
                   <h4 className={`font-sans font-black text-sm uppercase tracking-wide group-hover:text-brand-blue transition-colors ${
-                    isSelected ? "text-white" : "text-brand-ink"
+                    isSelected ? "text-brand-paper" : "text-brand-ink"
                   }`}>
                     {career.title}
                   </h4>
@@ -246,7 +246,7 @@ export default function PotentialFutures({ finalStats, badgesEarned }: Potential
                   </span>
 
                   <p className={`text-xs font-sans leading-relaxed transition-opacity ${
-                    isSelected ? "text-white/85" : "text-brand-navy/70"
+                    isSelected ? "text-brand-paper/85" : "text-brand-navy/70"
                   }`}>
                     {career.description}
                   </p>
@@ -259,7 +259,7 @@ export default function PotentialFutures({ finalStats, badgesEarned }: Potential
                     Alignment Factor:
                   </span>
                   <span className={`text-[10px] font-sans leading-snug font-medium ${
-                    isSelected ? "text-white/70" : "text-brand-navy/60"
+                    isSelected ? "text-brand-paper/70" : "text-brand-navy/60"
                   }`}>
                     {career.alignmentReason}
                   </span>

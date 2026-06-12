@@ -19,7 +19,10 @@ import {
   Trophy,
   Award,
   RefreshCw,
-  RotateCcw 
+  RotateCcw,
+  ShoppingBag,
+  Brain,
+  Volume2
 } from 'lucide-react';
 
 const functionsList = [
@@ -120,6 +123,27 @@ const functionsList = [
     desc: 'Resets the simulation so the user can try a new path.',
     icon: RotateCcw,
     color: 'text-brand-amber bg-brand-amber/10 border-brand-amber/20',
+  },
+  {
+    num: '15',
+    title: 'Survival Shop Function',
+    desc: 'Lets users spend starting academic allowance on vitals boosters like study guides and energy coffee.',
+    icon: ShoppingBag,
+    color: 'text-brand-blue bg-brand-blue/10 border-brand-blue/20',
+  },
+  {
+    num: '16',
+    title: 'Brain Booster Quiz Function',
+    desc: 'Runs live, optional trivia quizzes to instantly raise grades and test student knowledge.',
+    icon: Brain,
+    color: 'text-brand-lavender bg-brand-lavender/10 border-brand-lavender/20',
+  },
+  {
+    num: '17',
+    title: 'Audio Feedback Function',
+    desc: 'Utilizes interactive audio cues to emphasize actions, failures, milestones, and shop actions.',
+    icon: Volume2,
+    color: 'text-brand-coral bg-brand-coral/10 border-brand-coral/20',
   }
 ];
 
@@ -128,16 +152,16 @@ export default function FunctionsSection() {
     <section id="how-eyysat-works" className="py-14 border-t border-brand-navy/10 bg-transparent w-full z-10 select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
         
-        {/* Core Presentation Section Title */}
-        <div className="text-center space-y-3">
-          <span className="text-xs font-mono text-brand-blue tracking-[0.25em] uppercase font-bold">SYSTEM ARCHITECTURE MANUAL</span>
-          <h2 className="text-3xl sm:text-5xl font-serif font-extrabold text-brand-ink tracking-tight">
-            How Eyysat City Works
-          </h2>
-          <p className="text-brand-navy/70 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
-            Fourteen core programmatic systems governing the student simulation. Read this guide to understand its inner academic machinery.
-          </p>
-        </div>
+         {/* Core Presentation Section Title */}
+         <div className="text-center space-y-3">
+           <span className="text-xs font-mono text-brand-blue tracking-[0.25em] uppercase font-bold">SYSTEM ARCHITECTURE MANUAL</span>
+           <h2 className="text-3xl sm:text-5xl font-serif font-extrabold text-brand-ink tracking-tight">
+             How Eyysat City Works
+           </h2>
+           <p className="text-brand-navy/70 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
+             Seventeen core programmatic systems governing the student simulation. Read this guide to understand its inner academic machinery.
+           </p>
+         </div>
 
         {/* Responsive Grid with equal card sizing logic */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

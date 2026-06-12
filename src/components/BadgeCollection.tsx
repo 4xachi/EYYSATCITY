@@ -13,7 +13,7 @@ interface BadgeCollectionProps {
 
 export default function BadgeCollection({ unlockedBadgeIds }: BadgeCollectionProps) {
   return (
-    <div className="bg-white p-6 sm:p-8 rounded-3xl border border-brand-navy/10 shadow-sm">
+    <div className="bg-brand-paper p-6 sm:p-8 rounded-3xl border border-brand-navy/10 shadow-sm">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <div className="flex items-center gap-2 mb-1">

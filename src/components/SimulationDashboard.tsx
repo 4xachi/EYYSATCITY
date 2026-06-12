@@ -74,6 +74,12 @@ export default function SimulationDashboard({
   decisionMemory
 }: SimulationDashboardProps) {
 
+  const [draftChoice, setDraftChoice] = React.useState<Choice | null>(null);
+
+  React.useEffect(() => {
+    setDraftChoice(null);
+  }, [currentScenario.dayIndex, currentScenario.title]);
+
   const StudentIcon = selectedStudentType ? (archetypeIcons[selectedStudentType.id] || GraduationCap) : GraduationCap;
   const mappedLocation = mapVisualLocation(currentScenario.location);
   const isCriticalStress = stats.stress >= 75;
@@ -102,11 +108,11 @@ export default function SimulationDashboard({
           {/* Day & Location Banner with interactive pressure warning */}
           <div className={`relative rounded-2xl border bg-brand-paper p-6 overflow-visible flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-[0_4px_12px_rgba(30,42,68,0.03)] transition-all duration-500 ${
             isCriticalStress 
-              ? 'border-brand-coral/45 shadow-[0_0_15px_rgba(242,109,91,0.1)] bg-[#FFFBFA]' 
+              ? 'border-brand-coral/45 shadow-[0_0_15px_rgba(242,109,91,0.1)] bg-brand-coral/5' 
               : 'border-brand-navy/15'
           }`}>
             {/* Soft adhesive tape graphic anchor detail */}
-            <div className="absolute -top-2.5 left-12 w-16 h-5 bg-[#FFF2DE] border-x-2 border-[#F5B84B]/35 rotate-[-2deg] z-20 shadow-[0_1px_3px_rgba(0,0,0,0.04)] pointer-events-none" />
+            <div className="absolute -top-2.5 left-12 w-16 h-5 bg-brand-amber/10 border-x-2 border-brand-amber/25 rotate-[-2deg] z-20 shadow-[0_1px_3px_rgba(0,0,0,0.04)] pointer-events-none" />
             
             <div className="space-y-1">
               <div className="flex items-center gap-2">
@@ -148,7 +154,7 @@ export default function SimulationDashboard({
             animate={{ opacity: 1, y: 0 }}
             className={`rounded-3xl border p-6 sm:p-8 space-y-4 shadow-[0_6px_18px_rgba(30,42,68,0.02)] relative overflow-hidden transition-all duration-500 ${
               isCriticalStress 
-                ? 'border-brand-coral/40 bg-gradient-to-br from-brand-paper to-[#FFFDFD] shadow-[0_8px_24px_rgba(242,109,91,0.04)]' 
+                ? 'border-brand-coral/40 bg-gradient-to-br from-brand-paper to-brand-coral/5 shadow-[0_8px_24px_rgba(242,109,91,0.04)]' 
                 : 'border-brand-navy/15 bg-brand-paper'
             }`}
           >
@@ -176,17 +182,94 @@ export default function SimulationDashboard({
           {/* Decision Choice Buttons Selection Map */}
           <div className="space-y-3.5">
             <h4 className="text-[10px] font-mono uppercase text-brand-navy/50 tracking-wider font-bold">CHOOSE YOUR STUDY STRATEGY</h4>
-            <div className="grid grid-cols-1 gap-3.5">
-              {currentScenario.choices.map((choice) => (
-                <ChoiceCard
-                  key={choice.id}
-                  choice={choice}
-                  disabled={hasChosenToday}
-                  isSelected={selectedChoice?.id === choice.id}
-                  onSelect={onSelectChoice}
-                />
-              ))}
-            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`${currentScenario.dayIndex}-${currentScenario.location}`}
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.07,
+                      delayChildren: 0.03
+                    }
+                  },
+                  exit: {
+                    opacity: 0,
+                    transition: {
+                      staggerChildren: 0.04,
+                      staggerDirection: -1
+                    }
+                  }
+                }}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                className="grid grid-cols-1 gap-3.5"
+              >
+                {currentScenario.choices.map((choice) => {
+                  const isSelected = hasChosenToday
+                    ? selectedChoice?.id === choice.id
+                    : draftChoice?.id === choice.id;
+
+                  return (
+                    <ChoiceCard
+                      key={choice.id}
+                      choice={choice}
+                      disabled={hasChosenToday}
+                      isSelected={isSelected}
+                      showEffects={hasChosenToday}
+                      onSelect={(c) => {
+                        if (!hasChosenToday) {
+                          setDraftChoice(c);
+                        }
+                      }}
+                    />
+                  );
+                })}
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Immersive highlighted selection confirmation overlay */}
+            <AnimatePresence>
+              {!hasChosenToday && draftChoice && (
+                <motion.div
+                  initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.98 }}
+                  transition={{ type: 'spring', stiffness: 450, damping: 26 }}
+                  className="bg-brand-blue/[0.04] border-2 border-brand-blue/30 rounded-2xl p-4.5 text-center space-y-3.5 shadow-sm relative overflow-hidden"
+                >
+                  {/* Decorative glowing marker */}
+                  <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-brand-blue via-[#4F7BFF] to-brand-blue/40" />
+
+                  <div className="space-y-1">
+                    <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-brand-blue px-2.5 py-0.5 rounded-full bg-brand-blue/10 inline-block border border-brand-blue/15 animate-pulse">
+                      ★ Highlighted & Prepared Selection ★
+                    </span>
+                    <p className="text-xs sm:text-sm font-sans font-extrabold text-brand-ink leading-relaxed max-w-md mx-auto block mt-1.5">
+                      Confirm: <span className="text-brand-blue font-black underline decoration-2 underline-offset-2">{draftChoice.text}</span>
+                    </p>
+                  </div>
+
+                  <motion.button
+                    id="confirm-selection-btn"
+                    whileHover={{ scale: 1.015 }}
+                    whileTap={{ scale: 0.985 }}
+                    onClick={() => {
+                      if (draftChoice) {
+                        onSelectChoice(draftChoice);
+                      }
+                    }}
+                    className="w-full py-3.5 px-6 rounded-2xl bg-brand-coral hover:bg-[#E0534A] text-white font-sans font-black text-xs uppercase tracking-widest border-2 border-brand-navy shadow-[3px_3px_0px_0px_rgba(33,39,52,1)] hover:shadow-[4px_4px_0px_0px_rgba(33,39,52,1)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_rgba(33,39,52,1)] transition-all cursor-pointer flex items-center justify-center gap-2 focus:outline-none"
+                  >
+                    <span>LOCK IN DECISION</span>
+                    <span className="text-[10px] font-mono font-bold bg-white/20 px-2 py-0.5 rounded tracking-normal">PRESS TO CONFIRM</span>
+                  </motion.button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {decisionMemory && (
               <ChoiceMemoryCard decisionMemory={decisionMemory} />
             )}

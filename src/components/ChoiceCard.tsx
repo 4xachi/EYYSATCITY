@@ -14,6 +14,7 @@ interface ChoiceCardProps {
   onSelect: (choice: Choice) => void;
   disabled: boolean;
   isSelected: boolean;
+  showEffects?: boolean;
 }
 
 const keyLabelMap: { [key in StatKey]: string } = {
@@ -25,13 +26,28 @@ const keyLabelMap: { [key in StatKey]: string } = {
   social: 'Social',
 };
 
-export default function ChoiceCard({ choice, onSelect, disabled, isSelected }: ChoiceCardProps) {
+const itemVariants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { type: 'spring', stiffness: 350, damping: 28 } 
+  },
+  exit: { 
+    opacity: 0, 
+    y: -10, 
+    transition: { duration: 0.12 } 
+  }
+};
+
+export default function ChoiceCard({ choice, onSelect, disabled, isSelected, showEffects = false }: ChoiceCardProps) {
   // Extract effects for preview chips
   const effectsArray = Object.entries(choice.effects) as [StatKey, number][];
 
   return (
     <motion.button
       id={`choice-btn-${choice.id}`}
+      variants={itemVariants}
       whileHover={disabled ? {} : { scale: 1.01, y: -1 }}
       whileTap={disabled ? {} : { scale: 0.99 }}
       onClick={() => !disabled && onSelect(choice)}
@@ -73,8 +89,8 @@ export default function ChoiceCard({ choice, onSelect, disabled, isSelected }: C
           {choice.text}
         </p>
 
-        {/* Floating small mini consequences hints (Visible only when selected) */}
-        {isSelected && (
+        {/* Floating small mini consequences hints (Visible only when selected and effects are to be shown) */}
+        {isSelected && showEffects && (
           <div className="flex flex-wrap gap-1.5 mt-1.5">
             {effectsArray.map(([stat, val]) => {
               if (val === 0) return null;

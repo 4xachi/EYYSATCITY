@@ -102,7 +102,7 @@ export default function HeroSection({ onEnter, bestScore, bestResult, soundEnabl
 
               <button
                 onClick={scrollToHowItWorks}
-                className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-xl border border-brand-navy/15 hover:border-brand-navy bg-white hover:bg-brand-paper hover:-translate-y-0.5 active:translate-y-0 transition-all font-sans font-extrabold text-xs tracking-widest uppercase text-brand-ink"
+                className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-xl border border-brand-navy/15 hover:border-brand-navy bg-brand-paper hover:bg-brand-cream/40 hover:-translate-y-0.5 active:translate-y-0 transition-all font-sans font-extrabold text-xs tracking-widest uppercase text-brand-ink"
               >
                 <HelpCircle className="w-4 h-4 text-brand-navy/60" />
                 <span>How It Works</span>
@@ -150,8 +150,8 @@ export default function HeroSection({ onEnter, bestScore, bestResult, soundEnabl
                   key={index}
                   className={`relative p-3.5 rounded-xl border transition-all duration-300 z-10 flex flex-col justify-between h-[150px] group ${
                     isActive
-                      ? 'bg-white border-brand-ink shadow-md scale-[1.03] ring-1 ring-brand-ink/50'
-                      : 'bg-brand-paper hover:bg-white border-brand-navy/10 opacity-80 hover:opacity-100 hover:scale-[1.02]'
+                      ? 'bg-brand-paper border-brand-ink shadow-md scale-[1.03] ring-1 ring-brand-ink/50'
+                      : 'bg-brand-cream/40 hover:bg-brand-paper border-brand-navy/10 opacity-80 hover:opacity-100 hover:scale-[1.02]'
                   }`}
                 >
                   {/* Miniature tape on top of Monday (Visual Detail 4) */}
@@ -163,7 +163,7 @@ export default function HeroSection({ onEnter, bestScore, bestResult, soundEnabl
 
                   <div className="space-y-1 text-left">
                     <span className={`text-[9px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded-full inline-block ${
-                      isActive ? 'bg-brand-ink text-white' : 'bg-brand-navy/5 text-brand-navy/50'
+                      isActive ? 'bg-brand-ink text-brand-paper' : 'bg-brand-navy/5 text-brand-navy/50'
                     }`}>
                       {item.day}
                     </span>
@@ -185,7 +185,7 @@ export default function HeroSection({ onEnter, bestScore, bestResult, soundEnabl
           </div>
 
           {/* Underlay Info Note (Visual Detail 5) */}
-          <div className="mt-6 pt-5 border-t border-brand-navy/10 flex items-center gap-3 bg-white/60 p-3 rounded-xl border border-brand-navy/5">
+          <div className="mt-6 pt-5 border-t border-brand-navy/10 flex items-center gap-3 bg-brand-paper/60 p-3 rounded-xl border border-brand-navy/5">
             <AlertCircle className="w-5 h-5 text-brand-blue shrink-0" />
             <p className="text-xs font-sans text-brand-navy/70 leading-relaxed font-semibold">
               <strong className="text-brand-ink font-bold">Interactive Preview:</strong> Monday triggers a surprise <span className="text-brand-coral font-bold">Quiz Warning</span> in the Library. Prepare your starting student type's mental resources appropriately to protect your weekend results.
@@ -206,7 +206,7 @@ export default function HeroSection({ onEnter, bestScore, bestResult, soundEnabl
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           
           {/* Card 1: Student ID Pass */}
-          <div className="bg-white p-4.5 rounded-2xl border border-brand-navy/12 shadow-sm relative overflow-hidden flex flex-col justify-between min-h-[145px] hover:border-brand-blue/30 transition-all">
+          <div className="bg-brand-paper p-4.5 rounded-2xl border border-brand-navy/12 shadow-sm relative overflow-hidden flex flex-col justify-between min-h-[145px] hover:border-brand-blue/30 transition-all">
             <div className="absolute top-0 right-0 w-12 h-12 bg-brand-blue/5 rounded-bl-full pointer-events-none" />
             <div className="space-y-2">
               <span className="text-[8px] font-mono font-bold text-brand-blue uppercase bg-brand-blue/10 px-2 py-0.5 rounded">Student ID</span>
@@ -222,7 +222,7 @@ export default function HeroSection({ onEnter, bestScore, bestResult, soundEnabl
           </div>
 
           {/* Card 2: Allowance Tracker Receipt */}
-          <div className="bg-[#FFFFFE] p-4.5 rounded-2xl border border-brand-navy/12 shadow-sm relative overflow-hidden flex flex-col justify-between min-h-[145px] hover:border-brand-amber/30 transition-all">
+          <div className="bg-brand-paper p-4.5 rounded-2xl border border-brand-navy/12 shadow-sm relative overflow-hidden flex flex-col justify-between min-h-[145px] hover:border-brand-amber/30 transition-all">
             {/* Tiny Red margin line at the edge */}
             <div className="absolute left-0 top-0 bottom-0 w-1 bg-brand-amber" />
             <div className="space-y-2">
@@ -239,7 +239,7 @@ export default function HeroSection({ onEnter, bestScore, bestResult, soundEnabl
           </div>
 
           {/* Card 3: Stress Meter Warning */}
-          <div className="bg-[#FFFDFB] p-4.5 rounded-2xl border border-brand-navy/12 shadow-sm relative overflow-hidden flex flex-col justify-between min-h-[145px] hover:border-brand-coral/30 transition-all">
+          <div className="bg-brand-paper p-4.5 rounded-2xl border border-brand-navy/12 shadow-sm relative overflow-hidden flex flex-col justify-between min-h-[145px] hover:border-brand-coral/30 transition-all">
             <div className="absolute top-2 right-2 flex gap-1">
               <div className="w-1.5 h-1.5 rounded-full bg-brand-coral animate-ping" />
               <div className="w-1.5 h-1.5 rounded-full bg-brand-coral" />
@@ -258,7 +258,7 @@ export default function HeroSection({ onEnter, bestScore, bestResult, soundEnabl
           </div>
 
           {/* Card 4: Goal Mission Planner */}
-          <div className="bg-white p-4.5 rounded-2xl border border-brand-navy/12 shadow-sm relative overflow-hidden flex flex-col justify-between min-h-[145px] hover:border-brand-lavender/30 transition-all">
+          <div className="bg-brand-paper p-4.5 rounded-2xl border border-brand-navy/12 shadow-sm relative overflow-hidden flex flex-col justify-between min-h-[145px] hover:border-brand-lavender/30 transition-all">
             <div className="space-y-1">
               <span className="text-[8px] font-mono font-bold text-brand-lavender uppercase bg-brand-lavender/10 px-2 py-0.5 rounded">Active Objective</span>
               <h4 className="font-sans font-bold text-xs text-brand-ink leading-tight pt-1">
@@ -274,7 +274,7 @@ export default function HeroSection({ onEnter, bestScore, bestResult, soundEnabl
           </div>
 
           {/* Card 5: Unlockable Badge Stickers */}
-          <div className="bg-white p-4.5 rounded-2xl border border-brand-navy/12 shadow-sm relative overflow-hidden flex flex-col justify-between min-h-[145px] hover:border-brand-green/30 transition-all">
+          <div className="bg-brand-paper p-4.5 rounded-2xl border border-brand-navy/12 shadow-sm relative overflow-hidden flex flex-col justify-between min-h-[145px] hover:border-brand-green/30 transition-all">
             <div className="space-y-2">
               <span className="text-[8px] font-mono font-bold text-brand-green uppercase bg-brand-green/10 px-2 py-0.5 rounded">Sticker Unlock</span>
               <div className="space-y-0.5">

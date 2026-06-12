@@ -26,16 +26,16 @@ const AnimatedBackground = memo(function AnimatedBackground() {
   }, []);
 
   return (
-    <div className="fixed inset-0 -z-50 overflow-hidden bg-[#F8F6F1] select-none pointer-events-none transition-colors duration-1000">
+    <div className="fixed inset-0 -z-50 overflow-hidden bg-brand-cream select-none pointer-events-none transition-colors duration-1000">
       {/* Delicate Notebook Grid Texture */}
       <div className="absolute inset-0 notebook-grid opacity-75" />
 
       {/* Layered Desk Sunlight & Soft Warm Gradients */}
-      <div className="absolute inset-0 bg-radial-at-tl from-[#FDFBF7] via-[#F8F6F1] to-[#EFECE3] opacity-80" />
+      <div className="absolute inset-0 bg-radial-at-tl from-brand-paper via-brand-cream to-brand-cream/90 opacity-80" />
       
       {/* Academic Aura / Soft Spotlight */}
-      <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-br from-[#9B7EDE]/10 via-[#4F7BFF]/5 to-transparent blur-[120px]" />
-      <div className="absolute bottom-[-15%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-tr from-[#4FA66A]/10 via-[#F5B84B]/5 to-transparent blur-[100px]" />
+      <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-br from-[#9B7EDE]/10 via-[#4F7BFF]/5 to-transparent blur-[120px] dark:opacity-40" />
+      <div className="absolute bottom-[-15%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-tr from-[#4FA66A]/10 via-[#F5B84B]/5 to-transparent blur-[100px] dark:opacity-40" />
       
       {/* Decorative Planner Border Line on the left side of screen */}
       <div className="absolute top-0 bottom-0 left-[4%] sm:left-[6%] w-[2px] bg-gradient-to-b from-brand-coral/20 via-brand-coral/40 to-brand-coral/10 hidden md:block" />
@@ -49,7 +49,7 @@ const AnimatedBackground = memo(function AnimatedBackground() {
         return (
           <div
             key={el.id}
-            className="absolute text-[#1E2A44]/15 will-change-transform flex items-center justify-center"
+            className="absolute text-brand-navy/15 will-change-transform flex items-center justify-center transition-colors duration-1000"
             style={{
               top: `${el.y}%`,
               left: `${el.x}%`,

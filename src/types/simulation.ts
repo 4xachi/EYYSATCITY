@@ -91,6 +91,7 @@ export interface ReflectionEntry {
   lessonText: string;
   mood: "balanced" | "risky" | "strong" | "stressful" | "recovered";
   endStressLevel?: number;
+  statsSnapshot?: Stats;
 }
 
 export interface ChoiceHistoryEntry {

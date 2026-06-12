@@ -26,10 +26,10 @@ export default function ReflectionJournalScreen({ entry, onContinue, isFriday, r
 
   return (
     <div className="min-h-[100dvh] flex items-center justify-center p-4">
-      <div className="w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-brand-navy/10 relative">
+      <div className="w-full max-w-2xl bg-brand-paper rounded-3xl shadow-2xl overflow-hidden border border-brand-navy/10 relative">
         
         {/* Header */}
-        <div className="bg-brand-navy border-b border-brand-navy/10 p-6 sm:p-8 flex items-center gap-4 text-white">
+        <div className="bg-brand-navy border-b border-brand-navy/10 p-6 sm:p-8 flex items-center gap-4 text-brand-paper">
           <BookOpen className="w-8 h-8 text-brand-salmon" />
           <div>
             <span className="text-brand-salmon/80 font-mono text-xs uppercase tracking-widest font-bold">Reflection Journal</span>
@@ -154,7 +154,7 @@ export default function ReflectionJournalScreen({ entry, onContinue, isFriday, r
                           </div>
 
                           {/* Stat change indicator */}
-                          <div className="text-[9px] font-mono leading-none flex items-center gap-0.5 justify-center py-0.5 px-1.5 rounded-full bg-white/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+                          <div className="text-[9px] font-mono leading-none flex items-center gap-0.5 justify-center py-0.5 px-1.5 rounded-full bg-brand-paper/70 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
                             {change !== undefined && change !== 0 ? (
                               <span className={change > 0 ? "text-brand-coral font-bold" : "text-brand-green font-bold"}>
                                 {change > 0 ? `+${change}` : change}
@@ -165,8 +165,8 @@ export default function ReflectionJournalScreen({ entry, onContinue, isFriday, r
                           </div>
                           
                           {/* Rich hover tooltip displaying exactly what option was chosen and short details */}
-                          <div className="absolute bottom-[105%] left-1/2 -translate-x-1/2 bg-brand-ink text-white text-[11px] p-3 rounded-xl shadow-xl w-52 sm:w-60 hidden group-hover:block z-30 pointer-events-none border border-white/10 text-left font-sans leading-relaxed">
-                            <div className="font-bold text-brand-salmon border-b border-white/10 pb-1 mb-1 font-mono uppercase text-[9px] tracking-wider flex items-center justify-between">
+                          <div className="absolute bottom-[105%] left-1/2 -translate-x-1/2 bg-brand-ink text-brand-paper text-[11px] p-3 rounded-xl shadow-xl w-52 sm:w-60 hidden group-hover:block z-30 pointer-events-none border border-brand-paper/10 text-left font-sans leading-relaxed">
+                            <div className="font-bold text-brand-salmon border-b border-brand-paper/15 pb-1 mb-1 font-mono uppercase text-[9px] tracking-wider flex items-center justify-between">
                               <span>{dayDef.key} Action</span>
                               <span className="font-normal opacity-80 text-[8px] lowercase">Stress Index: {stressLevel}</span>
                             </div>
@@ -217,7 +217,7 @@ export default function ReflectionJournalScreen({ entry, onContinue, isFriday, r
               <p className="text-xl font-sans text-brand-ink italic mb-4 leading-relaxed">
                 "{entry.reflectionText}"
               </p>
-              <div className="bg-brand-ink text-white p-4 rounded-xl flex items-start gap-3">
+              <div className="bg-brand-ink text-brand-paper p-4 rounded-xl flex items-start gap-3">
                 <span className="shrink-0 text-xl">💡</span>
                 <p className="font-sans font-medium text-sm leading-relaxed">{entry.lessonText}</p>
               </div>
@@ -226,7 +226,7 @@ export default function ReflectionJournalScreen({ entry, onContinue, isFriday, r
 
           <button
             onClick={onContinue}
-            className="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-brand-blue text-white font-sans font-bold text-lg hover:bg-brand-navy transition-all shadow-md hover:shadow-lg"
+            className="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-brand-blue text-white font-sans font-bold text-lg hover:bg-brand-blue/90 transition-all shadow-md hover:shadow-lg"
           >
             {isFriday ? 'View Final Student Profile' : 'Return to Campus Map'}
             <ArrowRight className="w-5 h-5" />

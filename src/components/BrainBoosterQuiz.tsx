@@ -313,7 +313,7 @@ export default function BrainBoosterQuiz({
                   const isCorrectAnswer = idx === questions[currentIndex].answerIndex;
                   const hasAnswered = selectedAnswer !== null;
                   
-                  let cardStyle = "border-brand-navy/12 bg-white text-brand-ink hover:bg-brand-cream/40";
+                  let cardStyle = "border-brand-navy/12 bg-brand-paper text-brand-ink hover:bg-brand-cream/40";
                   let iconElement = null;
 
                   if (hasAnswered) {
@@ -433,7 +433,7 @@ export default function BrainBoosterQuiz({
                 <button
                   id="quiz-complete-close-btn"
                   onClick={handleCloseQuiz}
-                  className="w-full py-2 px-4 rounded-xl font-sans text-[10px] font-bold uppercase tracking-widest bg-brand-ink text-white hover:bg-brand-ink/90 cursor-pointer block text-center"
+                  className="w-full py-2 px-4 rounded-xl font-sans text-[10px] font-bold uppercase tracking-widest bg-brand-ink text-brand-paper hover:bg-brand-ink/90 cursor-pointer block text-center"
                 >
                   Return to Dashboard
                 </button>

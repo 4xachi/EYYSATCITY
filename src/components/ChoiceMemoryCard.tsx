@@ -35,7 +35,7 @@ export default function ChoiceMemoryCard({ decisionMemory }: ChoiceMemoryCardPro
       </div>
       <div className="flex flex-wrap gap-2">
         {displayMemories.map((note, index) => (
-          <span key={index} className="px-2.5 py-1 bg-white border border-brand-navy/10 rounded-md text-[11px] font-sans text-brand-ink font-medium shadow-sm">
+          <span key={index} className="px-2.5 py-1 bg-brand-cream/60 border border-brand-navy/10 rounded-md text-[11px] font-sans text-brand-ink font-medium shadow-sm">
             {note}
           </span>
         ))}

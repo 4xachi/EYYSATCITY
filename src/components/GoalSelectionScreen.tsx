@@ -52,8 +52,8 @@ export default function GoalSelectionScreen({ onSelectGoal, selectedGoal, onCont
                 onClick={() => onSelectGoal(goal)}
                 className={`text-left p-5 sm:p-6 rounded-2xl border transition-all duration-300 relative overflow-hidden group flex flex-col justify-between h-full w-full ${
                   isSelected 
-                    ? 'border-brand-ink bg-white shadow-xl scale-[1.02] ring-2 ring-brand-ink ring-offset-2' 
-                    : 'border-brand-navy/15 bg-white/60 hover:bg-white hover:border-brand-navy/30 hover:-translate-y-1'
+                    ? 'border-brand-ink bg-brand-paper shadow-xl scale-[1.02] ring-2 ring-brand-ink ring-offset-brand-cream' 
+                    : 'border-brand-navy/15 bg-brand-paper/60 hover:bg-brand-paper hover:border-brand-navy/30 hover:-translate-y-1'
                 }`}
               >
                 <div className="flex flex-col justify-between h-full w-full space-y-4">
@@ -90,7 +90,7 @@ export default function GoalSelectionScreen({ onSelectGoal, selectedGoal, onCont
             onClick={onContinue}
             className={`px-8 py-4 rounded-xl font-sans font-bold tracking-wide transition-all ${
               selectedGoal 
-                ? 'bg-brand-ink text-white hover:bg-brand-navy hover:scale-[1.02] shadow-lg' 
+                ? 'bg-brand-ink text-brand-paper hover:bg-brand-navy hover:scale-[1.02] shadow-lg' 
                 : 'bg-brand-navy/10 text-brand-navy/40 cursor-not-allowed'
             }`}
           >

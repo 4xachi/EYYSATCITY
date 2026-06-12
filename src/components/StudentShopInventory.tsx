@@ -179,7 +179,7 @@ export default function StudentShopInventory({
             onClick={() => { playClickSound(soundEnabled); setActiveTab('shop'); }}
             className={`flex-1 py-1.5 px-1 rounded-lg text-[9px] sm:text-[10px] font-mono uppercase font-black transition-all truncate ${
               activeTab === 'shop' 
-                ? 'bg-white text-brand-ink shadow-sm font-extrabold border border-brand-navy/5' 
+                ? 'bg-brand-paper text-brand-ink shadow-sm font-extrabold border border-brand-navy/5' 
                 : 'text-brand-navy/60 hover:text-brand-ink'
             }`}
           >
@@ -189,7 +189,7 @@ export default function StudentShopInventory({
             onClick={() => { playClickSound(soundEnabled); setActiveTab('inventory'); }}
             className={`flex-1 py-1.5 px-1 rounded-lg text-[9px] sm:text-[10px] font-mono uppercase font-black transition-all relative truncate ${
               activeTab === 'inventory' 
-                ? 'bg-white text-brand-ink shadow-sm font-extrabold border border-brand-navy/5' 
+                ? 'bg-brand-paper text-brand-ink shadow-sm font-extrabold border border-brand-navy/5' 
                 : 'text-brand-navy/60 hover:text-brand-ink'
             }`}
           >
@@ -265,7 +265,7 @@ export default function StudentShopInventory({
                       onClick={() => handlePurchase(item)}
                       className={`w-full py-1.5 px-3 rounded-lg font-mono text-[9px] font-black uppercase tracking-wider flex items-center justify-center gap-1 cursor-pointer transition-all ${
                         isAffordable 
-                          ? 'bg-brand-ink text-white hover:bg-[#4F7BFF]' 
+                          ? 'bg-brand-ink text-brand-paper hover:bg-[#4F7BFF]' 
                           : 'bg-brand-navy/10 text-brand-navy/40 border border-brand-navy/5 cursor-not-allowed'
                       }`}
                     >
@@ -295,7 +295,7 @@ export default function StudentShopInventory({
                     return (
                       <div
                         key={itemId}
-                        className="rounded-xl border border-brand-navy/12 bg-white p-3 flex items-center justify-between gap-3 shadow-sm hover:border-brand-navy/20 transition-all relative overflow-hidden"
+                        className="rounded-xl border border-brand-navy/12 bg-brand-paper p-3 flex items-center justify-between gap-3 shadow-sm hover:border-brand-navy/20 transition-all relative overflow-hidden"
                       >
                         <div className="space-y-1 pr-2 flex-grow">
                           <div className="flex items-center gap-1.5">

@@ -14,7 +14,7 @@ export default function WeeklyReflectionReport({ journal }: WeeklyReflectionRepo
   if (!journal || journal.length === 0) return null;
 
   return (
-    <div className="bg-white p-6 sm:p-8 rounded-3xl border border-brand-navy/10 shadow-sm">
+    <div className="bg-brand-paper p-6 sm:p-8 rounded-3xl border border-brand-navy/10 shadow-sm">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <div className="flex items-center gap-2 mb-1">
@@ -36,7 +36,7 @@ export default function WeeklyReflectionReport({ journal }: WeeklyReflectionRepo
             <p className="font-sans text-sm text-brand-ink font-medium mb-3 border-l-2 border-brand-blue/30 pl-3 py-1">
               {entry.chosenChoiceTitle}
             </p>
-            <div className="flex items-start gap-2 bg-white p-3 rounded-lg border border-brand-navy/5">
+            <div className="flex items-start gap-2 bg-brand-cream/50 p-3 rounded-lg border border-brand-navy/5">
               <span className="shrink-0">💡</span>
               <p className="text-xs font-sans text-brand-navy/70 leading-relaxed font-medium">
                 {entry.lessonText}
