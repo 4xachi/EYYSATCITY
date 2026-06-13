@@ -30,9 +30,12 @@ import WhatIfReplayScreen from './components/WhatIfReplayScreen';
 import FunctionsSection from './components/FunctionsSection';
 import MilestoneOverlay, { MilestoneTrigger } from './components/MilestoneOverlay';
 import SettingsModal from './components/SettingsModal';
-import { GraduationCap, AlertTriangle, ZapOff, Users, DollarSign, Target, Settings } from 'lucide-react';
+import QuickGuideModal from './components/QuickGuideModal';
+import { GraduationCap, AlertTriangle, ZapOff, Users, DollarSign, Target, Settings, BookOpen } from 'lucide-react';
 
 import { playClickSound, playWarningSound, playPositiveSound } from './utils/audio';
+
+import ShutdownScreen from './components/ShutdownScreen';
 
 const initialStats: Stats = {
   energy: 50,
@@ -71,6 +74,15 @@ const initialRunMeta: RunMeta = {
 };
 
 export default function App() {
+  const [isActivated, setIsActivated] = useState<boolean>(() => {
+    return localStorage.getItem('sim_activated') === 'true';
+  });
+
+  const handleActivate = () => {
+    localStorage.setItem('sim_activated', 'true');
+    setIsActivated(true);
+  };
+
   // Navigation / Loading state
   const [screen, setScreen] = useState<ScreenType>('loading');
   const [soundEnabled, setSoundEnabled] = useState<boolean>(false);
@@ -81,6 +93,7 @@ export default function App() {
     return localStorage.getItem('darkMode') === 'true';
   });
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
+  const [isQuickGuideOpen, setIsQuickGuideOpen] = useState<boolean>(false);
   const [customStudentName, setCustomStudentName] = useState<string>(() => {
     return localStorage.getItem('customStudentName') || '';
   });
@@ -521,6 +534,10 @@ export default function App() {
   // Apply branching modifier here safely for the Simulation props
   const branchedScenario = currentScenarioRaw ? getScenarioVariant(currentScenarioRaw, currentDayIndex, stats, decisionMemory) : null;
 
+  if (!isActivated) {
+    return <ShutdownScreen onActivate={handleActivate} soundEnabled={soundEnabled} />;
+  }
+
   return (
     <div className="min-h-screen text-brand-ink font-sans relative flex flex-col justify-between overflow-x-hidden selection:bg-brand-blue/20 selection:text-brand-ink">
       
@@ -556,6 +573,21 @@ export default function App() {
 
           {/* Simulation Configuration Settings Button */}
           <div className="flex items-center gap-2 sm:gap-3">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => {
+                setIsQuickGuideOpen(true);
+                playClickSound(soundEnabled);
+              }}
+              className="p-2.5 rounded-xl border-2 border-brand-navy bg-brand-paper hover:bg-brand-cream text-brand-ink shadow-[2.5px_2.5px_0px_0px_rgba(30,42,68,1)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-[2px_2px_0px_0px_rgba(30,42,68,1)] transition-all focus:outline-none flex items-center justify-center gap-1.5 cursor-pointer font-sans text-xs font-black select-none"
+              title="Quick Guide"
+              aria-label="Open Quick Guide"
+            >
+              <BookOpen className="w-4.5 h-4.5 text-brand-blue" />
+              <span className="hidden sm:inline-block font-mono tracking-wider uppercase text-[10px]">GUIDE</span>
+            </motion.button>
+
             <motion.button
               id="open-settings-btn"
               whileHover={{ scale: 1.05 }}
@@ -740,6 +772,12 @@ export default function App() {
           setCustomStudentName(name);
           localStorage.setItem('customStudentName', name);
         }}
+      />
+
+      <QuickGuideModal 
+        isOpen={isQuickGuideOpen}
+        onClose={() => setIsQuickGuideOpen(false)}
+        soundEnabled={soundEnabled}
       />
 
     </div>
