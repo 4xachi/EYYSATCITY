@@ -75,8 +75,8 @@ export default function ShutdownScreen({ onActivate, soundEnabled = true }: Shut
       const hashArray = Array.from(new Uint8Array(hashBuffer));
       const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
       
-      // Target hash for "050711" is dbcc341a995e8e89f812cf631fb2d60bd37f63116bc920f6667ff4c7cf08fb36
-      if (hashHex === 'dbcc341a995e8e89f812cf631fb2d60bd37f63116bc920f6667ff4c7cf08fb36') {
+      // Target hash for "050711" is feace7fdc9515f563c82594b7f0a054a09bc44db943be82ddc470f9bf7617cf8
+      if (hashHex === 'feace7fdc9515f563c82594b7f0a054a09bc44db943be82ddc470f9bf7617cf8') {
         setStatus('granted');
         setTickerProgress(100);
         playPositiveSound(soundEnabled);
